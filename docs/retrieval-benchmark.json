@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-11-13T07:12:09.172116+00:00",
+  "status": "failed",
+  "fictional": true,
+  "human_reviewed": false,
+  "scope": "retrieval only; no answer correctness score",
+  "manifest_sha256": "72dee97d4ad767545c075fac0aebc075d5e6f9f283f9570593cbdba2e0eadfa0",
+  "profiles": {},
+  "cases": [],
+  "embedding_model": "Qwen/Qwen3-VL-Embedding-8B",
+  "selection_policy": "Production RRF/chat reranker unchanged; experimental rules fixed before results",
+  "policy": {
+    "version": "source-token-v4",
+    "tokenizer": "cl100k_base",
+    "strategy": "fixed",
+    "size": 512,
+    "overlap": 64,
+    "semantic_threshold": 0.55,
+    "semantic_max_units": 128
+  },
+  "limits": {
+    "max_candidates": 12,
+    "queries": 15
+  },
+  "error_type": "OperationalError",
+  "error_code": "e3q8",
+  "embedding": {
+    "http_calls": 0,
+    "unique_texts": 0,
+    "reference_input_tokens": 0,
+    "max_reference_input_tokens": 100000,
+    "max_unique_texts": 200,
+    "dimensions": 0,
+    "known_provider_input_tokens": 0,
+    "unknown_usage_calls": 0,
+    "disk_cache_hits": 0,
+    "reference_tokens_requested_by_phase": {},
+    "http_batch_size": 8,
+    "calls": []
+  }
+}

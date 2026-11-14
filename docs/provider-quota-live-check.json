@@ -1,0 +1,9 @@
+{
+  "scope": "real Redis, separate Windows spawn processes; no model HTTP requests",
+  "attempts": 12,
+  "admitted": 3,
+  "denied": 9,
+  "unexpected": [],
+  "expired_window_released": true,
+  "remaining_test_keys": 0
+}

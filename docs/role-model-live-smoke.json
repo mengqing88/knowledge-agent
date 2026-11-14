@@ -1,0 +1,40 @@
+{
+  "scope": "configured live services; bounded three-call smoke, not a quality benchmark",
+  "calls": [
+    {
+      "role": "Planner",
+      "model": "qwen3.8-flash",
+      "valid_schema": true,
+      "usage": {
+        "input_tokens": 484,
+        "output_tokens": 408,
+        "usage_known": true,
+        "provider_request_id": "resp_82bb6881d1d142eeb02fc8e027fa6eb0",
+        "elapsed_seconds": 11.954
+      }
+    },
+    {
+      "role": "ToolRouter",
+      "model": "qwen3.8-flash",
+      "valid_schema": true,
+      "usage": {
+        "input_tokens": 306,
+        "output_tokens": 174,
+        "usage_known": true,
+        "provider_request_id": "resp_1435f90dc38d46ed89095acd3059b673",
+        "elapsed_seconds": 8.703
+      }
+    },
+    {
+      "role": "Reranker",
+      "model": "Qwen/Qwen3-Reranker-0.6B",
+      "expected_top_candidate": true,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "usage_known": false,
+        "elapsed_seconds": 2.656
+      }
+    }
+  ]
+}

@@ -1,0 +1,470 @@
+{
+  "version": 1,
+  "fictional": true,
+  "human_reviewed": false,
+  "status": "fixed_development_inputs_pending_independent_human_review",
+  "corpus_manifest": "fixtures/chunking/manifest.json",
+  "corpus_manifest_sha256": "72dee97d4ad767545c075fac0aebc075d5e6f9f283f9570593cbdba2e0eadfa0",
+  "selection_policy": "Rules/profiles frozen before results. Existing held-out retrieval labels have been seen; no blind-test claim.",
+  "smoke_question_ids": [
+    "roles",
+    "missing_service_limit",
+    "partial_role_salary"
+  ],
+  "questions": [
+    {
+      "question_id": "access-0",
+      "retrieval_question_id": "access-0",
+      "question": "临时外包人员需要生产只读权限时，应由谁批准，最多有效多久？",
+      "split": "development",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "外包人员的生产只读权限必须同时经过业务负责人和安全管理员批准，有效期最多为七十二小时。",
+          "evidence": [
+            {
+              "document": "access",
+              "quote": "外包人员的生产只读权限必须同时经过业务负责人和安全管理员批准，有效期最多为七十二小时。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "access-1",
+      "retrieval_question_id": "access-1",
+      "question": "员工离职后账号需要在什么时间内关闭？",
+      "split": "development",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "员工离职交接完成后，身份管理员应在三十分钟内停用登录账号并撤销仍有效的访问令牌。",
+          "evidence": [
+            {
+              "document": "access",
+              "quote": "员工离职交接完成后，身份管理员应在三十分钟内停用登录账号并撤销仍有效的访问令牌。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "access-2",
+      "retrieval_question_id": "access-2",
+      "question": "紧急访问的审计记录保存多久？",
+      "split": "held_out",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "紧急访问必须记录工单编号、操作人和资源范围，审计记录至少保留一百八十天。",
+          "evidence": [
+            {
+              "document": "access",
+              "quote": "紧急访问必须记录工单编号、操作人和资源范围，审计记录至少保留一百八十天。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "billing-0",
+      "retrieval_question_id": "billing-0",
+      "question": "缺少发票时能否仅凭付款截图报销？",
+      "split": "development",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "付款截图不能替代正式发票，缺失发票的申请应退回补充材料，不得由系统自动批准。",
+          "evidence": [
+            {
+              "document": "billing",
+              "quote": "付款截图不能替代正式发票，缺失发票的申请应退回补充材料，不得由系统自动批准。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "billing-1",
+      "retrieval_question_id": "billing-1",
+      "question": "跨境差旅的汇率按哪一天计算？",
+      "split": "development",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "跨境差旅报销采用实际支付日的银行结算汇率，而非提交申请当天的公开参考汇率。",
+          "evidence": [
+            {
+              "document": "billing",
+              "quote": "跨境差旅报销采用实际支付日的银行结算汇率，而非提交申请当天的公开参考汇率。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "billing-2",
+      "retrieval_question_id": "billing-2",
+      "question": "重复付款发现后，财务需要何时通知申请人？",
+      "split": "held_out",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "发现重复付款后，财务应在两个工作日内通知申请人，并登记退款进展。",
+          "evidence": [
+            {
+              "document": "billing",
+              "quote": "发现重复付款后，财务应在两个工作日内通知申请人，并登记退款进展。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "operations-0",
+      "retrieval_question_id": "operations-0",
+      "question": "关键服务发生一级事故后，多久应启动应急响应？",
+      "split": "development",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "关键服务发生一级事故后，值班负责人应在五分钟内启动响应，并指定唯一事故协调人。",
+          "evidence": [
+            {
+              "document": "operations",
+              "quote": "关键服务发生一级事故后，值班负责人应在五分钟内启动响应，并指定唯一事故协调人。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "operations-1",
+      "retrieval_question_id": "operations-1",
+      "question": "恢复服务后是否可以立即关闭事故工单？",
+      "split": "development",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "服务恢复不代表事故工单可以立即关闭；应先完成数据一致性核验，并由事故协调人确认。",
+          "evidence": [
+            {
+              "document": "operations",
+              "quote": "服务恢复不代表事故工单可以立即关闭；应先完成数据一致性核验，并由事故协调人确认。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "operations-2",
+      "retrieval_question_id": "operations-2",
+      "question": "备份恢复演练失败时如何处理？",
+      "split": "held_out",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "备份恢复演练失败必须暂停相关数据迁移，修复后重新演练，不能用备份任务成功代替恢复验证。",
+          "evidence": [
+            {
+              "document": "operations",
+              "quote": "备份恢复演练失败必须暂停相关数据迁移，修复后重新演练，不能用备份任务成功代替恢复验证。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "release-0",
+      "retrieval_question_id": "release-0",
+      "question": "灰度发布出现错误率上升时怎么办？",
+      "split": "development",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "灰度发布期间，如果错误率连续三个采样窗口超过基线两倍，应停止扩量并回滚到上一稳定版本。",
+          "evidence": [
+            {
+              "document": "release",
+              "quote": "灰度发布期间，如果错误率连续三个采样窗口超过基线两倍，应停止扩量并回滚到上一稳定版本。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "release-1",
+      "retrieval_question_id": "release-1",
+      "question": "数据库变更发布前有哪些审核要求？",
+      "split": "development",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "涉及数据库结构的发布必须提供兼容性说明和恢复方案，并由数据库负责人完成审核。",
+          "evidence": [
+            {
+              "document": "release",
+              "quote": "涉及数据库结构的发布必须提供兼容性说明和恢复方案，并由数据库负责人完成审核。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "release-2",
+      "retrieval_question_id": "release-2",
+      "question": "变更发布后需要观察多长时间？",
+      "split": "held_out",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "常规变更发布后至少观察四十分钟，观察结束前不允许删除上一稳定版本的部署产物。",
+          "evidence": [
+            {
+              "document": "release",
+              "quote": "常规变更发布后至少观察四十分钟，观察结束前不允许删除上一稳定版本的部署产物。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "roles",
+      "retrieval_question_id": "roles",
+      "question": "Mei 的角色和审批人分别是什么？",
+      "split": "development",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "name: Mei | role: editor | approval: owner",
+          "evidence": [
+            {
+              "document": "roles.csv",
+              "quote": "name: Mei | role: editor | approval: owner"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "timeout",
+      "retrieval_question_id": "timeout",
+      "question": "service.timeout_seconds 配置值是多少？",
+      "split": "held_out",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "45",
+          "evidence": [
+            {
+              "document": "service.json",
+              "section": "service.timeout_seconds",
+              "quote": "45"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "joint",
+      "retrieval_question_id": "joint",
+      "question": "上线与故障处理分别在何种情况下需要回滚或核验？",
+      "split": "held_out",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold",
+      "expected_action": "supported",
+      "required_claims": [
+        {
+          "key": "point_1",
+          "meaning": "灰度发布期间，如果错误率连续三个采样窗口超过基线两倍，应停止扩量并回滚到上一稳定版本。",
+          "evidence": [
+            {
+              "document": "release",
+              "quote": "灰度发布期间，如果错误率连续三个采样窗口超过基线两倍，应停止扩量并回滚到上一稳定版本。"
+            }
+          ]
+        },
+        {
+          "key": "point_2",
+          "meaning": "服务恢复不代表事故工单可以立即关闭；应先完成数据一致性核验，并由事故协调人确认。",
+          "evidence": [
+            {
+              "document": "operations",
+              "quote": "服务恢复不代表事故工单可以立即关闭；应先完成数据一致性核验，并由事故协调人确认。"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "不要把示例规定推广到本语料之外的真实公司或其他设置。"
+      ],
+      "absence_review_scope": null
+    },
+    {
+      "question_id": "missing_bonus",
+      "question": "根据知识库，员工年度奖金按工资的百分之多少发放？",
+      "expected_action": "insufficient",
+      "required_claims": [],
+      "forbidden_conclusions": [
+        "编造奖金比例或计算公式。"
+      ],
+      "absence_review_scope": "六份冻结文档全文，未定义年度奖金政策。",
+      "split": "development",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold"
+    },
+    {
+      "question_id": "missing_service_limit",
+      "question": "service.max_upload_bytes 配置的准确值是多少？",
+      "expected_action": "insufficient",
+      "required_claims": [],
+      "forbidden_conclusions": [
+        "用 timeout_seconds 的 45 冒充上传字节上限。"
+      ],
+      "absence_review_scope": "service.json 全部字段与其他五份材料；没有 max_upload_bytes 字段。",
+      "split": "development",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold"
+    },
+    {
+      "question_id": "partial_role_salary",
+      "question": "Mei 的角色和审批人分别是什么？她的月薪是多少？",
+      "expected_action": "partial",
+      "required_claims": [
+        {
+          "key": "role_approval",
+          "meaning": "角色 editor，审批人 owner；月薪未给出。",
+          "evidence": [
+            {
+              "document": "roles.csv",
+              "quote": "name: Mei | role: editor | approval: owner"
+            }
+          ]
+        }
+      ],
+      "forbidden_conclusions": [
+        "编造 Mei 的月薪。"
+      ],
+      "absence_review_scope": "roles.csv 全表及其他五份材料，没有个人薪资字段。",
+      "split": "development",
+      "fictional": true,
+      "human_reviewed": false,
+      "annotation_source": "agent_authored_development_expectations_not_human_gold"
+    }
+  ]
+}

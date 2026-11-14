@@ -1,0 +1,46 @@
+{
+  "fictional": true,
+  "purpose": "Control-flow and citation demonstrations only",
+  "papers": [
+    {
+      "filename": "teaching-a.pdf",
+      "title": "Fictional Paper A - Accuracy on dataset X",
+      "pages": 4,
+      "source": "Generated from the project's fictional A/B/C example",
+      "sha256": "a7ea965b7dba7148cf70976a1d38c978cc9f68c8b8b6ca0e477126e7272af564",
+      "evidence_pdf_page": 4,
+      "verbatim_lines": [
+        "On dataset X, method M achieved an F1 score of 82.",
+        "The baseline achieved an F1 score of 80 under the same evaluation setting.",
+        "These results only describe dataset X and the reported baseline."
+      ]
+    },
+    {
+      "filename": "teaching-b.pdf",
+      "title": "Fictional Paper B - Accuracy and inference latency",
+      "pages": 6,
+      "source": "Generated from the project's fictional A/B/C example",
+      "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+      "evidence_pdf_page": 6,
+      "verbatim_lines": [
+        "On dataset Y, method M and the baseline both achieved an F1 score of 75.",
+        "Under this evaluation setting, average inference latency was 120 ms for M.",
+        "The baseline average inference latency was 100 ms in the same setting.",
+        "The dataset and evaluation setting differ from Fictional Paper A."
+      ]
+    },
+    {
+      "filename": "teaching-c.pdf",
+      "title": "Fictional Paper C - Architecture only",
+      "pages": 3,
+      "source": "Generated from the project's fictional A/B/C example",
+      "sha256": "3032f45f8a078a992fc3d67403643cf642e18f726387c71604bab4119e493d28",
+      "evidence_pdf_page": 3,
+      "verbatim_lines": [
+        "Method M contains an encoder, a retrieval module, and a prediction head.",
+        "This teaching document describes the architecture only.",
+        "It does not report GPU memory measurements or a matched latency experiment."
+      ]
+    }
+  ]
+}

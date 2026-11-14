@@ -1,0 +1,168 @@
+{
+  "timestamp": "2026-11-12T12:13:22.705051+00:00",
+  "scope": "three SHA-256-verified fictional teaching PDFs; segmentation and exact gold-line coverage only",
+  "limitations": [
+    "No production or user documents were included.",
+    "No embeddings, database retrieval, chat model, or reranker were called.",
+    "Gold-line coverage is not Recall@K, answer quality, or a deployment recommendation."
+  ],
+  "totals": {
+    "production_section_page_3200": {
+      "documents": 3,
+      "chunks": 13,
+      "gold_lines": 10,
+      "gold_lines_wholly_present": 10,
+      "gold_line_coverage": 1.0,
+      "exact_duplicate_chunks": 0,
+      "median_of_document_chunk_p50_chars": 314
+    },
+    "section_page_800": {
+      "documents": 3,
+      "chunks": 13,
+      "gold_lines": 10,
+      "gold_lines_wholly_present": 10,
+      "gold_line_coverage": 1.0,
+      "exact_duplicate_chunks": 0,
+      "median_of_document_chunk_p50_chars": 314
+    },
+    "source_block_2200_no_overlap": {
+      "documents": 3,
+      "chunks": 92,
+      "gold_lines": 10,
+      "gold_lines_wholly_present": 10,
+      "gold_line_coverage": 1.0,
+      "exact_duplicate_chunks": 51,
+      "median_of_document_chunk_p50_chars": 49
+    }
+  },
+  "documents": {
+    "teaching-a.pdf": {
+      "production_section_page_3200": {
+        "chunks": 4,
+        "chunk_chars": {
+          "p50": 314,
+          "p95": 314,
+          "max": 314
+        },
+        "gold_lines": 3,
+        "gold_lines_wholly_present": 3,
+        "gold_line_coverage": 1.0,
+        "gold_line_chunk_matches": 3,
+        "exact_duplicate_chunks": 0
+      },
+      "section_page_800": {
+        "chunks": 4,
+        "chunk_chars": {
+          "p50": 314,
+          "p95": 314,
+          "max": 314
+        },
+        "gold_lines": 3,
+        "gold_lines_wholly_present": 3,
+        "gold_line_coverage": 1.0,
+        "gold_line_chunk_matches": 3,
+        "exact_duplicate_chunks": 0
+      },
+      "source_block_2200_no_overlap": {
+        "chunks": 28,
+        "chunk_chars": {
+          "p50": 49,
+          "p95": 78,
+          "max": 78
+        },
+        "gold_lines": 3,
+        "gold_lines_wholly_present": 3,
+        "gold_line_coverage": 1.0,
+        "gold_line_chunk_matches": 3,
+        "exact_duplicate_chunks": 15
+      }
+    },
+    "teaching-b.pdf": {
+      "production_section_page_3200": {
+        "chunks": 6,
+        "chunk_chars": {
+          "p50": 323,
+          "p95": 383,
+          "max": 383
+        },
+        "gold_lines": 4,
+        "gold_lines_wholly_present": 4,
+        "gold_line_coverage": 1.0,
+        "gold_line_chunk_matches": 4,
+        "exact_duplicate_chunks": 0
+      },
+      "section_page_800": {
+        "chunks": 6,
+        "chunk_chars": {
+          "p50": 323,
+          "p95": 383,
+          "max": 383
+        },
+        "gold_lines": 4,
+        "gold_lines_wholly_present": 4,
+        "gold_line_coverage": 1.0,
+        "gold_line_chunk_matches": 4,
+        "exact_duplicate_chunks": 0
+      },
+      "source_block_2200_no_overlap": {
+        "chunks": 43,
+        "chunk_chars": {
+          "p50": 49,
+          "p95": 78,
+          "max": 78
+        },
+        "gold_lines": 4,
+        "gold_lines_wholly_present": 4,
+        "gold_line_coverage": 1.0,
+        "gold_line_chunk_matches": 4,
+        "exact_duplicate_chunks": 27
+      }
+    },
+    "teaching-c.pdf": {
+      "production_section_page_3200": {
+        "chunks": 3,
+        "chunk_chars": {
+          "p50": 310,
+          "p95": 310,
+          "max": 310
+        },
+        "gold_lines": 3,
+        "gold_lines_wholly_present": 3,
+        "gold_line_coverage": 1.0,
+        "gold_line_chunk_matches": 3,
+        "exact_duplicate_chunks": 0
+      },
+      "section_page_800": {
+        "chunks": 3,
+        "chunk_chars": {
+          "p50": 310,
+          "p95": 310,
+          "max": 310
+        },
+        "gold_lines": 3,
+        "gold_lines_wholly_present": 3,
+        "gold_line_coverage": 1.0,
+        "gold_line_chunk_matches": 3,
+        "exact_duplicate_chunks": 0
+      },
+      "source_block_2200_no_overlap": {
+        "chunks": 21,
+        "chunk_chars": {
+          "p50": 49,
+          "p95": 78,
+          "max": 78
+        },
+        "gold_lines": 3,
+        "gold_lines_wholly_present": 3,
+        "gold_line_coverage": 1.0,
+        "gold_line_chunk_matches": 3,
+        "exact_duplicate_chunks": 9
+      }
+    }
+  },
+  "reranker": {
+    "production_candidate_pool_limit": 24,
+    "contract_test": "backend/tests/test_team.py::test_reranker_selects_actual_result_blocks_instead_of_repeated_headings",
+    "real_model_pairwise_effect": "not measured; requires an approved model run and a reviewed query set"
+  }
+}

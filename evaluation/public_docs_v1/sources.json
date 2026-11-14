@@ -1,0 +1,26 @@
+[
+  {
+    "file": "postgres-mvcc.sgml",
+    "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/doc/src/sgml/mvcc.sgml",
+    "sha256": "b0dafb2a3fd2d9204deb075ed2cb2d74b6496523bb5d4867a2f4a3d9758a6314",
+    "retrieved_at": "2026-11-14T08:35:49.396024+00:00"
+  },
+  {
+    "file": "postgres-COPYRIGHT",
+    "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/COPYRIGHT",
+    "sha256": "5ed3ce5c9373dff7f98b1fae7a6c7ccd98df7d734d46d24c1bcebf1240be8307",
+    "retrieved_at": "2026-11-14T08:35:56.144997+00:00"
+  },
+  {
+    "file": "celery-tasks.rst",
+    "url": "https://raw.githubusercontent.com/celery/celery/v5.5.3/docs/userguide/tasks.rst",
+    "sha256": "ffb761b8da0e77c103c3d91f6db5b571ca500aaf6f3f13ab2ebdaba996a4c42c",
+    "retrieved_at": "2026-11-14T08:35:58.543732+00:00"
+  },
+  {
+    "file": "celery-LICENSE",
+    "url": "https://raw.githubusercontent.com/celery/celery/v5.5.3/LICENSE",
+    "sha256": "c358cdf77f28bbab50d4a754e123118339c15230349e82bf66489cece3ac093a",
+    "retrieved_at": "2026-11-14T08:35:59.040092+00:00"
+  }
+]

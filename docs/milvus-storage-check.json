@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-11-12T10:16:18.654818+00:00",
+  "models": "synthetic_4096d",
+  "scope": "real PostgreSQL and Docker Milvus; no model quality or Celery acceptance",
+  "legacy_schema_migration": "passed",
+  "backfill": {
+    "migrated_indexes": 1,
+    "migrated_chunks": 2,
+    "indexes": [
+      {
+        "index_revision_id": "legacy",
+        "collection": "smoke_b5cd648bdb93_legacy",
+        "chunks": 2
+      }
+    ]
+  },
+  "backfill_retry_and_cosine_order": "passed",
+  "production_ingest_fts_and_snapshot_filter": "passed",
+  "failed_replacement_keeps_active_version": "passed",
+  "restart_data_ready_retries": 1,
+  "restart_persistence": "passed",
+  "status": "passed"
+}

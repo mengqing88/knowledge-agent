@@ -1,0 +1,210 @@
+{
+  "version": 1,
+  "fictional": true,
+  "human_reviewed": false,
+  "purpose": "Long-document chunk retrieval control experiment; not business quality acceptance",
+  "documents": [
+    {
+      "id": "access",
+      "filename": "access.md",
+      "sha256": "c7776bb7ca8c436c1280646364fca4ea1d45313b77239226ea579ce6f209472f"
+    },
+    {
+      "id": "billing",
+      "filename": "billing.md",
+      "sha256": "8c9e69026d1d026f83f75ee2cc901d3b31f258f0e5655c4592942c96e2181806"
+    },
+    {
+      "id": "operations",
+      "filename": "operations.md",
+      "sha256": "10e130bf63ff269bb652c5eaf567ce3273336d7167604bad5ea72de53042e9ff"
+    },
+    {
+      "id": "release",
+      "filename": "release.md",
+      "sha256": "8144b762c357ac4f9b298c7cef5b46a8543e7f20f52b77969f21d42676ac2559"
+    },
+    {
+      "id": "roles.csv",
+      "filename": "roles.csv",
+      "sha256": "6db11a47fceb462b7bee8f1fa521ac8e762102d9b22cbf3cef442cfd1f511130"
+    },
+    {
+      "id": "service.json",
+      "filename": "service.json",
+      "sha256": "9223ffebb822a5868d811025fcc2703fb96582a17e3ec8522ccbda617fff624a"
+    }
+  ],
+  "questions": [
+    {
+      "id": "access-0",
+      "question": "临时外包人员需要生产只读权限时，应由谁批准，最多有效多久？",
+      "split": "development",
+      "evidence": [
+        {
+          "document": "access",
+          "quote": "外包人员的生产只读权限必须同时经过业务负责人和安全管理员批准，有效期最多为七十二小时。"
+        }
+      ]
+    },
+    {
+      "id": "access-1",
+      "question": "员工离职后账号需要在什么时间内关闭？",
+      "split": "development",
+      "evidence": [
+        {
+          "document": "access",
+          "quote": "员工离职交接完成后，身份管理员应在三十分钟内停用登录账号并撤销仍有效的访问令牌。"
+        }
+      ]
+    },
+    {
+      "id": "access-2",
+      "question": "紧急访问的审计记录保存多久？",
+      "split": "held_out",
+      "evidence": [
+        {
+          "document": "access",
+          "quote": "紧急访问必须记录工单编号、操作人和资源范围，审计记录至少保留一百八十天。"
+        }
+      ]
+    },
+    {
+      "id": "billing-0",
+      "question": "缺少发票时能否仅凭付款截图报销？",
+      "split": "development",
+      "evidence": [
+        {
+          "document": "billing",
+          "quote": "付款截图不能替代正式发票，缺失发票的申请应退回补充材料，不得由系统自动批准。"
+        }
+      ]
+    },
+    {
+      "id": "billing-1",
+      "question": "跨境差旅的汇率按哪一天计算？",
+      "split": "development",
+      "evidence": [
+        {
+          "document": "billing",
+          "quote": "跨境差旅报销采用实际支付日的银行结算汇率，而非提交申请当天的公开参考汇率。"
+        }
+      ]
+    },
+    {
+      "id": "billing-2",
+      "question": "重复付款发现后，财务需要何时通知申请人？",
+      "split": "held_out",
+      "evidence": [
+        {
+          "document": "billing",
+          "quote": "发现重复付款后，财务应在两个工作日内通知申请人，并登记退款进展。"
+        }
+      ]
+    },
+    {
+      "id": "operations-0",
+      "question": "关键服务发生一级事故后，多久应启动应急响应？",
+      "split": "development",
+      "evidence": [
+        {
+          "document": "operations",
+          "quote": "关键服务发生一级事故后，值班负责人应在五分钟内启动响应，并指定唯一事故协调人。"
+        }
+      ]
+    },
+    {
+      "id": "operations-1",
+      "question": "恢复服务后是否可以立即关闭事故工单？",
+      "split": "development",
+      "evidence": [
+        {
+          "document": "operations",
+          "quote": "服务恢复不代表事故工单可以立即关闭；应先完成数据一致性核验，并由事故协调人确认。"
+        }
+      ]
+    },
+    {
+      "id": "operations-2",
+      "question": "备份恢复演练失败时如何处理？",
+      "split": "held_out",
+      "evidence": [
+        {
+          "document": "operations",
+          "quote": "备份恢复演练失败必须暂停相关数据迁移，修复后重新演练，不能用备份任务成功代替恢复验证。"
+        }
+      ]
+    },
+    {
+      "id": "release-0",
+      "question": "灰度发布出现错误率上升时怎么办？",
+      "split": "development",
+      "evidence": [
+        {
+          "document": "release",
+          "quote": "灰度发布期间，如果错误率连续三个采样窗口超过基线两倍，应停止扩量并回滚到上一稳定版本。"
+        }
+      ]
+    },
+    {
+      "id": "release-1",
+      "question": "数据库变更发布前有哪些审核要求？",
+      "split": "development",
+      "evidence": [
+        {
+          "document": "release",
+          "quote": "涉及数据库结构的发布必须提供兼容性说明和恢复方案，并由数据库负责人完成审核。"
+        }
+      ]
+    },
+    {
+      "id": "release-2",
+      "question": "变更发布后需要观察多长时间？",
+      "split": "held_out",
+      "evidence": [
+        {
+          "document": "release",
+          "quote": "常规变更发布后至少观察四十分钟，观察结束前不允许删除上一稳定版本的部署产物。"
+        }
+      ]
+    },
+    {
+      "id": "roles",
+      "split": "development",
+      "question": "Mei 的角色和审批人分别是什么？",
+      "evidence": [
+        {
+          "document": "roles.csv",
+          "quote": "name: Mei | role: editor | approval: owner"
+        }
+      ]
+    },
+    {
+      "id": "timeout",
+      "split": "held_out",
+      "question": "service.timeout_seconds 配置值是多少？",
+      "evidence": [
+        {
+          "document": "service.json",
+          "section": "service.timeout_seconds",
+          "quote": "45"
+        }
+      ]
+    },
+    {
+      "id": "joint",
+      "split": "held_out",
+      "question": "上线与故障处理分别在何种情况下需要回滚或核验？",
+      "evidence": [
+        {
+          "document": "release",
+          "quote": "灰度发布期间，如果错误率连续三个采样窗口超过基线两倍，应停止扩量并回滚到上一稳定版本。"
+        },
+        {
+          "document": "operations",
+          "quote": "服务恢复不代表事故工单可以立即关闭；应先完成数据一致性核验，并由事故协调人确认。"
+        }
+      ]
+    }
+  ]
+}

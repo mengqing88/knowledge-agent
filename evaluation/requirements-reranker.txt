@@ -1,0 +1,4 @@
+# Install torch from the CPU wheel index separately; keep outside the application .venv.
+torch==2.8.0+cpu
+transformers==4.57.6
+sentencepiece==0.2.1

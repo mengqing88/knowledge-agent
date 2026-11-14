@@ -1,0 +1,539 @@
+{
+  "version": 1,
+  "review_source": "agent",
+  "manifest_sha256": "65b4f7644be5e4b8620a4897a24f233f1139392fd1d401d17fa71792f7d52e83",
+  "note": "Agent 审核；不是独立人工审核或正式业务准确率，不改变答案发布审批。",
+  "reviews": [
+    {
+      "mode": "baseline_rag",
+      "question_id": "q01",
+      "result_sha256": "adcf8d2b3ad6320bc57ddc3f1eac7dedcf0877a667b7d47e5c5e9c56eb559504",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [
+        {
+          "claim_id": "707c6a2b52c747c886523d1abb70b6d2",
+          "evidence_id": "1a94e553470a4d6990ee836749381cc2",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        }
+      ],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q02",
+      "result_sha256": "db2fb34422fd5fe5c91ddca45000d71fc425e6d4eb60ef1685e45c7f52e9b962",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [
+        {
+          "claim_id": "72daea821f8148bfa0701b4890fd4e1e",
+          "evidence_id": "0f2c78d716134ccd86f422c2d2d7ca9d",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        }
+      ],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q03",
+      "result_sha256": "ce144657b913f3eb5fd56d16627aab4b60ccb7395bbba6433517dc1fba9a7090",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [
+        {
+          "claim_id": "00f8636c73824907b5c58f40fa6aca7a",
+          "evidence_id": "5b02af3a90cc4411a4af19f4051c9048",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "4fb739346a0d49778df361a6a50a040e",
+          "evidence_id": "5b02af3a90cc4411a4af19f4051c9048",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        }
+      ],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q04",
+      "result_sha256": "80f63190e1ab57db58e7ffc323b2dccf3b487457a7043db2a88014cba8cc6b76",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [
+        {
+          "claim_id": "5c819d6d8ffc49e7a0dbaa7dfd425a45",
+          "evidence_id": "bd4941ca88e843bab07d1582d8a2a74a",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "1a4771cc3b1846fa8f919f26c1bbccca",
+          "evidence_id": "a2e290128565415c864fb1641c86deb6",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "1c76d9f775954ab59c66d06e9f4476ba",
+          "evidence_id": "a2e290128565415c864fb1641c86deb6",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "1c76d9f775954ab59c66d06e9f4476ba",
+          "evidence_id": "bd4941ca88e843bab07d1582d8a2a74a",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        }
+      ],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q05",
+      "result_sha256": "2987990e73d050f652f764a4b1129d49f4eff13ec987b2b35153fa6d99b2f1b0",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q06",
+      "result_sha256": "2b8bd42832e6569f30f27346dfdba23514188f3b33752e4c497bdd95a4e7c153",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [
+        {
+          "claim_id": "d9a5600599af4b8db80a699b47175899",
+          "evidence_id": "365ef400f484422797cb1d3e652c1981",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "d9a5600599af4b8db80a699b47175899",
+          "evidence_id": "a5ecb2856ec54cd79d811f2fb7128394",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "8c5aacd5831e4ce3a7337d49365fb1bb",
+          "evidence_id": "365ef400f484422797cb1d3e652c1981",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "f5858e320a8a44f98d39aedaabf04f24",
+          "evidence_id": "1bffd0e9ba694bca97eebaf61427ed21",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "6ffffade110542f7be16494d3ab57121",
+          "evidence_id": "88dad36c146c459fb70b84f4556fc151",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "61c41951255646418248dc06f832c04c",
+          "evidence_id": "d7274af8c2074bca9f497f75ed1c300f",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        }
+      ],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q07",
+      "result_sha256": "a63f9549e09aa04642a831757f899d479dc5dc62a2cffdd5fee4e0cbf6279831",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q08",
+      "result_sha256": "811f1ee540b572a6c2fd323b50ec9aebc7a9b4b50416ae9958c4449f9c947a3e",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q09",
+      "result_sha256": "00b60c7c76294bdaf434b89ca9548a15f845c98e2d95ed334f62b358ece7da47",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [
+        {
+          "claim_id": "3c4c4545f2014c3f96e9f880ebeb87d7",
+          "evidence_id": "196b7d01e87a48688b3c3d6559143b18",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        }
+      ],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q10",
+      "result_sha256": "98c8f99e8e0b49009fe604340e8001ff8673e71c9a0844e0cd88731fc0d011ed",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q11",
+      "result_sha256": "1f16bdb565ed855cbce518ccb8be345a126d3ecad74bc3e584786fe6d60464d2",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q12",
+      "result_sha256": "d85311a0ca996019ed4395088313b85c77d2bcb661734b8ca9de0457af344b50",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q01",
+      "result_sha256": "3c00a17522e5fb1aa6da02923aa0bc483b7513c5927af999e28b489c4691cd9a",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [
+        {
+          "claim_id": "231bcb924760477ea6303c477c5c31ad",
+          "evidence_id": "764f78167530451fb6566e9e4cbf98fd",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        }
+      ],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q02",
+      "result_sha256": "66e7c4915ec381d0720eb2e44b9c3537f6f8a5d9611c00a5045a4ec51c6b6d63",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [
+        {
+          "claim_id": "b7d2c0aea94a4a5ca82a87075de9e849",
+          "evidence_id": "36566477975b4a43969bf5ebb6273df2",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        }
+      ],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q03",
+      "result_sha256": "178dabc301736f95c979b782757fb476ab84ee6c72556e19420611f3a3f0e04b",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [
+        {
+          "claim_id": "2c861447b3e6463d949e670155570940",
+          "evidence_id": "d7e3a8bb07d34f739938681361bd4a3e",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "b7d44897fa774d45a96ac3157934e88f",
+          "evidence_id": "d7e3a8bb07d34f739938681361bd4a3e",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        }
+      ],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q04",
+      "result_sha256": "03a95ac35960554fee4d3dc888505ae802e630bae8b750dc2c36a22ed19d3e34",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q05",
+      "result_sha256": "cc841adfa7e8f7a71c2e1f487cf4d3b2d80fad8c5d54b3113e9273310213040d",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q06",
+      "result_sha256": "5d174657bc1c65bef47e41cad775b34dce7dc2c369f9f6505237d33c8c3b7697",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [
+        {
+          "claim_id": "95ec3f2bf3734dfcac080928d131ed1f",
+          "evidence_id": "beb773d860124d1280e111ed7915e486",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "467d6e1d5d6843d2ae3c22dce90ff473",
+          "evidence_id": "36f16f1a17df42108c32fb0259989a07",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "6ba9afb44a8748229f2b7cba8fb04109",
+          "evidence_id": "ddb07efb39314c7988680ce1f0350c8d",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        },
+        {
+          "claim_id": "32f8c65390b3491f94d4e389b95416c5",
+          "evidence_id": "a99e341b94134adbae5d95c4fe6aacc0",
+          "relation": "supports",
+          "supports_claim": null,
+          "relation_correct": null
+        }
+      ],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q07",
+      "result_sha256": "48b81b1e405db07782dd17d27b5a3059aed21c0cd95f23426b5c5b4fc4a4bb13",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q08",
+      "result_sha256": "0dbc65bf0595a778a06dd318b7dcb99e2d1bf93cce9012439318325c45300f4d",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q09",
+      "result_sha256": "ba5dadead604db87b67806c1ca178c9f4af56083daaa9aba7d4693649409add0",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q10",
+      "result_sha256": "ef09ee4bd5738780aed7a245d1dc90b3b61dcbbed45b8ab4846051a03f2daaca",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q11",
+      "result_sha256": "b5de3c7ccf3a4853dbeddfc11d8b80e536e3196f298795a0d15b3c8d3977fdee",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q12",
+      "result_sha256": "4aca0f20f5011625fb3ca7f080408821f5576e20548c3830a0fe8ef0ca0b3ba3",
+      "reviewer": "",
+      "independent_human_review": false,
+      "links": [],
+      "covered_required_keys": null,
+      "forbidden_conclusions_present": null,
+      "notes": "待 Agent 对照冻结原文核对答案、条件、引用和遗漏。",
+      "review_source": "agent",
+      "agent_review": false,
+      "action_correct": null,
+      "conditions_correct": null
+    }
+  ]
+}

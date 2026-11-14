@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-11-12T12:50:41.753915+00:00",
+  "status": "running",
+  "scope": "real configured Embedding + PostgreSQL FTS/RRF + Milvus/LlamaIndex; fictional source-span labels",
+  "corpus_manifest_sha256": "72dee97d4ad767545c075fac0aebc075d5e6f9f283f9570593cbdba2e0eadfa0",
+  "fictional": true,
+  "human_reviewed": false,
+  "embedding_model": "Qwen/Qwen3-VL-Embedding-8B",
+  "chat_calls": 0,
+  "documents": 6,
+  "questions": 15,
+  "strategies": {},
+  "metric_definition": "Macro source-span Recall@K: each labelled span must fit wholly within one retrieved chunk; labels exhaustive only for these authored facts.",
+  "limitations": [
+    "Synthetic corpus, authored labels, small held-out set; no business quality or answer accuracy claim.",
+    "cl100k_base is a reference tokenizer, not the provider billing tokenizer.",
+    "No chat/reranker run. ANN/FTS times use cached query vectors and do not represent end-to-end latency.",
+    "Shared text cache reduces experiment API cost; per-strategy embedded tokens still count all chunk text.",
+    "No automatic production parameter selection from the synthetic scores."
+  ],
+  "cleanup": "pending",
+  "embedding": {
+    "http_calls": 0,
+    "unique_texts": 0,
+    "reference_input_tokens": 0,
+    "max_reference_input_tokens": 600000,
+    "max_unique_texts": 3000,
+    "dimensions": 0,
+    "known_provider_input_tokens": 0,
+    "unknown_usage_calls": 0,
+    "disk_cache_hits": 0,
+    "http_batch_size": 8,
+    "calls": []
+  }
+}

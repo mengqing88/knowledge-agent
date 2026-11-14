@@ -1,0 +1,1 @@
+{"service":{"timeout_seconds":45,"retry_limit":2},"audit":{"retention_days":180}}

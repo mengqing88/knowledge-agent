@@ -1,0 +1,350 @@
+{
+  "reviewer": "Codex Agent; read frozen originals and published results, not Verifier self-score",
+  "reviews": [
+    {
+      "mode": "baseline_rag",
+      "question_id": "q01",
+      "covered": [
+        "default"
+      ],
+      "true_links": [
+        0
+      ],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "已读 pg-read-committed 原文首句和完整答案：默认 Read Committed，限定 PostgreSQL；唯一引用逐字支持，无遗漏。",
+      "result_sha256": "adcf8d2b3ad6320bc57ddc3f1eac7dedcf0877a667b7d47e5c5e9c56eb559504"
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q02",
+      "covered": [
+        "mapping"
+      ],
+      "true_links": [
+        0
+      ],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "pg-levels 写明 PostgreSQL 的 Read Uncommitted behaves like Read Committed；答案和数据库限定一致，未声称允许脏读。",
+      "result_sha256": "db2fb34422fd5fe5c91ddca45000d71fc425e6d4eb60ef1685e45c7f52e9b962"
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q03",
+      "covered": [
+        "retry_identity"
+      ],
+      "true_links": [
+        0,
+        1
+      ],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "celery-retry 同一段逐字涵盖新消息、相同 task-id、原队列。两个独立论点分别有对应支持；所需要点完整。",
+      "result_sha256": "ce144657b913f3eb5fd56d16627aab4b60ccb7395bbba6433517dc1fba9a7090"
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q04",
+      "covered": [
+        "phantom"
+      ],
+      "true_links": [
+        0,
+        1,
+        2
+      ],
+      "false_links": [
+        3
+      ],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "直接问题已答对且限定 PostgreSQL。按引用次序：第一论点的 pg-levels 支持无幻读；第二论点的 RR 首段支持可见性；第三复合论点的 RR 首段支持强于标准及序列化异常例外，但另一个 pg-levels 摘录只谈幻读及更高保证，并未完整支持该复合论点的全部异常范围，故该单条 supports 不充分。未把整题直接判错。",
+      "result_sha256": "80f63190e1ab57db58e7ffc323b2dccf3b487457a7043db2a88014cba8cc6b76"
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q05",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": false,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "公开答案为空且标为 insufficient，尽管冻结 RC/RR 原文足以回答；RC 和 RR 两要点都缺失。trace 显示候选的 PostgreSQL 17.6 版本文字及序数被数值门禁判为未绑定，四条均被删。没有引用可评分，也未发布错误适用条件；属于过度拒答。",
+      "result_sha256": "2987990e73d050f652f764a4b1129d49f4eff13ec987b2b35153fa6d99b2f1b0"
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q06",
+      "covered": [
+        "idempotency",
+        "loss"
+      ],
+      "true_links": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "false_links": [
+        0
+      ],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "已读 celery-acks 全文及五条论点：幂等前提、子进程终止仍确认、task_reject_on_worker_lost 建议均答全，原因列表也与原文一致。第一论点两条 supports 中，第一摘录只有幂等定义和默认提前确认，单独不支持 acks_late 后确认的完整主张；第二摘录才直接支持。因此引用 0 不充分，其余五条成立。保留子进程终止的限定，未推成任何崩溃重投或恰好一次。",
+      "result_sha256": "2b8bd42832e6569f30f27346dfdba23514188f3b33752e4c497bdd95a4e7c153"
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q07",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": false,
+      "conditions": false,
+      "forbidden": false,
+      "notes": "模型未完成结构化输出导致技术失败，没有发布答案；两个跨文档要点均不能计覆盖，保留失败。",
+      "result_sha256": "a63f9549e09aa04642a831757f899d479dc5dc62a2cffdd5fee4e0cbf6279831"
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q08",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": false,
+      "conditions": false,
+      "forbidden": false,
+      "notes": "已读运行和 trace：Analyst 输出达到 4000 后未完成结构化响应，无已发布答案、引用或缺口说明，默认间隔/单位/countdown 要点记零；不能把失败视为正确部分回答。",
+      "result_sha256": "811f1ee540b572a6c2fd323b50ec9aebc7a9b4b50416ae9958c4449f9c947a3e"
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q09",
+      "covered": [
+        "default"
+      ],
+      "true_links": [
+        0
+      ],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "答案给出 PostgreSQL 默认级别并引用 pg-read-committed；对本机百万行耗时保留两个缺口，没有编造性能数据。部分可答题的已答要点成立。",
+      "result_sha256": "00b60c7c76294bdaf434b89ca9548a15f845c98e2d95ed334f62b358ece7da47"
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q10",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "答案正确保留生产积压数和根因缺证，未伪造日志；题目预期 insufficient，动作判定成立。",
+      "result_sha256": "98c8f99e8e0b49009fe604340e8001ff8673e71c9a0844e0cd88731fc0d011ed"
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q11",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "答案正确指出摘录没有 PostgreSQL/MySQL 同硬件吞吐对照，未编造倍数；题目预期 insufficient。",
+      "result_sha256": "1f16bdb565ed855cbce518ccb8be345a126d3ecad74bc3e584786fe6d60464d2"
+    },
+    {
+      "mode": "baseline_rag",
+      "question_id": "q12",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": false,
+      "conditions": false,
+      "forbidden": false,
+      "notes": "模型未完成结构化输出，技术失败，无澄清问题或引用；不能从草稿补覆盖。",
+      "result_sha256": "d85311a0ca996019ed4395088313b85c77d2bcb661734b8ca9de0457af344b50"
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q01",
+      "covered": [
+        "default"
+      ],
+      "true_links": [
+        0
+      ],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "逐字原文明确默认 Read Committed；答案未扩大到其他数据库，唯一 supports 引用成立。单独阅读原文判定。",
+      "result_sha256": "3c00a17522e5fb1aa6da02923aa0bc483b7513c5927af999e28b489c4691cd9a"
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q02",
+      "covered": [
+        "mapping"
+      ],
+      "true_links": [
+        0
+      ],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "核对完整答案及 pg-levels 首段，实际映射到 Read Committed，引用与条件成立。",
+      "result_sha256": "66e7c4915ec381d0720eb2e44b9c3537f6f8a5d9611c00a5045a4ec51c6b6d63"
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q03",
+      "covered": [
+        "retry_identity"
+      ],
+      "true_links": [
+        0,
+        1
+      ],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "两个论点各引用 retry 语义原段，分别正确说明相同 task-id 和同一队列，未混淆新消息与新 task-id。",
+      "result_sha256": "178dabc301736f95c979b782757fb476ab84ee6c72556e19420611f3a3f0e04b"
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q04",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": false,
+      "conditions": false,
+      "forbidden": false,
+      "notes": "技术失败，无已发布答案；Verifier 返回用量 output_tokens=4000 且未完成结构化输出。候选草稿不计覆盖或引用成绩，失败保留在 12 题分母。",
+      "result_sha256": "03a95ac35960554fee4d3dc888505ae802e630bae8b750dc2c36a22ed19d3e34"
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q05",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": false,
+      "conditions": false,
+      "forbidden": false,
+      "notes": "Verifier 输出达到 4000 上限后结构化响应未完成，运行失败，无发布正文或引用；两条必要要点均记零，不从候选草稿补分。",
+      "result_sha256": "cc841adfa7e8f7a71c2e1f487cf4d3b2d80fad8c5d54b3113e9273310213040d"
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q06",
+      "covered": [
+        "idempotency",
+        "loss"
+      ],
+      "true_links": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "四个原子论点分别引用幂等定义、acks_late 前提、执行子进程终止仍确认、reject_on_worker_lost 建议的直接原段；逐条支持成立。任务幂等及 sys.exit/信号终止限定保留，两个 rubric 要点完整。",
+      "result_sha256": "5d174657bc1c65bef47e41cad775b34dce7dc2c369f9f6505237d33c8c3b7697"
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q07",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": false,
+      "conditions": false,
+      "forbidden": false,
+      "notes": "已读 published run：Analyst 返回 output_tokens=4000 但未完成结构化响应，技术失败。整个事务从头重试、Retry 通常中断及 throw=False 例外均无已发布答案，覆盖记零。",
+      "result_sha256": "48b81b1e405db07782dd17d27b5a3059aed21c0cd95f23426b5c5b4fc4a4bb13"
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q08",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": false,
+      "conditions": false,
+      "forbidden": false,
+      "notes": "运行失败提示模型未完成结构化输出；没有发布默认间隔、计时单位、覆盖方式或缺证说明。草稿不计分，所需要点覆盖零；无已发布错误性能保证。",
+      "result_sha256": "0dbc65bf0595a778a06dd318b7dcb99e2d1bf93cce9012439318325c45300f4d"
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q09",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": false,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "完整 Agent 返回 insufficient，未回答材料明确支持的默认隔离级别，因此部分可答题动作错误；没有发布无依据的本机性能数字，仍保留缺口。",
+      "result_sha256": "ba5dadead604db87b67806c1ca178c9f4af56083daaa9aba7d4693649409add0"
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q10",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "答案正确拒绝编造生产积压和根因；题目预期 insufficient，保持缺证。",
+      "result_sha256": "ef09ee4bd5738780aed7a245d1dc90b3b61dcbbed45b8ab4846051a03f2daaca"
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q11",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "答案正确拒绝编造 PostgreSQL/MySQL 吞吐倍数；题目预期 insufficient，保持缺证。",
+      "result_sha256": "b5de3c7ccf3a4853dbeddfc11d8b80e536e3196f298795a0d15b3c8d3977fdee"
+    },
+    {
+      "mode": "full_agent",
+      "question_id": "q12",
+      "covered": [],
+      "true_links": [],
+      "false_links": [],
+      "action": true,
+      "conditions": true,
+      "forbidden": false,
+      "notes": "答案明确询问“它/这个问题”指什么，并列出可能指向和所需问题，符合 needs_clarification；无事实引用，未编造参数。",
+      "result_sha256": "4aca0f20f5011625fb3ca7f080408821f5576e20548c3830a0fe8ef0ca0b3ba3"
+    }
+  ]
+}

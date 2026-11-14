@@ -1,0 +1,48 @@
+{
+  "timestamp": "2026-11-12T12:13:38.103699+00:00",
+  "scope": "isolated synthetic vectors; exact Python ground truth; no chat or embedding API",
+  "parameters": {
+    "vectors": 256,
+    "queries": 24,
+    "dimension": 32,
+    "k": 10,
+    "repeats": 3,
+    "seed": 20261112,
+    "filter": "tenant-a"
+  },
+  "services": {
+    "postgresql_pgvector": {
+      "query": {
+        "n": 72,
+        "p50_ms": 1.7978999967454001,
+        "p95_ms": 2.2596999988309108,
+        "max_ms": 4.31850000313716,
+        "mean_ms": 1.8265263890700427
+      },
+      "insert_and_commit_ms": 284.0490000016871,
+      "update_and_commit_ms": 7.797500002197921,
+      "delete_and_commit_ms": 6.988299996010028,
+      "recall_at_k": 1.0,
+      "filtered_count": 128,
+      "filter_leak_count": 0,
+      "update_delete_check": true
+    },
+    "milvus": {
+      "query": {
+        "n": 72,
+        "p50_ms": 224.1317000007257,
+        "p95_ms": 401.1993000021903,
+        "max_ms": 401.39130000170553,
+        "mean_ms": 300.25615694446765
+      },
+      "insert_and_flush_ms": 3071.3823000041884,
+      "update_and_flush_ms": 2547.17449999589,
+      "delete_and_flush_ms": 7180.741300006048,
+      "recall_at_k": 1.0,
+      "filtered_count": 128,
+      "filter_leak_count": 0,
+      "update_delete_check": true
+    }
+  },
+  "status": "passed"
+}

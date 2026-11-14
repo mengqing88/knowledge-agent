@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "scope": "Six selected official excerpts only; not complete manuals",
+  "documents": [
+    {
+      "id": "pg-levels",
+      "title": "PostgreSQL 17.6 isolation levels",
+      "filename": "pg-levels.txt",
+      "sha256": "034ce89ed8b5c48a957553d23aac6bc5e1da7fdbc455fab683b589820b9e0097",
+      "source": {
+        "file": "postgres-mvcc.sgml",
+        "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/doc/src/sgml/mvcc.sgml",
+        "sha256": "b0dafb2a3fd2d9204deb075ed2cb2d74b6496523bb5d4867a2f4a3d9758a6314",
+        "retrieved_at": "2026-11-14T08:35:49.396024+00:00"
+      },
+      "original_lines": [
+        269,
+        285
+      ],
+      "transformation": "strip SGML inline tags; normalize whitespace; no paraphrase",
+      "license": "PostgreSQL License",
+      "license_file": "originals/postgres-COPYRIGHT"
+    },
+    {
+      "id": "pg-read-committed",
+      "title": "PostgreSQL 17.6 Read Committed",
+      "filename": "pg-read-committed.txt",
+      "sha256": "b0e1fdf54c6d0a03019a725ee30586b982a5261d2e90b4e87097a1468d786ac7",
+      "source": {
+        "file": "postgres-mvcc.sgml",
+        "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/doc/src/sgml/mvcc.sgml",
+        "sha256": "b0dafb2a3fd2d9204deb075ed2cb2d74b6496523bb5d4867a2f4a3d9758a6314",
+        "retrieved_at": "2026-11-14T08:35:49.396024+00:00"
+      },
+      "original_lines": [
+        317,
+        333
+      ],
+      "transformation": "strip SGML inline tags; normalize whitespace; no paraphrase",
+      "license": "PostgreSQL License",
+      "license_file": "originals/postgres-COPYRIGHT"
+    },
+    {
+      "id": "pg-repeatable-read",
+      "title": "PostgreSQL 17.6 Repeatable Read",
+      "filename": "pg-repeatable-read.txt",
+      "sha256": "35d1fe14ede8400abbe08d9bb71ea119e0c6411f0526c0831e86f0180537a3f7",
+      "source": {
+        "file": "postgres-mvcc.sgml",
+        "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/doc/src/sgml/mvcc.sgml",
+        "sha256": "b0dafb2a3fd2d9204deb075ed2cb2d74b6496523bb5d4867a2f4a3d9758a6314",
+        "retrieved_at": "2026-11-14T08:35:49.396024+00:00"
+      },
+      "original_lines": [
+        492,
+        562
+      ],
+      "transformation": "strip SGML inline tags; normalize whitespace; no paraphrase",
+      "license": "PostgreSQL License",
+      "license_file": "originals/postgres-COPYRIGHT"
+    },
+    {
+      "id": "celery-acks",
+      "title": "Celery 5.5.3 acknowledgement",
+      "filename": "celery-acks.txt",
+      "sha256": "747a66ff589376f6554f85560c3a920c944fabf11dbae339030b9b95814b9daa",
+      "source": {
+        "file": "celery-tasks.rst",
+        "url": "https://raw.githubusercontent.com/celery/celery/v5.5.3/docs/userguide/tasks.rst",
+        "sha256": "ffb761b8da0e77c103c3d91f6db5b571ca500aaf6f3f13ab2ebdaba996a4c42c",
+        "retrieved_at": "2026-11-14T08:35:58.543732+00:00"
+      },
+      "original_lines": [
+        16,
+        47
+      ],
+      "transformation": "strip SGML inline tags; normalize whitespace; no paraphrase",
+      "license": "BSD-3-Clause",
+      "license_file": "originals/celery-LICENSE"
+    },
+    {
+      "id": "celery-retry",
+      "title": "Celery 5.5.3 retry semantics",
+      "filename": "celery-retry.txt",
+      "sha256": "b05476b98c0aae8575867d40d3c2d76c42b39f414c3767c20436b91c32600b54",
+      "source": {
+        "file": "celery-tasks.rst",
+        "url": "https://raw.githubusercontent.com/celery/celery/v5.5.3/docs/userguide/tasks.rst",
+        "sha256": "ffb761b8da0e77c103c3d91f6db5b571ca500aaf6f3f13ab2ebdaba996a4c42c",
+        "retrieved_at": "2026-11-14T08:35:58.543732+00:00"
+      },
+      "original_lines": [
+        579,
+        614
+      ],
+      "transformation": "strip SGML inline tags; normalize whitespace; no paraphrase",
+      "license": "BSD-3-Clause",
+      "license_file": "originals/celery-LICENSE"
+    },
+    {
+      "id": "celery-delay",
+      "title": "Celery 5.5.3 retry delay",
+      "filename": "celery-delay.txt",
+      "sha256": "8956a2c7bcd8eb3d126f5f2e90112579894d776e2b4dce726a0bd019d942cce1",
+      "source": {
+        "file": "celery-tasks.rst",
+        "url": "https://raw.githubusercontent.com/celery/celery/v5.5.3/docs/userguide/tasks.rst",
+        "sha256": "ffb761b8da0e77c103c3d91f6db5b571ca500aaf6f3f13ab2ebdaba996a4c42c",
+        "retrieved_at": "2026-11-14T08:35:58.543732+00:00"
+      },
+      "original_lines": [
+        646,
+        663
+      ],
+      "transformation": "strip SGML inline tags; normalize whitespace; no paraphrase",
+      "license": "BSD-3-Clause",
+      "license_file": "originals/celery-LICENSE"
+    }
+  ]
+}

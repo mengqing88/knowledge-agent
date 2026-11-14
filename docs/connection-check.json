@@ -1,0 +1,18 @@
+{
+  "chat_model": "deepseek-v4.1-flash-1017",
+  "embedding_model": "Qwen/Qwen3-VL-Embedding-8B",
+  "chat": {
+    "status": "ok",
+    "input_tokens": 148,
+    "output_tokens": 23,
+    "elapsed_seconds": 11.437
+  },
+  "embedding": {
+    "status": "ok",
+    "dimensions": 4096
+  },
+  "database": {
+    "status": "failed",
+    "error": "数据库未连接或未安装 pgvector"
+  }
+}

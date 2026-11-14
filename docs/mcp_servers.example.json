@@ -1,0 +1,14 @@
+{
+  "servers": [
+    {
+      "server_id": "example_read_service",
+      "transport": "streamable_http",
+      "url": "https://mcp.example.invalid/mcp",
+      "user_ids": ["REPLACE_WITH_VERIFIED_USER_ID"],
+      "corpus_ids": ["REPLACE_WITH_CORPUS_ID"],
+      "read_tools": ["REPLACE_WITH_EXACT_READ_TOOL_NAME"],
+      "headers_env": {"Authorization": "EXAMPLE_MCP_AUTHORIZATION"},
+      "timeout_seconds": 15
+    }
+  ]
+}

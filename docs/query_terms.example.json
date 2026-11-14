@@ -1,0 +1,9 @@
+{
+  "rules": [
+    {
+      "corpus_ids": ["REPLACE_WITH_CORPUS_ID"],
+      "term": "试用期考核",
+      "aliases": ["转正", "新人考核"]
+    }
+  ]
+}

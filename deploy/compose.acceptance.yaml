@@ -1,0 +1,45 @@
+# Disposable acceptance stack. Always supply a unique --project-name.
+# Dynamic loopback ports and project-scoped volumes keep it separate from compose.yaml.
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: acceptance
+      POSTGRES_PASSWORD: acceptance-local-only
+      POSTGRES_DB: acceptance
+    ports: ["127.0.0.1::5432"]
+    volumes: ["postgres:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U acceptance -d acceptance"]
+      interval: 2s
+      timeout: 2s
+      retries: 40
+  redis:
+    image: redis:7-alpine
+    ports: ["127.0.0.1::6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+  milvus:
+    image: milvusdb/milvus:v2.4.15
+    command: ["milvus", "run", "standalone"]
+    environment:
+      ETCD_USE_EMBED: "true"
+      ETCD_DATA_DIR: /var/lib/milvus/etcd
+      ETCD_CONFIG_PATH: /milvus/configs/embedEtcd.yaml
+      COMMON_STORAGETYPE: local
+    ports: ["127.0.0.1::19530"]
+    volumes:
+      - milvus:/var/lib/milvus
+      - ./milvus/embedEtcd.yaml:/milvus/configs/embedEtcd.yaml:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 3s
+      timeout: 3s
+      retries: 60
+      start_period: 30s
+volumes:
+  postgres:
+  milvus:

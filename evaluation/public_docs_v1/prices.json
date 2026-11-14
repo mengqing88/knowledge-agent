@@ -1,0 +1,32 @@
+{
+  "currency": "CNY",
+  "rates": {
+    "chat": {
+      "model": "deepseek-v4.1-flash-1017",
+      "base_url": "https://tokenrhythm.studio/v1",
+      "input": "2",
+      "output": "8",
+      "source": "User supplied gateway price screenshot; peak rates, no cache discount"
+    },
+    "embedding": {
+      "model": "Qwen/Qwen3-VL-Embedding-8B",
+      "base_url": "https://api.siliconflow.cn/v1",
+      "input": "0.7",
+      "output": "0",
+      "source": "https://www.siliconflow.cn/pricing; Qwen/Qwen3-VL-Embedding-8B, ¥0.7 / M Tokens"
+    }
+  },
+  "evidence": [
+    {
+      "file": "evaluation/public_docs_v1/siliconflow-pricing.html",
+      "sha256": "bbcc2305442f41678473d92f961d5968a8d3184f260ecd2dd12dad99e06fefad"
+    },
+    {
+      "file": "evaluation/public_docs_v1/chat-price-user-screenshot.png",
+      "sha256": "4ea68d6985bab470349c0d2eef885b2e1f8f772fdbb7570556c95cab2103eccb"
+    }
+  ],
+  "embedding_official_record": "252:{\"modelId\":\"17885303117\",\"modelName\":\"Qwen/Qwen3-VL-Embedding-8B\",\"mf\":\"Qwen\",\"desc\":\"Qwen3-VL-Embedding 是 Qwen3 多模态模型体系中的新一代视觉-语言嵌入模型，专为跨模态语义理解、检索与排序任务设计。该模型基于 Qwen3 系列高性能视觉语言基础模型构建，能够将文本、图像及其组合统一映射到高质量向量空间，实现精准的跨模态语义对齐。模型支持长上下文输入与高维嵌入表示，兼顾细粒度语义表达与大规模检索效率，广泛适用于多模态搜索、RAG 知识增强、内容推荐、相似度计算与智能审核等场景。继承 Qwen3 系列卓越的多语言与视觉理解能力，Qwen3-VL-Embedding 在复杂语义推理与跨语言跨模态任务中表现出色，并支持灵活的输出维度与任务指令感知能力，帮助开发者针对不同业务场景进行高效优化。\",\"tags\":\"$253\",\"icon\":\"https://sf-maas-uat-prod.oss-cn-shanghai.aliyuncs.com/Model_LOGO/Tongyi.svg\",\"publishTime\":\"$254\",\"size\":8,\"contextLen\":32768,\"price\":\"0.7\",\"currency\":\"¥\",\"operationLabel\":\"$255\",\"needAuth\":false,\"onlineDemo\":false,\"type\":\"text\",\"subType\":\"embedding\",\"DisplayName\":\"Qwen3-VL-Embedding-8B\",\"sort\":78003,\"sameSeries\":\"$256\",\"language\":\"$257\",\"modelInfo\":\"$258\",\"priceUnit\":\"/ M Tokens\",\"status\":\"normal\",\"jsonModeSupport\":false,\"functionCallSupport\":false,\"fimCompletionSupport\":false,\"chatPrefixCompletionSupport\":false,\"vlm\":false,\"onlyByChargeBalance\":false,\"supportFT\":false,\"targetModelName\":\"Qwen/Qwen3-VL-Embedding-8B\",\"deprecatedTime\":\"$25f\",\"filling\":\"{\\\"说明\\\":\\\"非生成式人工智能服务\\\"}\",\"pricing\":\"$260\",\"extInfoMap\":\"$263\",\"_func\":\"$264\",\"fillingJson\":\"$265\"}",
+  "retrieved_date": "2026-11-14",
+  "note": "Conservative estimate, not a billing statement. Unknown usage stops all charged calls."
+}

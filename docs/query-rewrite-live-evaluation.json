@@ -1,0 +1,14 @@
+{
+  "scope": "fictional terminology control",
+  "human_reviewed": false,
+  "fixture_sha256": "d5b53b9119e9c0e298292a9f824edea710c45fb88bd01c8b8a8f963602d0c93f",
+  "mode": "live_hybrid",
+  "status": "failed",
+  "limitations": [
+    "Agent-authored fictional controls are not independent business-quality acceptance.",
+    "Only deterministic terminology expansion is compared, not Planner semantic quality.",
+    "Offline scores are lexical-control results, not Milvus/embedding Recall@5."
+  ],
+  "error_type": "OperationalError",
+  "error_code": "e3q8"
+}

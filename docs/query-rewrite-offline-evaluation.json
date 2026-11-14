@@ -1,0 +1,209 @@
+{
+  "scope": "fictional terminology control",
+  "human_reviewed": false,
+  "fixture_sha256": "d5b53b9119e9c0e298292a9f824edea710c45fb88bd01c8b8a8f963602d0c93f",
+  "mode": "offline_lexical_control",
+  "status": "completed",
+  "limitations": [
+    "Agent-authored fictional controls are not independent business-quality acceptance.",
+    "Only deterministic terminology expansion is compared, not Planner semantic quality.",
+    "Offline scores are lexical-control results, not Milvus/embedding Recall@5."
+  ],
+  "rows": [
+    {
+      "case_id": "probation",
+      "question": "新人什么时候转正？",
+      "rewrites": [
+        {
+          "subquestion_id": "q1",
+          "kind": "original",
+          "query": "新人什么时候转正？"
+        },
+        {
+          "subquestion_id": "q1",
+          "kind": "terminology",
+          "query": "新人什么时候转正？ 试用期考核 转正"
+        }
+      ],
+      "original": {
+        "status": "passed",
+        "top5": [],
+        "evidence_recall_at_5": 0.0
+      },
+      "expanded": {
+        "status": "passed",
+        "top5": [
+          "probation"
+        ],
+        "evidence_recall_at_5": 1.0
+      }
+    },
+    {
+      "case_id": "expense",
+      "question": "出差打车钱怎么报？",
+      "rewrites": [
+        {
+          "subquestion_id": "q1",
+          "kind": "original",
+          "query": "出差打车钱怎么报？"
+        },
+        {
+          "subquestion_id": "q1",
+          "kind": "terminology",
+          "query": "出差打车钱怎么报？ 交通费用报销 打车钱"
+        }
+      ],
+      "original": {
+        "status": "passed",
+        "top5": [],
+        "evidence_recall_at_5": 0.0
+      },
+      "expanded": {
+        "status": "passed",
+        "top5": [
+          "distractor-6",
+          "expense"
+        ],
+        "evidence_recall_at_5": 1.0
+      }
+    },
+    {
+      "case_id": "revoke",
+      "question": "同事走了账号怎么关？",
+      "rewrites": [
+        {
+          "subquestion_id": "q1",
+          "kind": "original",
+          "query": "同事走了账号怎么关？"
+        },
+        {
+          "subquestion_id": "q1",
+          "kind": "terminology",
+          "query": "同事走了账号怎么关？ 离职权限回收 账号怎么关"
+        }
+      ],
+      "original": {
+        "status": "passed",
+        "top5": [
+          "distractor-7"
+        ],
+        "evidence_recall_at_5": 0.0
+      },
+      "expanded": {
+        "status": "passed",
+        "top5": [
+          "distractor-7",
+          "revoke"
+        ],
+        "evidence_recall_at_5": 1.0
+      }
+    },
+    {
+      "case_id": "timeout",
+      "question": "接口一直等不到结果怎么办？",
+      "rewrites": [
+        {
+          "subquestion_id": "q1",
+          "kind": "original",
+          "query": "接口一直等不到结果怎么办？"
+        },
+        {
+          "subquestion_id": "q1",
+          "kind": "terminology",
+          "query": "接口一直等不到结果怎么办？ 请求超时处置 等不到结果"
+        }
+      ],
+      "original": {
+        "status": "passed",
+        "top5": [
+          "distractor-8"
+        ],
+        "evidence_recall_at_5": 0.0
+      },
+      "expanded": {
+        "status": "passed",
+        "top5": [
+          "distractor-8",
+          "timeout"
+        ],
+        "evidence_recall_at_5": 1.0
+      }
+    },
+    {
+      "case_id": "rollback",
+      "question": "上线出问题怎么退回去？",
+      "rewrites": [
+        {
+          "subquestion_id": "q1",
+          "kind": "original",
+          "query": "上线出问题怎么退回去？"
+        },
+        {
+          "subquestion_id": "q1",
+          "kind": "terminology",
+          "query": "上线出问题怎么退回去？ 版本回滚流程 退回去"
+        }
+      ],
+      "original": {
+        "status": "passed",
+        "top5": [
+          "distractor-9"
+        ],
+        "evidence_recall_at_5": 0.0
+      },
+      "expanded": {
+        "status": "passed",
+        "top5": [
+          "distractor-9",
+          "rollback"
+        ],
+        "evidence_recall_at_5": 1.0
+      }
+    },
+    {
+      "case_id": "password",
+      "question": "忘记密码进不去了怎么办？",
+      "rewrites": [
+        {
+          "subquestion_id": "q1",
+          "kind": "original",
+          "query": "忘记密码进不去了怎么办？"
+        },
+        {
+          "subquestion_id": "q1",
+          "kind": "terminology",
+          "query": "忘记密码进不去了怎么办？ 凭据重置申请 忘记密码"
+        }
+      ],
+      "original": {
+        "status": "passed",
+        "top5": [
+          "distractor-10"
+        ],
+        "evidence_recall_at_5": 0.0
+      },
+      "expanded": {
+        "status": "passed",
+        "top5": [
+          "distractor-10",
+          "password"
+        ],
+        "evidence_recall_at_5": 1.0
+      }
+    }
+  ],
+  "summary": {
+    "original": {
+      "questions": 6,
+      "failed": 0,
+      "mean_evidence_recall_at_5": 0.0,
+      "mean_top5_reference_tokens": 19.5
+    },
+    "expanded": {
+      "questions": 6,
+      "failed": 0,
+      "mean_evidence_recall_at_5": 1.0,
+      "mean_top5_reference_tokens": 55.333333333333336
+    }
+  }
+}

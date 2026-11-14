@@ -1,0 +1,1043 @@
+{
+  "id": "7ff678036a5b42049ab4ccdeb91daf7f",
+  "question": "在这三篇虚构教学材料中，方法 M 是否全面优于基线？分别说明 F1、推理延迟和 GPU 显存的证据，保留数据集条件。",
+  "snapshot_id": "683b41c99eca4553ada4ed85fa227f4b",
+  "corpus_id": "40c4f5872b4647d4b36fb5ac3ef6ff08",
+  "parent_run_id": null,
+  "status": "completed",
+  "mode": "full_agent",
+  "attempt": 1,
+  "error": null,
+  "config": {
+    "version": "workflow-v1",
+    "model": "deepseek-v4.1-flash-1017",
+    "embedding_model": "Qwen/Qwen3-VL-Embedding-8B",
+    "max_model_calls": 8,
+    "max_run_seconds": 300,
+    "max_retrieval_rounds": 2,
+    "max_revision_rounds": 1,
+    "max_context_chars": 28000
+  },
+  "state": {
+    "run_id": "7ff678036a5b42049ab4ccdeb91daf7f",
+    "snapshot_id": "683b41c99eca4553ada4ed85fa227f4b",
+    "question": "在这三篇虚构教学材料中，方法 M 是否全面优于基线？分别说明 F1、推理延迟和 GPU 显存的证据，保留数据集条件。",
+    "mode": "full_agent",
+    "plan": {
+      "normalized_question": "基于三篇虚构教学材料（Fictional Paper A - Accuracy on dataset X、Fictional Paper B - Accuracy and inference latency、Fictional Paper C - Architecture only），判断方法 M 相对基线是否在 F1、推理延迟和 GPU 显存上全面占优，并分别给出保留各论文数据集条件的证据。",
+      "needs_clarification": false,
+      "clarification": null,
+      "subquestions": [
+        {
+          "id": "sq_f1",
+          "target": "在 Fictional Paper A、Fictional Paper B、Fictional Paper C 中，分别查找方法 M 与基线的 F1 对比证据，并保留各论文明确的数据集条件（如 Paper A 的 dataset X）；若某论文未报告 F1 或缺少基线，也需记录缺失。",
+          "queries": [
+            "Method M baseline F1 dataset X Fictional Paper A",
+            "Method M baseline F1 Fictional Paper B",
+            "Method M baseline F1 Fictional Paper C"
+          ]
+        },
+        {
+          "id": "sq_latency",
+          "target": "在 Fictional Paper A、Fictional Paper B、Fictional Paper C 中，分别查找方法 M 与基线的推理延迟对比证据，并保留各论文明确的数据集条件和实验设置；尤其关注 Fictional Paper B - Accuracy and inference latency。",
+          "queries": [
+            "Method M baseline inference latency Fictional Paper B",
+            "Method M baseline inference latency Fictional Paper A dataset X",
+            "Method M baseline inference latency Fictional Paper C"
+          ]
+        },
+        {
+          "id": "sq_gpu_memory",
+          "target": "在 Fictional Paper A、Fictional Paper B、Fictional Paper C 中，分别查找方法 M 与基线的 GPU 显存对比证据，并保留各论文明确的数据集条件和实验设置；记录未报告 GPU 显存的论文。",
+          "queries": [
+            "Method M baseline GPU memory Fictional Paper A dataset X",
+            "Method M baseline GPU memory Fictional Paper B inference latency",
+            "Method M baseline GPU memory Fictional Paper C architecture"
+          ]
+        }
+      ]
+    },
+    "sources": [
+      {
+        "id": "7cc4bd539a1e47fbb4c2fc85622efe6b",
+        "quote": "Fictional Paper A\n",
+        "block_id": "4d7ecbbebad4bb168391c44f80f2c798",
+        "char_start": 0,
+        "char_end": 18,
+        "title": "Fictional Paper A - Accuracy on dataset X",
+        "paper_id": "8f10f9a168404b2d955942104e002595",
+        "paper_version_id": "6c6e1067212e42ef9a730e9af7307258",
+        "parse_revision_id": "7b7cc7f9218033a31f0ca5348f4ddd47",
+        "sha256": "a7ea965b7dba7148cf70976a1d38c978cc9f68c8b8b6ca0e477126e7272af564",
+        "pdf_page_index": 2,
+        "pdf_page_number": 3,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          86.76976776123047,
+          186.70399475097656,
+          108.80177307128906
+        ],
+        "file_url": "/api/paper-versions/6c6e1067212e42ef9a730e9af7307258/file#page=3",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "1e21b30f38fd4c74bee0936f78a48c54",
+        "quote": "Accuracy on dataset X\n",
+        "block_id": "4d206b12307674a605ccb21032dbf345",
+        "char_start": 0,
+        "char_end": 22,
+        "title": "Fictional Paper A - Accuracy on dataset X",
+        "paper_id": "8f10f9a168404b2d955942104e002595",
+        "paper_version_id": "6c6e1067212e42ef9a730e9af7307258",
+        "parse_revision_id": "7b7cc7f9218033a31f0ca5348f4ddd47",
+        "sha256": "a7ea965b7dba7148cf70976a1d38c978cc9f68c8b8b6ca0e477126e7272af564",
+        "pdf_page_index": 2,
+        "pdf_page_number": 3,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          122.06477355957031,
+          166.05499267578125,
+          137.17877197265625
+        ],
+        "file_url": "/api/paper-versions/6c6e1067212e42ef9a730e9af7307258/file#page=3",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "7c11cd8588b2495ba1b53c619a0de854",
+        "quote": "This page contains fictional background material for a software demonstration.\n",
+        "block_id": "bb8ca7f86ed2e7bdeee3bf82a61bfff2",
+        "char_start": 0,
+        "char_end": 79,
+        "title": "Fictional Paper A - Accuracy on dataset X",
+        "paper_id": "8f10f9a168404b2d955942104e002595",
+        "paper_version_id": "6c6e1067212e42ef9a730e9af7307258",
+        "parse_revision_id": "7b7cc7f9218033a31f0ca5348f4ddd47",
+        "sha256": "a7ea965b7dba7148cf70976a1d38c978cc9f68c8b8b6ca0e477126e7272af564",
+        "pdf_page_index": 2,
+        "pdf_page_number": 3,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          186.0647735595703,
+          436.885986328125,
+          201.17877197265625
+        ],
+        "file_url": "/api/paper-versions/6c6e1067212e42ef9a730e9af7307258/file#page=3",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "e62a1956b77a4f33a5c905b6f3764051",
+        "quote": "All experiment details for this teaching paper are on its final PDF page.\n",
+        "block_id": "48e2e9b14af380e8d908b4360e9c2358",
+        "char_start": 0,
+        "char_end": 74,
+        "title": "Fictional Paper A - Accuracy on dataset X",
+        "paper_id": "8f10f9a168404b2d955942104e002595",
+        "paper_version_id": "6c6e1067212e42ef9a730e9af7307258",
+        "parse_revision_id": "7b7cc7f9218033a31f0ca5348f4ddd47",
+        "sha256": "a7ea965b7dba7148cf70976a1d38c978cc9f68c8b8b6ca0e477126e7272af564",
+        "pdf_page_index": 2,
+        "pdf_page_number": 3,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          214.0647735595703,
+          399.59600830078125,
+          229.17877197265625
+        ],
+        "file_url": "/api/paper-versions/6c6e1067212e42ef9a730e9af7307258/file#page=3",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "6d0f72070c3a498b847bf251ce7c044c",
+        "quote": "These files must not be cited as actual research or evaluation results.\n",
+        "block_id": "481fbbdfbdf289fbfb4dbc957e44d3ab",
+        "char_start": 0,
+        "char_end": 72,
+        "title": "Fictional Paper A - Accuracy on dataset X",
+        "paper_id": "8f10f9a168404b2d955942104e002595",
+        "paper_version_id": "6c6e1067212e42ef9a730e9af7307258",
+        "parse_revision_id": "7b7cc7f9218033a31f0ca5348f4ddd47",
+        "sha256": "a7ea965b7dba7148cf70976a1d38c978cc9f68c8b8b6ca0e477126e7272af564",
+        "pdf_page_index": 2,
+        "pdf_page_number": 3,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          242.0647735595703,
+          393.47991943359375,
+          257.17877197265625
+        ],
+        "file_url": "/api/paper-versions/6c6e1067212e42ef9a730e9af7307258/file#page=3",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "7afe0f5a3a254326bbda841a704bebbf",
+        "quote": "Paper QA Agent - synthetic fixture\nPDF page 3 / 4\n",
+        "block_id": "5f635059334a20bb0acf5c35374ebe5a",
+        "char_start": 0,
+        "char_end": 50,
+        "title": "Fictional Paper A - Accuracy on dataset X",
+        "paper_id": "8f10f9a168404b2d955942104e002595",
+        "paper_version_id": "6c6e1067212e42ef9a730e9af7307258",
+        "parse_revision_id": "7b7cc7f9218033a31f0ca5348f4ddd47",
+        "sha256": "a7ea965b7dba7148cf70976a1d38c978cc9f68c8b8b6ca0e477126e7272af564",
+        "pdf_page_index": 2,
+        "pdf_page_number": 3,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          780.2147827148438,
+          540.0001220703125,
+          792.5807495117188
+        ],
+        "file_url": "/api/paper-versions/6c6e1067212e42ef9a730e9af7307258/file#page=3",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "46dbcee815194eaabc21d98a3da58a5d",
+        "quote": "Fictional Paper B\n",
+        "block_id": "c8a98d3082743d25323868ad0ba4b0f0",
+        "char_start": 0,
+        "char_end": 18,
+        "title": "Fictional Paper B - Accuracy and inference latency",
+        "paper_id": "447ada15461f4835901a2446e7519b7f",
+        "paper_version_id": "7fc762cc13f04e1aa50052e6718f63fc",
+        "parse_revision_id": "b3e193a0342da73eb25a73cc1c9f3d25",
+        "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+        "pdf_page_index": 5,
+        "pdf_page_number": 6,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          86.76976776123047,
+          186.70399475097656,
+          108.80177307128906
+        ],
+        "file_url": "/api/paper-versions/7fc762cc13f04e1aa50052e6718f63fc/file#page=6",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "4355fe9bfe5946e3804fde47cc360698",
+        "quote": "Accuracy and inference latency\n",
+        "block_id": "72d4fe7476b8b6a699e58fe71bc33f20",
+        "char_start": 0,
+        "char_end": 31,
+        "title": "Fictional Paper B - Accuracy and inference latency",
+        "paper_id": "447ada15461f4835901a2446e7519b7f",
+        "paper_version_id": "7fc762cc13f04e1aa50052e6718f63fc",
+        "parse_revision_id": "b3e193a0342da73eb25a73cc1c9f3d25",
+        "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+        "pdf_page_index": 5,
+        "pdf_page_number": 6,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          122.06477355957031,
+          208.84495544433594,
+          137.17877197265625
+        ],
+        "file_url": "/api/paper-versions/7fc762cc13f04e1aa50052e6718f63fc/file#page=6",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "17166ff185d1430e8893b40c7a01bfde",
+        "quote": "On dataset Y, method M and the baseline both achieved an F1 score of 75.\n",
+        "block_id": "eca57d65238c55ccc544eb98564c2678",
+        "char_start": 0,
+        "char_end": 73,
+        "title": "Fictional Paper B - Accuracy and inference latency",
+        "paper_id": "447ada15461f4835901a2446e7519b7f",
+        "paper_version_id": "7fc762cc13f04e1aa50052e6718f63fc",
+        "parse_revision_id": "b3e193a0342da73eb25a73cc1c9f3d25",
+        "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+        "pdf_page_index": 5,
+        "pdf_page_number": 6,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          186.0647735595703,
+          422.26702880859375,
+          201.17877197265625
+        ],
+        "file_url": "/api/paper-versions/7fc762cc13f04e1aa50052e6718f63fc/file#page=6",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "fd3c81a8e63449caaf8bcb5dc2faf4e1",
+        "quote": "Under this evaluation setting, average inference latency was 120 ms for M.\n",
+        "block_id": "7a03789247eef5d1c55e29e9cfbad53e",
+        "char_start": 0,
+        "char_end": 75,
+        "title": "Fictional Paper B - Accuracy and inference latency",
+        "paper_id": "447ada15461f4835901a2446e7519b7f",
+        "paper_version_id": "7fc762cc13f04e1aa50052e6718f63fc",
+        "parse_revision_id": "b3e193a0342da73eb25a73cc1c9f3d25",
+        "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+        "pdf_page_index": 5,
+        "pdf_page_number": 6,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          214.0647735595703,
+          419.7699890136719,
+          229.17877197265625
+        ],
+        "file_url": "/api/paper-versions/7fc762cc13f04e1aa50052e6718f63fc/file#page=6",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "88fc9e01f06242b08ab3fb2e0581439d",
+        "quote": "The baseline average inference latency was 100 ms in the same setting.\n",
+        "block_id": "f70bba47d0ffdaf69bc548e44df139a1",
+        "char_start": 0,
+        "char_end": 71,
+        "title": "Fictional Paper B - Accuracy and inference latency",
+        "paper_id": "447ada15461f4835901a2446e7519b7f",
+        "paper_version_id": "7fc762cc13f04e1aa50052e6718f63fc",
+        "parse_revision_id": "b3e193a0342da73eb25a73cc1c9f3d25",
+        "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+        "pdf_page_index": 5,
+        "pdf_page_number": 6,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          242.0647735595703,
+          408.1650085449219,
+          257.17877197265625
+        ],
+        "file_url": "/api/paper-versions/7fc762cc13f04e1aa50052e6718f63fc/file#page=6",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "99a61048334f442f96b3ec1b22dbda68",
+        "quote": "The dataset and evaluation setting differ from Fictional Paper A.\n",
+        "block_id": "5e346b38f65f1ca23fb1b56968dec06f",
+        "char_start": 0,
+        "char_end": 66,
+        "title": "Fictional Paper B - Accuracy and inference latency",
+        "paper_id": "447ada15461f4835901a2446e7519b7f",
+        "paper_version_id": "7fc762cc13f04e1aa50052e6718f63fc",
+        "parse_revision_id": "b3e193a0342da73eb25a73cc1c9f3d25",
+        "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+        "pdf_page_index": 5,
+        "pdf_page_number": 6,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          270.06475830078125,
+          366.595947265625,
+          285.17877197265625
+        ],
+        "file_url": "/api/paper-versions/7fc762cc13f04e1aa50052e6718f63fc/file#page=6",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "31412fd836d643eda9ac6cb88bcd355f",
+        "quote": "Paper QA Agent - synthetic fixture\nPDF page 6 / 6\n",
+        "block_id": "99b980e8e1d326bf04f250d779e76bcb",
+        "char_start": 0,
+        "char_end": 50,
+        "title": "Fictional Paper B - Accuracy and inference latency",
+        "paper_id": "447ada15461f4835901a2446e7519b7f",
+        "paper_version_id": "7fc762cc13f04e1aa50052e6718f63fc",
+        "parse_revision_id": "b3e193a0342da73eb25a73cc1c9f3d25",
+        "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+        "pdf_page_index": 5,
+        "pdf_page_number": 6,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          780.2147827148438,
+          540.0001220703125,
+          792.5807495117188
+        ],
+        "file_url": "/api/paper-versions/7fc762cc13f04e1aa50052e6718f63fc/file#page=6",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "21ab98aea3e949128a01622e9e57f661",
+        "quote": "Fictional Paper C\n",
+        "block_id": "b61a557385a2477c4d212db2dee036d2",
+        "char_start": 0,
+        "char_end": 18,
+        "title": "Fictional Paper C - Architecture only",
+        "paper_id": "bd4e4dc1a59249caa84e2ca7048957bc",
+        "paper_version_id": "004ffb6921de49bab4997e8c6bd00134",
+        "parse_revision_id": "f1fe4d13f236f7993b7c40019f8b65cd",
+        "sha256": "3032f45f8a078a992fc3d67403643cf642e18f726387c71604bab4119e493d28",
+        "pdf_page_index": 0,
+        "pdf_page_number": 1,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          86.76976776123047,
+          186.70399475097656,
+          108.80177307128906
+        ],
+        "file_url": "/api/paper-versions/004ffb6921de49bab4997e8c6bd00134/file#page=1",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "e80058e87e414f998a10515f21748b67",
+        "quote": "Architecture only\n",
+        "block_id": "c21d8fb82b60b63ddcfe2141992b6008",
+        "char_start": 0,
+        "char_end": 18,
+        "title": "Fictional Paper C - Architecture only",
+        "paper_id": "bd4e4dc1a59249caa84e2ca7048957bc",
+        "paper_version_id": "004ffb6921de49bab4997e8c6bd00134",
+        "parse_revision_id": "f1fe4d13f236f7993b7c40019f8b65cd",
+        "sha256": "3032f45f8a078a992fc3d67403643cf642e18f726387c71604bab4119e493d28",
+        "pdf_page_index": 0,
+        "pdf_page_number": 1,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          122.06477355957031,
+          137.9169921875,
+          137.17877197265625
+        ],
+        "file_url": "/api/paper-versions/004ffb6921de49bab4997e8c6bd00134/file#page=1",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "0e51f8dddce34421923c655790caba62",
+        "quote": "This page contains fictional background material for a software demonstration.\n",
+        "block_id": "ad38e978d5186b64245ba281e148c866",
+        "char_start": 0,
+        "char_end": 79,
+        "title": "Fictional Paper C - Architecture only",
+        "paper_id": "bd4e4dc1a59249caa84e2ca7048957bc",
+        "paper_version_id": "004ffb6921de49bab4997e8c6bd00134",
+        "parse_revision_id": "f1fe4d13f236f7993b7c40019f8b65cd",
+        "sha256": "3032f45f8a078a992fc3d67403643cf642e18f726387c71604bab4119e493d28",
+        "pdf_page_index": 0,
+        "pdf_page_number": 1,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          186.0647735595703,
+          436.885986328125,
+          201.17877197265625
+        ],
+        "file_url": "/api/paper-versions/004ffb6921de49bab4997e8c6bd00134/file#page=1",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "012280d0d7144073887d986a4fe37af6",
+        "quote": "All experiment details for this teaching paper are on its final PDF page.\n",
+        "block_id": "034f720fd31af75d7980cff172a206a0",
+        "char_start": 0,
+        "char_end": 74,
+        "title": "Fictional Paper C - Architecture only",
+        "paper_id": "bd4e4dc1a59249caa84e2ca7048957bc",
+        "paper_version_id": "004ffb6921de49bab4997e8c6bd00134",
+        "parse_revision_id": "f1fe4d13f236f7993b7c40019f8b65cd",
+        "sha256": "3032f45f8a078a992fc3d67403643cf642e18f726387c71604bab4119e493d28",
+        "pdf_page_index": 0,
+        "pdf_page_number": 1,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          214.0647735595703,
+          399.59600830078125,
+          229.17877197265625
+        ],
+        "file_url": "/api/paper-versions/004ffb6921de49bab4997e8c6bd00134/file#page=1",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "08048fad92124531920e52e006c00968",
+        "quote": "These files must not be cited as actual research or evaluation results.\n",
+        "block_id": "a88bc1d2e62f075bd2c09f6f7a85282c",
+        "char_start": 0,
+        "char_end": 72,
+        "title": "Fictional Paper C - Architecture only",
+        "paper_id": "bd4e4dc1a59249caa84e2ca7048957bc",
+        "paper_version_id": "004ffb6921de49bab4997e8c6bd00134",
+        "parse_revision_id": "f1fe4d13f236f7993b7c40019f8b65cd",
+        "sha256": "3032f45f8a078a992fc3d67403643cf642e18f726387c71604bab4119e493d28",
+        "pdf_page_index": 0,
+        "pdf_page_number": 1,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          242.0647735595703,
+          393.47991943359375,
+          257.17877197265625
+        ],
+        "file_url": "/api/paper-versions/004ffb6921de49bab4997e8c6bd00134/file#page=1",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "045380fb61cd4909af56a1ad707b9896",
+        "quote": "Paper QA Agent - synthetic fixture\nPDF page 1 / 3\n",
+        "block_id": "1a8a77e27695356a3d6be4be17ada53e",
+        "char_start": 0,
+        "char_end": 50,
+        "title": "Fictional Paper C - Architecture only",
+        "paper_id": "bd4e4dc1a59249caa84e2ca7048957bc",
+        "paper_version_id": "004ffb6921de49bab4997e8c6bd00134",
+        "parse_revision_id": "f1fe4d13f236f7993b7c40019f8b65cd",
+        "sha256": "3032f45f8a078a992fc3d67403643cf642e18f726387c71604bab4119e493d28",
+        "pdf_page_index": 0,
+        "pdf_page_number": 1,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          780.2147827148438,
+          540.0001220703125,
+          792.5807495117188
+        ],
+        "file_url": "/api/paper-versions/004ffb6921de49bab4997e8c6bd00134/file#page=1",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "96b645285edb4727a2f9c6f11be60c20",
+        "quote": "Fictional Paper A\n",
+        "block_id": "23c64d0ce2df952b9f7f5f595af40f66",
+        "char_start": 0,
+        "char_end": 18,
+        "title": "Fictional Paper A - Accuracy on dataset X",
+        "paper_id": "8f10f9a168404b2d955942104e002595",
+        "paper_version_id": "6c6e1067212e42ef9a730e9af7307258",
+        "parse_revision_id": "7b7cc7f9218033a31f0ca5348f4ddd47",
+        "sha256": "a7ea965b7dba7148cf70976a1d38c978cc9f68c8b8b6ca0e477126e7272af564",
+        "pdf_page_index": 0,
+        "pdf_page_number": 1,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          86.76976776123047,
+          186.70399475097656,
+          108.80177307128906
+        ],
+        "file_url": "/api/paper-versions/6c6e1067212e42ef9a730e9af7307258/file#page=1",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "3205b0d5b3fd40b98587b94c16fb7559",
+        "quote": "Accuracy on dataset X\n",
+        "block_id": "6efedaf9a8cafbb2cb5c20975a66a90a",
+        "char_start": 0,
+        "char_end": 22,
+        "title": "Fictional Paper A - Accuracy on dataset X",
+        "paper_id": "8f10f9a168404b2d955942104e002595",
+        "paper_version_id": "6c6e1067212e42ef9a730e9af7307258",
+        "parse_revision_id": "7b7cc7f9218033a31f0ca5348f4ddd47",
+        "sha256": "a7ea965b7dba7148cf70976a1d38c978cc9f68c8b8b6ca0e477126e7272af564",
+        "pdf_page_index": 0,
+        "pdf_page_number": 1,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          122.06477355957031,
+          166.05499267578125,
+          137.17877197265625
+        ],
+        "file_url": "/api/paper-versions/6c6e1067212e42ef9a730e9af7307258/file#page=1",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "3bda4f1669ac4c21bb4ef863789c79e0",
+        "quote": "Fictional Paper B\n",
+        "block_id": "b949c0de5a797fc2b5c74c3acec515d0",
+        "char_start": 0,
+        "char_end": 18,
+        "title": "Fictional Paper B - Accuracy and inference latency",
+        "paper_id": "447ada15461f4835901a2446e7519b7f",
+        "paper_version_id": "7fc762cc13f04e1aa50052e6718f63fc",
+        "parse_revision_id": "b3e193a0342da73eb25a73cc1c9f3d25",
+        "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+        "pdf_page_index": 0,
+        "pdf_page_number": 1,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          86.76976776123047,
+          186.70399475097656,
+          108.80177307128906
+        ],
+        "file_url": "/api/paper-versions/7fc762cc13f04e1aa50052e6718f63fc/file#page=1",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "0337d9be462f468c832c8d815292976f",
+        "quote": "Fictional Paper C\n",
+        "block_id": "662b2f9920a4354b4d656aecb960b7c4",
+        "char_start": 0,
+        "char_end": 18,
+        "title": "Fictional Paper C - Architecture only",
+        "paper_id": "bd4e4dc1a59249caa84e2ca7048957bc",
+        "paper_version_id": "004ffb6921de49bab4997e8c6bd00134",
+        "parse_revision_id": "f1fe4d13f236f7993b7c40019f8b65cd",
+        "sha256": "3032f45f8a078a992fc3d67403643cf642e18f726387c71604bab4119e493d28",
+        "pdf_page_index": 1,
+        "pdf_page_number": 2,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          86.76976776123047,
+          186.70399475097656,
+          108.80177307128906
+        ],
+        "file_url": "/api/paper-versions/004ffb6921de49bab4997e8c6bd00134/file#page=2",
+        "subquestion_id": "sq_f1"
+      },
+      {
+        "id": "52ce6854d92345b68e652afd53d576e1",
+        "quote": "Architecture only\n",
+        "block_id": "4e077a707a92a1a9f356783990f609f6",
+        "char_start": 0,
+        "char_end": 18,
+        "title": "Fictional Paper C - Architecture only",
+        "paper_id": "bd4e4dc1a59249caa84e2ca7048957bc",
+        "paper_version_id": "004ffb6921de49bab4997e8c6bd00134",
+        "parse_revision_id": "f1fe4d13f236f7993b7c40019f8b65cd",
+        "sha256": "3032f45f8a078a992fc3d67403643cf642e18f726387c71604bab4119e493d28",
+        "pdf_page_index": 1,
+        "pdf_page_number": 2,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          122.06477355957031,
+          137.9169921875,
+          137.17877197265625
+        ],
+        "file_url": "/api/paper-versions/004ffb6921de49bab4997e8c6bd00134/file#page=2",
+        "subquestion_id": "sq_f1"
+      }
+    ],
+    "seen_chunks": [
+      "0725011fed024116833a0fd6a1239492",
+      "153b901faa6b466e8b37622a423b8715",
+      "4382778321e9474d841d0d95b93fa1d4",
+      "5cd3c0af4e7046fcba148d6aeb9a5b29",
+      "6acd301a84884b138e69709fdc5d588d",
+      "7353843f5ad64fec98eeaa04eff49fd9",
+      "838431e7ed3141e3b0c5379c42004aa5",
+      "86f01df600954ba19459f2e51e085c24",
+      "aa918efa3edf4383b5840ea0705ac0c4",
+      "b6a2910b0c054d25b5161719dca0148a",
+      "bcb92570c9cf411fb669b6f2931ebc0d",
+      "d2decf91e6574995855559b6cc496953",
+      "ddbe5ac63d3144798a14cac39c51be8b"
+    ],
+    "executed_queries": [
+      "fictional paper a final pdf page results table method m baseline f1 inference latency gpu memory dataset x",
+      "fictional paper b gpu memory usage method m baseline dataset y same evaluation setting",
+      "fictional paper c final pdf page experimental results method m baseline f1 inference latency gpu memory",
+      "method m baseline f1 dataset x fictional paper a",
+      "method m baseline f1 fictional paper b",
+      "method m baseline f1 fictional paper c",
+      "method m baseline gpu memory fictional paper a dataset x",
+      "method m baseline gpu memory fictional paper b inference latency",
+      "method m baseline gpu memory fictional paper c architecture",
+      "method m baseline inference latency fictional paper a dataset x",
+      "method m baseline inference latency fictional paper b",
+      "method m baseline inference latency fictional paper c"
+    ],
+    "pending_queries": [
+      [
+        "gap",
+        "Fictional Paper A experimental results section metric values for Method M and baseline on dataset X"
+      ],
+      [
+        "gap",
+        "Fictional Paper B memory footprint in MB or GB for Method M and baseline with identical batch size"
+      ],
+      [
+        "gap",
+        "Fictional Paper C Method M baseline F1 inference latency GPU memory values in architecture-only document"
+      ]
+    ],
+    "draft": {
+      "claims": [
+        {
+          "id": "c1",
+          "text": "Fictional Paper B 在 dataset Y 上报告：方法 M 与基线均取得 F1 分数 75，因此该设置下未显示 M 的 F1 优势。",
+          "conditions": [
+            "Fictional Paper B",
+            "dataset Y",
+            "F1"
+          ],
+          "evidence": [
+            {
+              "evidence_id": "17166ff185d1430e8893b40c7a01bfde",
+              "relation": "supports"
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "Fictional Paper B 在同一评估设置下报告方法 M 的平均推理延迟为 120 ms。",
+          "conditions": [
+            "Fictional Paper B",
+            "同一评估设置",
+            "平均推理延迟"
+          ],
+          "evidence": [
+            {
+              "evidence_id": "fd3c81a8e63449caaf8bcb5dc2faf4e1",
+              "relation": "supports"
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "text": "Fictional Paper B 在同一评估设置下报告基线平均推理延迟为 100 ms；与 M 的 120 ms 相比，M 的延迟高 20 ms（120 − 100 = 20），因此该设置下未显示 M 的推理延迟优势。",
+          "conditions": [
+            "Fictional Paper B",
+            "同一评估设置",
+            "平均推理延迟"
+          ],
+          "evidence": [
+            {
+              "evidence_id": "88fc9e01f06242b08ab3fb2e0581439d",
+              "relation": "supports"
+            },
+            {
+              "evidence_id": "fd3c81a8e63449caaf8bcb5dc2faf4e1",
+              "relation": "supports"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "text": "Fictional Paper B 明确说明其数据集和评估设置与 Fictional Paper A 不同，因此不能把 Paper B 的结果直接作为 Paper A 设置下的比较结论。",
+          "conditions": [
+            "Fictional Paper B",
+            "Fictional Paper A",
+            "跨论文比较"
+          ],
+          "evidence": [
+            {
+              "evidence_id": "99a61048334f442f96b3ec1b22dbda68",
+              "relation": "supports"
+            }
+          ]
+        }
+      ],
+      "gaps": [
+        "Fictional Paper A 的可用来源仅显示标题“Accuracy on dataset X”和虚构演示说明；当前材料及本次检索未找到支持证据给出方法 M 与基线在 dataset X 上的 F1、推理延迟或 GPU 显存数值。",
+        "Fictional Paper B 的可用来源给出 dataset Y 上的 F1 和同一评估设置下的平均推理延迟；当前材料及本次检索未找到支持证据给出方法 M 与基线的 GPU 显存数值。",
+        "Fictional Paper C 的可用来源仅显示“Architecture only”等虚构演示文本；当前材料及本次检索未找到支持证据给出方法 M 与基线的 F1、推理延迟或 GPU 显存数值。",
+        "三篇材料的可用来源中，当前材料及本次检索未找到支持证据给出任何方法 M 与基线的 GPU 显存测量或比较数值。",
+        "由于 Paper B 的数据集和评估设置与 Paper A 不同，且 Paper A、Paper C 缺少可比较指标数值、所有材料缺少 GPU 显存数值，当前材料及本次检索未找到支持证据表明方法 M 在 F1、推理延迟和 GPU 显存上全面优于基线。"
+      ],
+      "has_conflict": false
+    },
+    "approved_claims": [
+      {
+        "id": "c1",
+        "text": "Fictional Paper B 在 dataset Y 上报告：方法 M 与基线均取得 F1 分数 75，因此该设置下未显示 M 的 F1 优势。",
+        "conditions": [
+          "Fictional Paper B",
+          "dataset Y",
+          "F1"
+        ],
+        "evidence": [
+          {
+            "evidence_id": "17166ff185d1430e8893b40c7a01bfde",
+            "relation": "supports"
+          }
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Fictional Paper B 在同一评估设置下报告方法 M 的平均推理延迟为 120 ms。",
+        "conditions": [
+          "Fictional Paper B",
+          "同一评估设置",
+          "平均推理延迟"
+        ],
+        "evidence": [
+          {
+            "evidence_id": "fd3c81a8e63449caaf8bcb5dc2faf4e1",
+            "relation": "supports"
+          }
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Fictional Paper B 在同一评估设置下报告基线平均推理延迟为 100 ms；与 M 的 120 ms 相比，M 的延迟高 20 ms（120 − 100 = 20），因此该设置下未显示 M 的推理延迟优势。",
+        "conditions": [
+          "Fictional Paper B",
+          "同一评估设置",
+          "平均推理延迟"
+        ],
+        "evidence": [
+          {
+            "evidence_id": "88fc9e01f06242b08ab3fb2e0581439d",
+            "relation": "supports"
+          },
+          {
+            "evidence_id": "fd3c81a8e63449caaf8bcb5dc2faf4e1",
+            "relation": "supports"
+          }
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Fictional Paper B 明确说明其数据集和评估设置与 Fictional Paper A 不同，因此不能把 Paper B 的结果直接作为 Paper A 设置下的比较结论。",
+        "conditions": [
+          "Fictional Paper B",
+          "Fictional Paper A",
+          "跨论文比较"
+        ],
+        "evidence": [
+          {
+            "evidence_id": "99a61048334f442f96b3ec1b22dbda68",
+            "relation": "supports"
+          }
+        ]
+      }
+    ],
+    "issues": [
+      {
+        "claim_id": null,
+        "type": "missing_evidence",
+        "message": "Fictional Paper A 的可用来源仅包含标题“Accuracy on dataset X”、页码/演示说明和“实验细节在最后一页”等文本，未给出方法 M 与基线在 dataset X 上的 F1、推理延迟或 GPU 显存数值；因此无法验证该论文条件下三项指标的比较。"
+      },
+      {
+        "claim_id": null,
+        "type": "missing_evidence",
+        "message": "Fictional Paper C 的可用来源仅包含“Architecture only”、页码/演示说明等文本，未给出方法 M 与基线的 F1、推理延迟或 GPU 显存数值；因此无法验证该论文条件下三项指标的比较。"
+      },
+      {
+        "claim_id": null,
+        "type": "missing_evidence",
+        "message": "Fictional Paper B 的可用来源只给出 dataset Y 上方法 M 与基线的 F1 均为 75，以及同一评估设置下平均推理延迟 M 为 120 ms、基线为 100 ms；未给出 GPU 显存测量或比较数值，因此无法验证显存维度。"
+      }
+    ],
+    "approved_ids": [
+      "c1",
+      "c2",
+      "c3",
+      "c4"
+    ],
+    "round": 2,
+    "revisions": 0,
+    "calls": 5,
+    "embedding_calls": 12,
+    "input_tokens": 37397,
+    "output_tokens": 18873,
+    "elapsed_seconds": 228.641,
+    "no_improvement": true,
+    "stop_reason": "no_new_evidence",
+    "next_node": "publish"
+  },
+  "created_at": "2026-10-26T15:46:48.856515",
+  "answer": {
+    "id": "112e61c863784d18b34aa432ed9c71f6",
+    "run_id": "7ff678036a5b42049ab4ccdeb91daf7f",
+    "revision": 1,
+    "evidence_status": "partial",
+    "claims": [
+      {
+        "id": "f7af46ba782d48a59a8b56cb68f119f0",
+        "text": "Fictional Paper B 在 dataset Y 上报告：方法 M 与基线均取得 F1 分数 75，因此该设置下未显示 M 的 F1 优势。",
+        "conditions": [
+          "Fictional Paper B",
+          "dataset Y",
+          "F1"
+        ],
+        "semantic_verified": true,
+        "evidence": [
+          {
+            "evidence_id": "17166ff185d1430e8893b40c7a01bfde",
+            "relation": "supports"
+          }
+        ]
+      },
+      {
+        "id": "d692a4ce81194b75a8367ef711a94d3e",
+        "text": "Fictional Paper B 在同一评估设置下报告方法 M 的平均推理延迟为 120 ms。",
+        "conditions": [
+          "Fictional Paper B",
+          "同一评估设置",
+          "平均推理延迟"
+        ],
+        "semantic_verified": true,
+        "evidence": [
+          {
+            "evidence_id": "fd3c81a8e63449caaf8bcb5dc2faf4e1",
+            "relation": "supports"
+          }
+        ]
+      },
+      {
+        "id": "c3d69f085993439e874fab27a4dded05",
+        "text": "Fictional Paper B 在同一评估设置下报告基线平均推理延迟为 100 ms；与 M 的 120 ms 相比，M 的延迟高 20 ms（120 − 100 = 20），因此该设置下未显示 M 的推理延迟优势。",
+        "conditions": [
+          "Fictional Paper B",
+          "同一评估设置",
+          "平均推理延迟"
+        ],
+        "semantic_verified": true,
+        "evidence": [
+          {
+            "evidence_id": "fd3c81a8e63449caaf8bcb5dc2faf4e1",
+            "relation": "supports"
+          },
+          {
+            "evidence_id": "88fc9e01f06242b08ab3fb2e0581439d",
+            "relation": "supports"
+          }
+        ]
+      },
+      {
+        "id": "196ff0b6f5f9454c90d06e3ccd65b141",
+        "text": "Fictional Paper B 明确说明其数据集和评估设置与 Fictional Paper A 不同，因此不能把 Paper B 的结果直接作为 Paper A 设置下的比较结论。",
+        "conditions": [
+          "Fictional Paper B",
+          "Fictional Paper A",
+          "跨论文比较"
+        ],
+        "semantic_verified": true,
+        "evidence": [
+          {
+            "evidence_id": "99a61048334f442f96b3ec1b22dbda68",
+            "relation": "supports"
+          }
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "id": "17166ff185d1430e8893b40c7a01bfde",
+        "quote": "On dataset Y, method M and the baseline both achieved an F1 score of 75.\n",
+        "block_id": "eca57d65238c55ccc544eb98564c2678",
+        "char_start": 0,
+        "char_end": 73,
+        "title": "Fictional Paper B - Accuracy and inference latency",
+        "paper_id": "447ada15461f4835901a2446e7519b7f",
+        "paper_version_id": "7fc762cc13f04e1aa50052e6718f63fc",
+        "parse_revision_id": "b3e193a0342da73eb25a73cc1c9f3d25",
+        "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+        "pdf_page_index": 5,
+        "pdf_page_number": 6,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          186.0647735595703,
+          422.26702880859375,
+          201.17877197265625
+        ],
+        "file_url": "/api/paper-versions/7fc762cc13f04e1aa50052e6718f63fc/file#page=6"
+      },
+      {
+        "id": "fd3c81a8e63449caaf8bcb5dc2faf4e1",
+        "quote": "Under this evaluation setting, average inference latency was 120 ms for M.\n",
+        "block_id": "7a03789247eef5d1c55e29e9cfbad53e",
+        "char_start": 0,
+        "char_end": 75,
+        "title": "Fictional Paper B - Accuracy and inference latency",
+        "paper_id": "447ada15461f4835901a2446e7519b7f",
+        "paper_version_id": "7fc762cc13f04e1aa50052e6718f63fc",
+        "parse_revision_id": "b3e193a0342da73eb25a73cc1c9f3d25",
+        "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+        "pdf_page_index": 5,
+        "pdf_page_number": 6,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          214.0647735595703,
+          419.7699890136719,
+          229.17877197265625
+        ],
+        "file_url": "/api/paper-versions/7fc762cc13f04e1aa50052e6718f63fc/file#page=6"
+      },
+      {
+        "id": "88fc9e01f06242b08ab3fb2e0581439d",
+        "quote": "The baseline average inference latency was 100 ms in the same setting.\n",
+        "block_id": "f70bba47d0ffdaf69bc548e44df139a1",
+        "char_start": 0,
+        "char_end": 71,
+        "title": "Fictional Paper B - Accuracy and inference latency",
+        "paper_id": "447ada15461f4835901a2446e7519b7f",
+        "paper_version_id": "7fc762cc13f04e1aa50052e6718f63fc",
+        "parse_revision_id": "b3e193a0342da73eb25a73cc1c9f3d25",
+        "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+        "pdf_page_index": 5,
+        "pdf_page_number": 6,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          242.0647735595703,
+          408.1650085449219,
+          257.17877197265625
+        ],
+        "file_url": "/api/paper-versions/7fc762cc13f04e1aa50052e6718f63fc/file#page=6"
+      },
+      {
+        "id": "99a61048334f442f96b3ec1b22dbda68",
+        "quote": "The dataset and evaluation setting differ from Fictional Paper A.\n",
+        "block_id": "5e346b38f65f1ca23fb1b56968dec06f",
+        "char_start": 0,
+        "char_end": 66,
+        "title": "Fictional Paper B - Accuracy and inference latency",
+        "paper_id": "447ada15461f4835901a2446e7519b7f",
+        "paper_version_id": "7fc762cc13f04e1aa50052e6718f63fc",
+        "parse_revision_id": "b3e193a0342da73eb25a73cc1c9f3d25",
+        "sha256": "a434b5e36e038a64e567735fdf4ecbb4fed4c716ade10cbcbe77ca1af7bf4d73",
+        "pdf_page_index": 5,
+        "pdf_page_number": 6,
+        "printed_page_label": null,
+        "bbox": [
+          56.0,
+          270.06475830078125,
+          366.595947265625,
+          285.17877197265625
+        ],
+        "file_url": "/api/paper-versions/7fc762cc13f04e1aa50052e6718f63fc/file#page=6"
+      }
+    ],
+    "gaps": [
+      "Fictional Paper A 的可用来源仅显示标题“Accuracy on dataset X”和虚构演示说明；当前材料及本次检索未找到支持证据给出方法 M 与基线在 dataset X 上的 F1、推理延迟或 GPU 显存数值。",
+      "Fictional Paper B 的可用来源给出 dataset Y 上的 F1 和同一评估设置下的平均推理延迟；当前材料及本次检索未找到支持证据给出方法 M 与基线的 GPU 显存数值。",
+      "Fictional Paper C 的可用来源仅显示“Architecture only”等虚构演示文本；当前材料及本次检索未找到支持证据给出方法 M 与基线的 F1、推理延迟或 GPU 显存数值。",
+      "三篇材料的可用来源中，当前材料及本次检索未找到支持证据给出任何方法 M 与基线的 GPU 显存测量或比较数值。",
+      "由于 Paper B 的数据集和评估设置与 Paper A 不同，且 Paper A、Paper C 缺少可比较指标数值、所有材料缺少 GPU 显存数值，当前材料及本次检索未找到支持证据表明方法 M 在 F1、推理延迟和 GPU 显存上全面优于基线。"
+    ],
+    "issues": [
+      {
+        "claim_id": null,
+        "type": "missing_evidence",
+        "message": "Fictional Paper A 的可用来源仅包含标题“Accuracy on dataset X”、页码/演示说明和“实验细节在最后一页”等文本，未给出方法 M 与基线在 dataset X 上的 F1、推理延迟或 GPU 显存数值；因此无法验证该论文条件下三项指标的比较。"
+      },
+      {
+        "claim_id": null,
+        "type": "missing_evidence",
+        "message": "Fictional Paper C 的可用来源仅包含“Architecture only”、页码/演示说明等文本，未给出方法 M 与基线的 F1、推理延迟或 GPU 显存数值；因此无法验证该论文条件下三项指标的比较。"
+      },
+      {
+        "claim_id": null,
+        "type": "missing_evidence",
+        "message": "Fictional Paper B 的可用来源只给出 dataset Y 上方法 M 与基线的 F1 均为 75，以及同一评估设置下平均推理延迟 M 为 120 ms、基线为 100 ms；未给出 GPU 显存测量或比较数值，因此无法验证显存维度。"
+      }
+    ],
+    "stop_reason": "no_new_evidence",
+    "clarification": null,
+    "usage": {
+      "model_calls": 5,
+      "embedding_calls": 12,
+      "retrieval_rounds": 2,
+      "revision_rounds": 0,
+      "input_tokens": 37397,
+      "output_tokens": 18873,
+      "elapsed_seconds": 228.641,
+      "attempt": 1
+    }
+  },
+  "validation_scope": {
+    "fictional_materials": true,
+    "live_chat_and_embedding": true,
+    "database_backend": "temporary SQLite",
+    "postgresql_pgvector_verified": false,
+    "formal_evaluation": false
+  }
+}

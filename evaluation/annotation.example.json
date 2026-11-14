@@ -1,0 +1,18 @@
+{
+  "question_id": "replace-with-real-id",
+  "question": "替换为人工确认的问题",
+  "snapshot_id": "replace-with-real-snapshot",
+  "category": ["single_paper_fact"],
+  "human_reviewed": false,
+  "expected_action": "supported",
+  "relevant_chunk_ids": ["replace-with-human-labeled-chunk-id"],
+  "required_claims": [
+    {
+      "key": "replace-with-scoring-point",
+      "meaning": "应覆盖的论点及其适用条件",
+      "evidence": [{"paper_version_id": "replace", "pdf_page_number": 1, "quote": "逐字原文"}]
+    }
+  ],
+  "forbidden_conclusions": [],
+  "absence_review_scope": null
+}

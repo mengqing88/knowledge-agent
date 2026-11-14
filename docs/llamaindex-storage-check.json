@@ -1,0 +1,29 @@
+{
+  "timestamp": "2026-11-12T11:45:50.730935+00:00",
+  "models": "synthetic_4096d",
+  "frameworks": {
+    "llama-index-core": "0.14.25",
+    "langgraph": "1.2.17",
+    "pymilvus": "2.4.15"
+  },
+  "scope": "real PostgreSQL/Milvus + LangGraph/LlamaIndex with synthetic models; no quality or Celery acceptance",
+  "legacy_schema_migration": "passed",
+  "backfill": {
+    "migrated_indexes": 1,
+    "migrated_chunks": 2,
+    "indexes": [
+      {
+        "index_revision_id": "legacy",
+        "collection": "smoke_121f7ce02dd3_legacy",
+        "chunks": 2
+      }
+    ]
+  },
+  "backfill_retry_and_cosine_order": "passed",
+  "production_ingest_fts_and_snapshot_filter": "passed",
+  "failed_replacement_keeps_active_version": "passed",
+  "langgraph_llamaindex_workflow_and_postgres_checkpoint": "passed",
+  "workflow_embedding_calls": 1,
+  "restart_persistence": "not_requested",
+  "status": "passed"
+}

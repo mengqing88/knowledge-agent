@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "paper-qa-agent"
+version = "0.1.0"
+description = "Versioned paper QA with scoped hybrid retrieval and verifiable evidence"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.30,<1",
+  "python-multipart>=0.0.20,<1",
+  "sqlalchemy>=2.0.36,<2.1",
+  "psycopg[binary]>=3.2,<4",
+  "pymilvus>=2.4.15,<2.5",
+  # pymilvus 2.4 imports pkg_resources, removed in setuptools 81.
+  "setuptools>=70,<81",
+  "alembic>=1.14,<2",
+  "pymupdf>=1.25,<2",
+  "pydantic-settings>=2.7,<3",
+  "python-dotenv>=1.0,<2",
+  "httpx>=0.28,<1",
+  "langgraph>=1.0,<2",
+  "langgraph-checkpoint-postgres>=3,<4",
+  "llama-index-core>=0.14.25,<0.15",
+  "tiktoken>=0.14,<1",
+  "celery[redis]>=5.4,<6",
+  "redis>=5,<9",
+  "python-docx>=1.1,<2",
+  "openpyxl>=3.1,<4",
+  "mcp>=1.30,<2",
+  "jsonschema>=4.23,<5",
+]
+
+[dependency-groups]
+dev = ["pytest>=8.3,<10", "ruff>=0.9,<1", "reportlab>=4.2,<5"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["backend/app"]
+
+[tool.pytest.ini_options]
+pythonpath = ["backend"]
+testpaths = ["backend/tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

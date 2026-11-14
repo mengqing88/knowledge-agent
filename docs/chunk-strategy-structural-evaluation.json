@@ -1,0 +1,206 @@
+{
+  "timestamp": "2026-11-12T12:58:35.512566+00:00",
+  "scope": "fictional long-document control set; structural and exact gold-span checks only",
+  "fixture": {
+    "documents": 6,
+    "questions": 15,
+    "source_chars": 24200,
+    "sha256": {
+      "access": "c7776bb7ca8c436c1280646364fca4ea1d45313b77239226ea579ce6f209472f",
+      "billing": "8c9e69026d1d026f83f75ee2cc901d3b31f258f0e5655c4592942c96e2181806",
+      "operations": "10e130bf63ff269bb652c5eaf567ce3273336d7167604bad5ea72de53042e9ff",
+      "release": "8144b762c357ac4f9b298c7cef5b46a8543e7f20f52b77969f21d42676ac2559",
+      "roles.csv": "6db11a47fceb462b7bee8f1fa521ac8e762102d9b22cbf3cef442cfd1f511130",
+      "service.json": "9223ffebb822a5868d811025fcc2703fb96582a17e3ec8522ccbda617fff624a"
+    },
+    "human_reviewed": false
+  },
+  "parameters": {
+    "tokenizer": "cl100k_base",
+    "chunk_size_tokens": 512,
+    "chunk_overlap_tokens": 64
+  },
+  "strategies": {
+    "legacy": {
+      "chunks": 18,
+      "tokens": {
+        "p50": 1902,
+        "p95": 2007,
+        "max": 2007
+      },
+      "characters": {
+        "p50": 1979,
+        "p95": 2079,
+        "max": 2079
+      },
+      "exact_duplicate_chunks": 0,
+      "nonspace_source_coverage": 1.0,
+      "overlap_source_chars": 0,
+      "requested_source_chars": 24200,
+      "gold_containment": {
+        "all": {
+          "evidence_spans_found": 16,
+          "evidence_spans_total": 16,
+          "gold_quote_containment": 1.0,
+          "complete_questions": 15,
+          "questions_total": 15,
+          "complete_question_containment": 1.0
+        },
+        "development": {
+          "evidence_spans_found": 9,
+          "evidence_spans_total": 9,
+          "gold_quote_containment": 1.0,
+          "complete_questions": 9,
+          "questions_total": 9,
+          "complete_question_containment": 1.0
+        },
+        "held_out": {
+          "evidence_spans_found": 7,
+          "evidence_spans_total": 7,
+          "gold_quote_containment": 1.0,
+          "complete_questions": 6,
+          "questions_total": 6,
+          "complete_question_containment": 1.0
+        }
+      }
+    },
+    "fixed": {
+      "chunks": 61,
+      "tokens": {
+        "p50": 512,
+        "p95": 512,
+        "max": 512
+      },
+      "characters": {
+        "p50": 534,
+        "p95": 551,
+        "max": 556
+      },
+      "exact_duplicate_chunks": 0,
+      "nonspace_source_coverage": 1.0,
+      "overlap_source_chars": 3391,
+      "requested_source_chars": 27591,
+      "gold_containment": {
+        "all": {
+          "evidence_spans_found": 16,
+          "evidence_spans_total": 16,
+          "gold_quote_containment": 1.0,
+          "complete_questions": 15,
+          "questions_total": 15,
+          "complete_question_containment": 1.0
+        },
+        "development": {
+          "evidence_spans_found": 9,
+          "evidence_spans_total": 9,
+          "gold_quote_containment": 1.0,
+          "complete_questions": 9,
+          "questions_total": 9,
+          "complete_question_containment": 1.0
+        },
+        "held_out": {
+          "evidence_spans_found": 7,
+          "evidence_spans_total": 7,
+          "gold_quote_containment": 1.0,
+          "complete_questions": 6,
+          "questions_total": 6,
+          "complete_question_containment": 1.0
+        }
+      }
+    },
+    "paragraph": {
+      "chunks": 70,
+      "tokens": {
+        "p50": 512,
+        "p95": 512,
+        "max": 512
+      },
+      "characters": {
+        "p50": 529,
+        "p95": 550,
+        "max": 555
+      },
+      "exact_duplicate_chunks": 0,
+      "nonspace_source_coverage": 1.0,
+      "overlap_source_chars": 3172,
+      "requested_source_chars": 27372,
+      "gold_containment": {
+        "all": {
+          "evidence_spans_found": 16,
+          "evidence_spans_total": 16,
+          "gold_quote_containment": 1.0,
+          "complete_questions": 15,
+          "questions_total": 15,
+          "complete_question_containment": 1.0
+        },
+        "development": {
+          "evidence_spans_found": 9,
+          "evidence_spans_total": 9,
+          "gold_quote_containment": 1.0,
+          "complete_questions": 9,
+          "questions_total": 9,
+          "complete_question_containment": 1.0
+        },
+        "held_out": {
+          "evidence_spans_found": 7,
+          "evidence_spans_total": 7,
+          "gold_quote_containment": 1.0,
+          "complete_questions": 6,
+          "questions_total": 6,
+          "complete_question_containment": 1.0
+        }
+      }
+    },
+    "structure": {
+      "chunks": 65,
+      "tokens": {
+        "p50": 484,
+        "p95": 502,
+        "max": 507
+      },
+      "characters": {
+        "p50": 503,
+        "p95": 541,
+        "max": 543
+      },
+      "exact_duplicate_chunks": 0,
+      "nonspace_source_coverage": 1.0,
+      "overlap_source_chars": 3632,
+      "requested_source_chars": 27832,
+      "gold_containment": {
+        "all": {
+          "evidence_spans_found": 16,
+          "evidence_spans_total": 16,
+          "gold_quote_containment": 1.0,
+          "complete_questions": 15,
+          "questions_total": 15,
+          "complete_question_containment": 1.0
+        },
+        "development": {
+          "evidence_spans_found": 9,
+          "evidence_spans_total": 9,
+          "gold_quote_containment": 1.0,
+          "complete_questions": 9,
+          "questions_total": 9,
+          "complete_question_containment": 1.0
+        },
+        "held_out": {
+          "evidence_spans_found": 7,
+          "evidence_spans_total": 7,
+          "gold_quote_containment": 1.0,
+          "complete_questions": 6,
+          "questions_total": 6,
+          "complete_question_containment": 1.0
+        }
+      }
+    }
+  },
+  "skipped": {
+    "semantic": "requires the configured Embedding service"
+  },
+  "retrieval": null,
+  "limitations": [
+    "No embedding service, PostgreSQL, Milvus, chat model, or reranker was used.",
+    "Gold-span containment does not measure semantic retrieval Recall@K or answer quality.",
+    "The fictional control set is not human-reviewed and is not a deployment recommendation."
+  ]
+}

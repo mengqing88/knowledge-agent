@@ -1,0 +1,51 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:56379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 2s
+      retries: 15
+    restart: unless-stopped
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: paperqa
+      POSTGRES_PASSWORD: paperqa
+      POSTGRES_DB: paperqa
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - paperqa_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U paperqa -d paperqa"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  milvus:
+    image: milvusdb/milvus:v2.4.15
+    command: ["milvus", "run", "standalone"]
+    environment:
+      ETCD_USE_EMBED: "true"
+      ETCD_DATA_DIR: /var/lib/milvus/etcd
+      ETCD_CONFIG_PATH: /milvus/configs/embedEtcd.yaml
+      COMMON_STORAGETYPE: local
+    ports:
+      - "127.0.0.1:19530:19530"
+      - "127.0.0.1:19091:9091"
+    volumes:
+      - paperqa_milvus:/var/lib/milvus
+      - ./deploy/milvus/embedEtcd.yaml:/milvus/configs/embedEtcd.yaml:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+    restart: unless-stopped
+volumes:
+  paperqa_pg:
+  paperqa_milvus:
