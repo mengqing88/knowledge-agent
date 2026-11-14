@@ -2,6 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Header, Request, Response
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from .access import require_role
@@ -10,7 +11,7 @@ from .config import get_settings
 from .db import get_db
 from .errors import DomainError
 from .models import AnswerApprovalRecord, Corpus, LoginSession, Membership, Paper, QuestionRun, Snapshot, User
-from .schemas import CorpusCreate, DocumentUpdate, Login, MemberCreate, RoleUpdate, RunCreate
+from .schemas import CorpusCreate, DocumentUpdate, Login, MemberCreate, Register, RoleUpdate, RunCreate
 from .services import TERMINAL, create_run, emit, owned, run_data
 
 router = APIRouter()
@@ -29,6 +30,24 @@ def login(body: Login, response: Response, db: DB):
     hours = get_settings().session_hours
     token = create_session(db, user, hours)
     response.set_cookie("kb_session", token, httponly=True, samesite="strict", max_age=hours * 3600)
+    return user_data(user)
+
+
+@router.post("/api/auth/register", status_code=201)
+def register(body: Register, response: Response, db: DB):
+    if db.scalar(select(User).where(User.username == body.username)):
+        raise DomainError("该账号已存在，请直接登录", 409)
+    user = User(username=body.username, password_hash=hash_password(body.password))
+    db.add(user)
+    try:
+        db.flush()
+    except IntegrityError:
+        db.rollback()
+        raise DomainError("该账号已存在，请直接登录", 409) from None
+    hours = get_settings().session_hours
+    token = create_session(db, user, hours)
+    response.set_cookie("kb_session", token, httponly=True, samesite="strict",
+                        max_age=hours * 3600)
     return user_data(user)
 
 

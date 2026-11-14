@@ -10,6 +10,7 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
 const json = (method: string, body?: unknown): RequestInit => ({method, headers: {'Content-Type': 'application/json'}, ...(body === undefined ? {} : {body: JSON.stringify(body)})})
 export const api = {
   login: (username: string, password: string) => request<User>('/api/auth/login', json('POST', {username, password})),
+  register: (username: string, password: string) => request<User>('/api/auth/register', json('POST', {username, password})),
   me: () => request<User>('/api/auth/me'),
   logout: () => request('/api/auth/logout', json('POST')),
   health: () => request<Health>('/api/health'),

@@ -16,6 +16,10 @@ class Login(StrictModel):
     password: str = Field(min_length=8, max_length=128)
 
 
+class Register(Login):
+    pass
+
+
 class MemberCreate(StrictModel):
     username: str = Field(min_length=1, max_length=80, pattern=r"^[A-Za-z0-9_.-]+$")
     password: str | None = Field(None, min_length=8, max_length=128)

@@ -128,6 +128,43 @@ def test_password_session_expiry_and_logout(client, sessions):
     assert client.get("/api/corpora").status_code == 401
 
 
+def test_registration_creates_session_and_rejects_duplicate(client, sessions):
+    client.post("/api/auth/logout")
+    response = client.post("/api/auth/register", json={"username": "new-user", "password": "new-password"})
+    assert response.status_code == 201
+    assert response.json()["username"] == "new-user"
+    assert set(response.json()) == {"id", "username"}
+    cookie = response.headers["set-cookie"].lower()
+    assert "httponly" in cookie and "samesite=strict" in cookie
+    assert client.get("/api/auth/me").json()["username"] == "new-user"
+    assert client.get("/api/corpora").json() == []
+    assert client.get("/api/corpora/corpus1/papers").status_code == 404
+    created = client.post("/api/corpora", json={"name": "My library"})
+    assert created.status_code == 201 and created.json()["role"] == "admin"
+    duplicate = client.post("/api/auth/register", json={"username": "new-user", "password": "another-password"})
+    assert duplicate.status_code == 409
+    assert duplicate.json()["detail"] == "该账号已存在，请直接登录"
+    with sessions() as db:
+        user = db.scalar(select(User).where(User.username == "new-user"))
+        assert user.password_hash != "new-password"
+        assert verify_password("new-password", user.password_hash)
+        assert not verify_password("another-password", user.password_hash)
+    client.post("/api/auth/logout")
+    assert client.get("/api/auth/me").status_code == 401
+    assert client.post("/api/auth/login", json={"username": "new-user", "password": "new-password"}).status_code == 200
+
+
+def test_registration_rejects_invalid_input_without_creating_an_account(client, sessions):
+    client.post("/api/auth/logout")
+    for changes in ({"username": ""}, {"username": "bad name"}, {"username": "a" * 81},
+                    {"password": "short"}, {"password": "a" * 129}, {"role": "admin"}):
+        body = {"username": "new-user", "password": "new-password", **changes}
+        assert client.post("/api/auth/register", json=body).status_code == 422
+    assert client.get("/api/auth/me").status_code == 401
+    with sessions() as db:
+        assert list(db.scalars(select(User.username))) == ["admin"]
+
+
 def test_reader_can_query_but_cannot_write_or_manage_and_revocation_applies(client, sessions, settings):
     r = client.post("/api/corpora/corpus1/members", json={
         "username": "reader", "password": "test-password", "role": "reader"})

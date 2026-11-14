@@ -12,6 +12,7 @@ import type { Corpus, PaperVersion, Run, RunEvent, Snapshot, Evidence, User, Mem
 
 const user = ref<User | null>(null), booting = ref(true), busy = ref(false), loading = ref(false)
 const error = ref(''), notice = ref(''), username = ref('admin'), password = ref('')
+const authMode = ref<'login' | 'register'>('login'), passwordConfirmation = ref('')
 const health = ref<Health | null>(null), corpora = ref<Corpus[]>([]), selectedCorpusId = ref('')
 const papers = ref<PaperVersion[]>([]), selectedIds = ref<string[]>([]), history = ref<HistoryItem[]>([])
 const snapshot = ref<Snapshot | null>(null), run = ref<Run | null>(null), events = ref<RunEvent[]>([])
@@ -67,7 +68,13 @@ async function chooseCorpus() {
   } catch (e) {if (g === context) showError(e)} finally {if (g === context) loading.value = false}
 }
 async function login() {await action(async () => {user.value = await api.login(username.value, password.value); password.value = ''; await loadCorpora(); health.value = await api.health()})}
-async function logout() {await action(async () => {await api.logout(); disconnect(); context++; user.value = null; selectedCorpusId.value = ''; corpora.value = []; run.value = null})}
+async function register() {
+  if (password.value !== passwordConfirmation.value) {error.value = '两次输入的密码不一致'; return}
+  await action(async () => {user.value = await api.register(username.value, password.value); password.value = ''; passwordConfirmation.value = ''; await loadCorpora(); health.value = await api.health()})
+}
+async function submitAuth() {if (authMode.value === 'register') await register(); else await login()}
+function switchAuthMode(mode: 'login' | 'register') {authMode.value = mode; error.value = ''; password.value = ''; passwordConfirmation.value = ''; if (mode === 'register' && username.value === 'admin') username.value = ''}
+async function logout() {await action(async () => {await api.logout(); disconnect(); context++; user.value = null; selectedCorpusId.value = ''; corpora.value = []; run.value = null; switchAuthMode('login')})}
 async function createCorpus() {await action(async () => {const created = await api.createCorpus(corpusName.value.trim()); await loadCorpora(); selectedCorpusId.value = created.id; corpusName.value = ''; modal.value = null})}
 function editModal(paper: PaperVersion, kind: 'edit' | 'upload') {targetDocument.value = paper; documentTitle.value = paper.title; documentFolder.value = paper.folder; documentTags.value = paper.tags.join(', '); uploadFile.value = null; modal.value = kind}
 function uploadModal() {targetDocument.value = null; documentTitle.value = ''; documentFolder.value = ''; documentTags.value = ''; uploadFile.value = null; modal.value = 'upload'}
@@ -200,14 +207,17 @@ onUnmounted(() => {disconnect(); context++; window.clearInterval(documentTimer);
 <template>
   <div v-if="booting" class="login-shell"><LoaderCircle class="spin" :size="24" /><p>正在连接知识库…</p></div>
   <div v-else-if="!user" class="login-shell">
-    <form class="login-card" @submit.prevent="login">
+    <form class="login-card" @submit.prevent="submitAuth">
       <span class="brand-mark"><BookOpen :size="20" /></span><span class="eyebrow">Team Knowledge</span>
-      <h1>团队知识库</h1><p>把分散的文档，变成可核对的答案。</p>
-      <label>账号<input v-model="username" autocomplete="username" required maxlength="80" /></label>
-      <label>密码<input v-model="password" type="password" autocomplete="current-password" required minlength="8" /></label>
+      <h1>{{ authMode === 'register' ? '创建账号' : '团队知识库' }}</h1><p>{{ authMode === 'register' ? '注册后即可创建自己的知识库。' : '把分散的文档，变成可核对的答案。' }}</p>
+      <label>账号<input v-model="username" autocomplete="username" required maxlength="80" pattern="[A-Za-z0-9_.\-]+" placeholder="字母、数字、下划线、点或连字符" /></label>
+      <label>密码<input v-model="password" type="password" :autocomplete="authMode === 'register' ? 'new-password' : 'current-password'" required minlength="8" maxlength="128" /></label>
+      <label v-if="authMode === 'register'">确认密码<input v-model="passwordConfirmation" type="password" autocomplete="new-password" required minlength="8" maxlength="128" /></label>
       <p v-if="error" role="alert" class="form-error">{{ error }}</p>
-      <button class="small-button" :disabled="busy"><LoaderCircle v-if="busy" class="spin" :size="16" />登录工作台</button>
-      <small>首次管理员登录信息见项目 data/admin-login.txt；团队成员使用管理员创建的账号。</small>
+      <button class="small-button" :disabled="busy"><LoaderCircle v-if="busy" class="spin" :size="16" />{{ authMode === 'register' ? '注册并进入工作台' : '登录工作台' }}</button>
+      <button type="button" class="auth-switch" :disabled="busy" @click="switchAuthMode(authMode === 'register' ? 'login' : 'register')">{{ authMode === 'register' ? '已有账号？返回登录' : '没有账号？注册新账号' }}</button>
+      <small v-if="authMode === 'login'">首次管理员登录信息见项目 data/admin-login.txt；团队成员使用管理员创建的账号。</small>
+      <small v-else>账号只能使用字母、数字、下划线、点和连字符；密码至少 8 位。</small>
     </form>
   </div>
   <div v-else class="app-shell">
