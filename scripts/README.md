@@ -8,6 +8,7 @@
 | 教学导入 | `demo/load_teaching_demo.py` | 已登录 API，入库会调用配置的 Embedding |
 | 两组官方资料评测 | `evaluation/run_public_evaluation.py`、`prepare_public_evaluation.py` | 前者收费模型及独立栈；后者下载官方资料 |
 | 已存候选 BGE 离线对照 | `evaluation/compare_saved_reranker.py` | 本地模型与独立推理环境；不发模型 API |
+| 已存候选上下文选择对照 | `evaluation/compare_context_selection.py` | 本地参考 Tokenizer；不调用模型或数据库 |
 | 分块、检索、质量和向量存储实验 | `benchmarks/` | 因入口而异，部分调用收费模型/真实数据库 |
 | 模型/存储/角色/配额冒烟 | `smoke/` | 真实服务；模型冒烟会产生费用 |
 | 隔离工程验收 | `acceptance/isolated_acceptance.py`、`browser_acceptance.py`、`acceptance_concurrency.py` | 独立临时存储/队列及模型替身；浏览器需额外运行依赖 |

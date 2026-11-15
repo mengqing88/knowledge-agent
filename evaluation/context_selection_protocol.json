@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "scope": "offline replay of saved context assembly; no new retrieval, reranking or answer generation",
+  "source_results": "evaluation/results/public-3yuan-v1",
+  "corpus": "evaluation/public_docs_v1",
+  "mode": "full_agent",
+  "methods": {
+    "selected_blocks": "Replay saved positive-score chunk order and relevant_block_ids, retaining only selected source ranges.",
+    "whole_chunks": "Use the same positive-score selected chunks and order, retaining every source range in each chunk.",
+    "neighbor_blocks": "Use the same selected chunks and block decisions; add at most one preceding and one following source range within each selected chunk, in source order."
+  },
+  "limits": {
+    "max_context_chars": "each saved execution_manifest.max_context_chars",
+    "max_sources": 32,
+    "max_sources_per_document": 16,
+    "budget_unit": "Python Unicode characters of quotes; matches saved production assembly",
+    "reference_tokenizer": "cl100k_base; quote-text tokens only, not provider usage or total prompt tokens"
+  },
+  "metrics": {
+    "primary": "macro recall of frozen gold quotations on questions with positive quotation labels",
+    "coverage_rule": "A gold quotation must be wholly contained in one retained source range from the correct document, with whitespace normalized on both strings. This is literal evidence availability, not semantic correctness.",
+    "secondary": [
+      "all gold quotations present per question",
+      "gold quotation group recall (all citations for a required key)",
+      "mean quote-only reference tokens",
+      "mean selected source count",
+      "nonempty context on questions with no positive gold labels (descriptive, not a correctness score)"
+    ],
+    "selection_timing": "one local replay per method; excludes historical model calls, retrieval and generation; no performance superiority claim"
+  },
+  "selection_rule": "For this fixed replay, compare primary coverage first, then lower quote-only reference-token count when coverage is equal. Any positive-label question with less coverage must be disclosed; do not silently replace the product strategy.",
+  "invalid_or_missing": "Keep every suite question in the report. Preserve failed answer statuses. Report cases without saved reranking as not_replayed; never substitute trace drafts for final answers.",
+  "constraints": [
+    "No model API calls, downloads, reindexing or paid requests.",
+    "Do not edit frozen inputs, scoring labels, .env, product defaults or resume.",
+    "Use identical saved candidates, ranking scores and budgets across methods.",
+    "No gold labels may be used to select or order context.",
+    "No parameter search, extra budget sweeps or selective reruns.",
+    "neighbor_blocks is bounded context expansion, not a complete small-to-parent retrieval experiment.",
+    "Small Agent-authored labels are not independent human evaluation or production answer accuracy."
+  ]
+}

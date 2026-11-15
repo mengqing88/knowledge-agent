@@ -1,0 +1,1913 @@
+{
+  "created_at": "2026-11-15T14:54:40.679914+00:00",
+  "scope": "offline replay of saved context assembly; no new retrieval, reranking or answer generation",
+  "new_model_requests": 0,
+  "new_paid_cost_cny": 0,
+  "protocol_sha256": "3ebe50892b38a9572eaefb127a331f58cef7126762dd22206c5a2565278335d4",
+  "script_sha256": "9a2eb91b502d46c8249761542de7a7e340aa62889ec4c3d8205e8a9a8efa14a5",
+  "suite_sha256": "17bc2038da1ee399501c0d9f5d4ab417bea20fdc0bbdbb3e853166b61a8f0847",
+  "corpus_manifest_sha256": "3d63a17bf94478bb63584f71f9660cbf7c035ac6765d385331a7482f5c450e48",
+  "source_manifest_sha256": "65b4f7644be5e4b8620a4897a24f233f1139392fd1d401d17fa71792f7d52e83",
+  "questions_in_suite": 12,
+  "not_replayed": [
+    "q12"
+  ],
+  "summary": {
+    "selected_blocks": {
+      "replayed_questions": 11,
+      "positive_label_questions": 9,
+      "macro_gold_quote_recall": 1.0,
+      "all_gold_quotes_present_questions": 9,
+      "gold_quotes": 12,
+      "covered_gold_quotes": 12,
+      "macro_gold_group_recall": 1.0,
+      "mean_positive_quote_reference_tokens": 267.8888888888889,
+      "mean_positive_source_count": 3.888888888888889,
+      "no_gold_label_questions": 2,
+      "no_gold_nonempty_contexts": 0
+    },
+    "whole_chunks": {
+      "replayed_questions": 11,
+      "positive_label_questions": 9,
+      "macro_gold_quote_recall": 1.0,
+      "all_gold_quotes_present_questions": 9,
+      "gold_quotes": 12,
+      "covered_gold_quotes": 12,
+      "macro_gold_group_recall": 1.0,
+      "mean_positive_quote_reference_tokens": 419.6666666666667,
+      "mean_positive_source_count": 8.0,
+      "no_gold_label_questions": 2,
+      "no_gold_nonempty_contexts": 0
+    },
+    "neighbor_blocks": {
+      "replayed_questions": 11,
+      "positive_label_questions": 9,
+      "macro_gold_quote_recall": 1.0,
+      "all_gold_quotes_present_questions": 9,
+      "gold_quotes": 12,
+      "covered_gold_quotes": 12,
+      "macro_gold_group_recall": 1.0,
+      "mean_positive_quote_reference_tokens": 310.22222222222223,
+      "mean_positive_source_count": 5.444444444444445,
+      "no_gold_label_questions": 2,
+      "no_gold_nonempty_contexts": 0
+    }
+  },
+  "per_question": [
+    {
+      "question_id": "q01",
+      "category": "fact",
+      "saved_answer_status": "completed",
+      "source_result_sha256": "3c00a17522e5fb1aa6da02923aa0bc483b7513c5927af999e28b489c4691cd9a",
+      "methods": {
+        "selected_blocks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "default",
+              "document": "pg-read-committed",
+              "quote": "Read Committed is the default isolation level in PostgreSQL.",
+              "covered": true
+            }
+          ],
+          "source_count": 1,
+          "quote_chars": 783,
+          "quote_reference_tokens": 143,
+          "local_selection_seconds": 8.300004992634058e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-read-committed",
+              "block_id": "41fcc83398465d98389eac4357e4f5d2",
+              "char_start": 0,
+              "char_end": 783
+            }
+          ]
+        },
+        "whole_chunks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "default",
+              "document": "pg-read-committed",
+              "quote": "Read Committed is the default isolation level in PostgreSQL.",
+              "covered": true
+            }
+          ],
+          "source_count": 1,
+          "quote_chars": 783,
+          "quote_reference_tokens": 143,
+          "local_selection_seconds": 6.399990525096655e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-read-committed",
+              "block_id": "41fcc83398465d98389eac4357e4f5d2",
+              "char_start": 0,
+              "char_end": 783
+            }
+          ]
+        },
+        "neighbor_blocks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "default",
+              "document": "pg-read-committed",
+              "quote": "Read Committed is the default isolation level in PostgreSQL.",
+              "covered": true
+            }
+          ],
+          "source_count": 1,
+          "quote_chars": 783,
+          "quote_reference_tokens": 143,
+          "local_selection_seconds": 6.099988240748644e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-read-committed",
+              "block_id": "41fcc83398465d98389eac4357e4f5d2",
+              "char_start": 0,
+              "char_end": 783
+            }
+          ]
+        }
+      },
+      "status": "replayed",
+      "max_context_chars": 8000,
+      "selected_chunk_count": 1,
+      "current_context_validation": "saved_gate_request_equal"
+    },
+    {
+      "question_id": "q02",
+      "category": "fact",
+      "saved_answer_status": "completed",
+      "source_result_sha256": "66e7c4915ec381d0720eb2e44b9c3537f6f8a5d9611c00a5045a4ec51c6b6d63",
+      "methods": {
+        "selected_blocks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "mapping",
+              "document": "pg-levels",
+              "quote": "PostgreSQL's Read Uncommitted mode behaves like Read Committed.",
+              "covered": true
+            }
+          ],
+          "source_count": 2,
+          "quote_chars": 1153,
+          "quote_reference_tokens": 208,
+          "local_selection_seconds": 7.399998139590025e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-levels",
+              "block_id": "443b9a10f7d2df7ea6a254aa139f0ba2",
+              "char_start": 0,
+              "char_end": 370
+            },
+            {
+              "document": "pg-read-committed",
+              "block_id": "41fcc83398465d98389eac4357e4f5d2",
+              "char_start": 0,
+              "char_end": 783
+            }
+          ]
+        },
+        "whole_chunks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "mapping",
+              "document": "pg-levels",
+              "quote": "PostgreSQL's Read Uncommitted mode behaves like Read Committed.",
+              "covered": true
+            }
+          ],
+          "source_count": 3,
+          "quote_chars": 1510,
+          "quote_reference_tokens": 266,
+          "local_selection_seconds": 6.89999433234334e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-levels",
+              "block_id": "443b9a10f7d2df7ea6a254aa139f0ba2",
+              "char_start": 0,
+              "char_end": 370
+            },
+            {
+              "document": "pg-levels",
+              "block_id": "09cfd1b26208d8e3b4115a2ce1480185",
+              "char_start": 0,
+              "char_end": 357
+            },
+            {
+              "document": "pg-read-committed",
+              "block_id": "41fcc83398465d98389eac4357e4f5d2",
+              "char_start": 0,
+              "char_end": 783
+            }
+          ]
+        },
+        "neighbor_blocks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "mapping",
+              "document": "pg-levels",
+              "quote": "PostgreSQL's Read Uncommitted mode behaves like Read Committed.",
+              "covered": true
+            }
+          ],
+          "source_count": 3,
+          "quote_chars": 1510,
+          "quote_reference_tokens": 266,
+          "local_selection_seconds": 7.399998139590025e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-levels",
+              "block_id": "443b9a10f7d2df7ea6a254aa139f0ba2",
+              "char_start": 0,
+              "char_end": 370
+            },
+            {
+              "document": "pg-levels",
+              "block_id": "09cfd1b26208d8e3b4115a2ce1480185",
+              "char_start": 0,
+              "char_end": 357
+            },
+            {
+              "document": "pg-read-committed",
+              "block_id": "41fcc83398465d98389eac4357e4f5d2",
+              "char_start": 0,
+              "char_end": 783
+            }
+          ]
+        }
+      },
+      "status": "replayed",
+      "max_context_chars": 8000,
+      "selected_chunk_count": 2,
+      "current_context_validation": "saved_gate_request_equal"
+    },
+    {
+      "question_id": "q03",
+      "category": "fact",
+      "saved_answer_status": "completed",
+      "source_result_sha256": "178dabc301736f95c979b782757fb476ab84ee6c72556e19420611f3a3f0e04b",
+      "methods": {
+        "selected_blocks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "retry_identity",
+              "document": "celery-retry",
+              "quote": "When you call ``retry`` it'll send a new message, using the same task-id, and it'll take care to make sure the message is delivered to the same queue as the originating task.",
+              "covered": true
+            }
+          ],
+          "source_count": 1,
+          "quote_chars": 176,
+          "quote_reference_tokens": 40,
+          "local_selection_seconds": 5.400041118264198e-06,
+          "selected_ranges": [
+            {
+              "document": "celery-retry",
+              "block_id": "84206e975b4deb40ab56e56b5291e67c",
+              "char_start": 0,
+              "char_end": 176
+            }
+          ]
+        },
+        "whole_chunks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "retry_identity",
+              "document": "celery-retry",
+              "quote": "When you call ``retry`` it'll send a new message, using the same task-id, and it'll take care to make sure the message is delivered to the same queue as the originating task.",
+              "covered": true
+            }
+          ],
+          "source_count": 10,
+          "quote_chars": 1290,
+          "quote_reference_tokens": 304,
+          "local_selection_seconds": 1.3699987903237343e-05,
+          "selected_ranges": [
+            {
+              "document": "celery-retry",
+              "block_id": "279a5feb4aca1cb3e1d28957379ba371",
+              "char_start": 0,
+              "char_end": 120
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "84206e975b4deb40ab56e56b5291e67c",
+              "char_start": 0,
+              "char_end": 176
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "0baf406167def0ad0d4c1779839e38e4",
+              "char_start": 0,
+              "char_end": 162
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "c88962712509e67c049cf9612ea803a4",
+              "char_start": 0,
+              "char_end": 36
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "5f67eedbc45a55797001a93641e2efd0",
+              "char_start": 0,
+              "char_end": 24
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "3b5d88073bed3fb7850dc0fc012f3da6",
+              "char_start": 0,
+              "char_end": 212
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "87cdda222876f20b555f416f57f406e5",
+              "char_start": 0,
+              "char_end": 11
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "b677cc3bc17798a151bd33a89f8a879d",
+              "char_start": 0,
+              "char_end": 343
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "5e1485adfe8c1a29299a9c47f7145043",
+              "char_start": 0,
+              "char_end": 110
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "43faf33a5cb596bf78e0599dcd268bf2",
+              "char_start": 0,
+              "char_end": 96
+            }
+          ]
+        },
+        "neighbor_blocks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "retry_identity",
+              "document": "celery-retry",
+              "quote": "When you call ``retry`` it'll send a new message, using the same task-id, and it'll take care to make sure the message is delivered to the same queue as the originating task.",
+              "covered": true
+            }
+          ],
+          "source_count": 3,
+          "quote_chars": 458,
+          "quote_reference_tokens": 109,
+          "local_selection_seconds": 6.599992047995329e-06,
+          "selected_ranges": [
+            {
+              "document": "celery-retry",
+              "block_id": "279a5feb4aca1cb3e1d28957379ba371",
+              "char_start": 0,
+              "char_end": 120
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "84206e975b4deb40ab56e56b5291e67c",
+              "char_start": 0,
+              "char_end": 176
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "0baf406167def0ad0d4c1779839e38e4",
+              "char_start": 0,
+              "char_end": 162
+            }
+          ]
+        }
+      },
+      "status": "replayed",
+      "max_context_chars": 8000,
+      "selected_chunk_count": 1,
+      "current_context_validation": "saved_gate_request_equal"
+    },
+    {
+      "question_id": "q04",
+      "category": "fact",
+      "saved_answer_status": "failed",
+      "source_result_sha256": "03a95ac35960554fee4d3dc888505ae802e630bae8b750dc2c36a22ed19d3e34",
+      "methods": {
+        "selected_blocks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "phantom",
+              "document": "pg-levels",
+              "quote": "PostgreSQL's Repeatable Read implementation does not allow phantom reads.",
+              "covered": true
+            }
+          ],
+          "source_count": 4,
+          "quote_chars": 1853,
+          "quote_reference_tokens": 321,
+          "local_selection_seconds": 5.800044164061546e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-levels",
+              "block_id": "443b9a10f7d2df7ea6a254aa139f0ba2",
+              "char_start": 0,
+              "char_end": 370
+            },
+            {
+              "document": "pg-levels",
+              "block_id": "09cfd1b26208d8e3b4115a2ce1480185",
+              "char_start": 0,
+              "char_end": 357
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "cffe6f729cf23feeb545f1edd52f4779",
+              "char_start": 0,
+              "char_end": 675
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86991cd937218d9098e955704ab58526",
+              "char_start": 0,
+              "char_end": 451
+            }
+          ]
+        },
+        "whole_chunks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "phantom",
+              "document": "pg-levels",
+              "quote": "PostgreSQL's Repeatable Read implementation does not allow phantom reads.",
+              "covered": true
+            }
+          ],
+          "source_count": 10,
+          "quote_chars": 3504,
+          "quote_reference_tokens": 627,
+          "local_selection_seconds": 9.399955160915852e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-levels",
+              "block_id": "443b9a10f7d2df7ea6a254aa139f0ba2",
+              "char_start": 0,
+              "char_end": 370
+            },
+            {
+              "document": "pg-levels",
+              "block_id": "09cfd1b26208d8e3b4115a2ce1480185",
+              "char_start": 0,
+              "char_end": 357
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "cffe6f729cf23feeb545f1edd52f4779",
+              "char_start": 0,
+              "char_end": 675
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86991cd937218d9098e955704ab58526",
+              "char_start": 0,
+              "char_end": 451
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "6864eaac882769e0ac07a5448689a702",
+              "char_start": 0,
+              "char_end": 101
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "24ccee3f86811ddaae58c184f657cf00",
+              "char_start": 0,
+              "char_end": 828
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "d0231772dfc5ecf6979d1aafa19a81fe",
+              "char_start": 0,
+              "char_end": 60
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86976154bc00fc870db7aead1b404965",
+              "char_start": 0,
+              "char_end": 141
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "31c2a5226e2236425f2270202701c926",
+              "char_start": 0,
+              "char_end": 393
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "dc64360b38965a051108c12ecdda214b",
+              "char_start": 0,
+              "char_end": 128
+            }
+          ]
+        },
+        "neighbor_blocks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "phantom",
+              "document": "pg-levels",
+              "quote": "PostgreSQL's Repeatable Read implementation does not allow phantom reads.",
+              "covered": true
+            }
+          ],
+          "source_count": 5,
+          "quote_chars": 1954,
+          "quote_reference_tokens": 336,
+          "local_selection_seconds": 7.90000194683671e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-levels",
+              "block_id": "443b9a10f7d2df7ea6a254aa139f0ba2",
+              "char_start": 0,
+              "char_end": 370
+            },
+            {
+              "document": "pg-levels",
+              "block_id": "09cfd1b26208d8e3b4115a2ce1480185",
+              "char_start": 0,
+              "char_end": 357
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "cffe6f729cf23feeb545f1edd52f4779",
+              "char_start": 0,
+              "char_end": 675
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86991cd937218d9098e955704ab58526",
+              "char_start": 0,
+              "char_end": 451
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "6864eaac882769e0ac07a5448689a702",
+              "char_start": 0,
+              "char_end": 101
+            }
+          ]
+        }
+      },
+      "status": "replayed",
+      "max_context_chars": 8000,
+      "selected_chunk_count": 2,
+      "current_context_validation": "saved_gate_request_equal"
+    },
+    {
+      "question_id": "q05",
+      "category": "compound",
+      "saved_answer_status": "failed",
+      "source_result_sha256": "cc841adfa7e8f7a71c2e1f487cf4d3b2d80fad8c5d54b3113e9273310213040d",
+      "methods": {
+        "selected_blocks": {
+          "gold_quotes": 2,
+          "covered_gold_quotes": 2,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 2,
+          "covered_gold_groups": 2,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "rc_snapshot",
+              "document": "pg-read-committed",
+              "quote": "two successive SELECT commands can see different data, even though they are within a single transaction",
+              "covered": true
+            },
+            {
+              "required_key": "rr_snapshot",
+              "document": "pg-repeatable-read",
+              "quote": "repeatable read transaction sees a snapshot as of the start of the first non-transaction-control statement in the transaction",
+              "covered": true
+            }
+          ],
+          "source_count": 3,
+          "quote_chars": 1909,
+          "quote_reference_tokens": 341,
+          "local_selection_seconds": 5.099980626255274e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-read-committed",
+              "block_id": "41fcc83398465d98389eac4357e4f5d2",
+              "char_start": 0,
+              "char_end": 783
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "cffe6f729cf23feeb545f1edd52f4779",
+              "char_start": 0,
+              "char_end": 675
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86991cd937218d9098e955704ab58526",
+              "char_start": 0,
+              "char_end": 451
+            }
+          ]
+        },
+        "whole_chunks": {
+          "gold_quotes": 2,
+          "covered_gold_quotes": 2,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 2,
+          "covered_gold_groups": 2,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "rc_snapshot",
+              "document": "pg-read-committed",
+              "quote": "two successive SELECT commands can see different data, even though they are within a single transaction",
+              "covered": true
+            },
+            {
+              "required_key": "rr_snapshot",
+              "document": "pg-repeatable-read",
+              "quote": "repeatable read transaction sees a snapshot as of the start of the first non-transaction-control statement in the transaction",
+              "covered": true
+            }
+          ],
+          "source_count": 9,
+          "quote_chars": 3560,
+          "quote_reference_tokens": 647,
+          "local_selection_seconds": 8.699949830770493e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-read-committed",
+              "block_id": "41fcc83398465d98389eac4357e4f5d2",
+              "char_start": 0,
+              "char_end": 783
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "cffe6f729cf23feeb545f1edd52f4779",
+              "char_start": 0,
+              "char_end": 675
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86991cd937218d9098e955704ab58526",
+              "char_start": 0,
+              "char_end": 451
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "6864eaac882769e0ac07a5448689a702",
+              "char_start": 0,
+              "char_end": 101
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "24ccee3f86811ddaae58c184f657cf00",
+              "char_start": 0,
+              "char_end": 828
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "d0231772dfc5ecf6979d1aafa19a81fe",
+              "char_start": 0,
+              "char_end": 60
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86976154bc00fc870db7aead1b404965",
+              "char_start": 0,
+              "char_end": 141
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "31c2a5226e2236425f2270202701c926",
+              "char_start": 0,
+              "char_end": 393
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "dc64360b38965a051108c12ecdda214b",
+              "char_start": 0,
+              "char_end": 128
+            }
+          ]
+        },
+        "neighbor_blocks": {
+          "gold_quotes": 2,
+          "covered_gold_quotes": 2,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 2,
+          "covered_gold_groups": 2,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "rc_snapshot",
+              "document": "pg-read-committed",
+              "quote": "two successive SELECT commands can see different data, even though they are within a single transaction",
+              "covered": true
+            },
+            {
+              "required_key": "rr_snapshot",
+              "document": "pg-repeatable-read",
+              "quote": "repeatable read transaction sees a snapshot as of the start of the first non-transaction-control statement in the transaction",
+              "covered": true
+            }
+          ],
+          "source_count": 4,
+          "quote_chars": 2010,
+          "quote_reference_tokens": 356,
+          "local_selection_seconds": 6.699992809444666e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-read-committed",
+              "block_id": "41fcc83398465d98389eac4357e4f5d2",
+              "char_start": 0,
+              "char_end": 783
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "cffe6f729cf23feeb545f1edd52f4779",
+              "char_start": 0,
+              "char_end": 675
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86991cd937218d9098e955704ab58526",
+              "char_start": 0,
+              "char_end": 451
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "6864eaac882769e0ac07a5448689a702",
+              "char_start": 0,
+              "char_end": 101
+            }
+          ]
+        }
+      },
+      "status": "replayed",
+      "max_context_chars": 8000,
+      "selected_chunk_count": 2,
+      "current_context_validation": "saved_gate_request_equal"
+    },
+    {
+      "question_id": "q06",
+      "category": "compound",
+      "saved_answer_status": "completed",
+      "source_result_sha256": "5d174657bc1c65bef47e41cad775b34dce7dc2c369f9f6505237d33c8c3b7697",
+      "methods": {
+        "selected_blocks": {
+          "gold_quotes": 2,
+          "covered_gold_quotes": 2,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 2,
+          "covered_gold_groups": 2,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "idempotency",
+              "document": "celery-acks",
+              "quote": "If your task is idempotent you can set the :attr:`~Task.acks_late` option to have the worker acknowledge the message *after* the task returns instead.",
+              "covered": true
+            },
+            {
+              "required_key": "loss",
+              "document": "celery-acks",
+              "quote": "even when :attr:`~Task.acks_late` is enabled.",
+              "covered": true
+            }
+          ],
+          "source_count": 6,
+          "quote_chars": 1740,
+          "quote_reference_tokens": 377,
+          "local_selection_seconds": 6.299989763647318e-06,
+          "selected_ranges": [
+            {
+              "document": "celery-acks",
+              "block_id": "87471d0add89c2102bcf7666e618111e",
+              "char_start": 0,
+              "char_end": 282
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "6c48dc36beb6b1772ba631099a4d6b33",
+              "char_start": 0,
+              "char_end": 384
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "7dbfcc134a805b3e6a46e5c26e1984d9",
+              "char_start": 0,
+              "char_end": 206
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "db04e77040b8ac48dbccf7ee754eff90",
+              "char_start": 0,
+              "char_end": 246
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "08eca69fa52200686dce5fd326be0d1c",
+              "char_start": 0,
+              "char_end": 478
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "7d6d1d045ebf13fda281794decf16079",
+              "char_start": 0,
+              "char_end": 144
+            }
+          ]
+        },
+        "whole_chunks": {
+          "gold_quotes": 2,
+          "covered_gold_quotes": 2,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 2,
+          "covered_gold_groups": 2,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "idempotency",
+              "document": "celery-acks",
+              "quote": "If your task is idempotent you can set the :attr:`~Task.acks_late` option to have the worker acknowledge the message *after* the task returns instead.",
+              "covered": true
+            },
+            {
+              "required_key": "loss",
+              "document": "celery-acks",
+              "quote": "even when :attr:`~Task.acks_late` is enabled.",
+              "covered": true
+            }
+          ],
+          "source_count": 6,
+          "quote_chars": 1740,
+          "quote_reference_tokens": 377,
+          "local_selection_seconds": 5.699985194951296e-06,
+          "selected_ranges": [
+            {
+              "document": "celery-acks",
+              "block_id": "87471d0add89c2102bcf7666e618111e",
+              "char_start": 0,
+              "char_end": 282
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "6c48dc36beb6b1772ba631099a4d6b33",
+              "char_start": 0,
+              "char_end": 384
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "7dbfcc134a805b3e6a46e5c26e1984d9",
+              "char_start": 0,
+              "char_end": 206
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "db04e77040b8ac48dbccf7ee754eff90",
+              "char_start": 0,
+              "char_end": 246
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "08eca69fa52200686dce5fd326be0d1c",
+              "char_start": 0,
+              "char_end": 478
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "7d6d1d045ebf13fda281794decf16079",
+              "char_start": 0,
+              "char_end": 144
+            }
+          ]
+        },
+        "neighbor_blocks": {
+          "gold_quotes": 2,
+          "covered_gold_quotes": 2,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 2,
+          "covered_gold_groups": 2,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "idempotency",
+              "document": "celery-acks",
+              "quote": "If your task is idempotent you can set the :attr:`~Task.acks_late` option to have the worker acknowledge the message *after* the task returns instead.",
+              "covered": true
+            },
+            {
+              "required_key": "loss",
+              "document": "celery-acks",
+              "quote": "even when :attr:`~Task.acks_late` is enabled.",
+              "covered": true
+            }
+          ],
+          "source_count": 6,
+          "quote_chars": 1740,
+          "quote_reference_tokens": 377,
+          "local_selection_seconds": 7.099995855242014e-06,
+          "selected_ranges": [
+            {
+              "document": "celery-acks",
+              "block_id": "87471d0add89c2102bcf7666e618111e",
+              "char_start": 0,
+              "char_end": 282
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "6c48dc36beb6b1772ba631099a4d6b33",
+              "char_start": 0,
+              "char_end": 384
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "7dbfcc134a805b3e6a46e5c26e1984d9",
+              "char_start": 0,
+              "char_end": 206
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "db04e77040b8ac48dbccf7ee754eff90",
+              "char_start": 0,
+              "char_end": 246
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "08eca69fa52200686dce5fd326be0d1c",
+              "char_start": 0,
+              "char_end": 478
+            },
+            {
+              "document": "celery-acks",
+              "block_id": "7d6d1d045ebf13fda281794decf16079",
+              "char_start": 0,
+              "char_end": 144
+            }
+          ]
+        }
+      },
+      "status": "replayed",
+      "max_context_chars": 8000,
+      "selected_chunk_count": 1,
+      "current_context_validation": "saved_gate_request_equal"
+    },
+    {
+      "question_id": "q07",
+      "category": "compound",
+      "saved_answer_status": "failed",
+      "source_result_sha256": "48b81b1e405db07782dd17d27b5a3059aed21c0cd95f23426b5c5b4fc4a4bb13",
+      "methods": {
+        "selected_blocks": {
+          "gold_quotes": 2,
+          "covered_gold_quotes": 2,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 2,
+          "covered_gold_groups": 2,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "whole_retry",
+              "document": "pg-repeatable-read",
+              "quote": "it should abort the current transaction and retry the whole transaction from the beginning.",
+              "covered": true
+            },
+            {
+              "required_key": "retry_control",
+              "document": "celery-retry",
+              "quote": "The :meth:`Task.retry() <@Task.retry>` call will raise an exception so any code after the retry won't be reached.",
+              "covered": true
+            }
+          ],
+          "source_count": 11,
+          "quote_chars": 2612,
+          "quote_reference_tokens": 533,
+          "local_selection_seconds": 1.1200027074664831e-05,
+          "selected_ranges": [
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "6864eaac882769e0ac07a5448689a702",
+              "char_start": 0,
+              "char_end": 101
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "24ccee3f86811ddaae58c184f657cf00",
+              "char_start": 0,
+              "char_end": 828
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "d0231772dfc5ecf6979d1aafa19a81fe",
+              "char_start": 0,
+              "char_end": 60
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86976154bc00fc870db7aead1b404965",
+              "char_start": 0,
+              "char_end": 141
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "31c2a5226e2236425f2270202701c926",
+              "char_start": 0,
+              "char_end": 393
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "dc64360b38965a051108c12ecdda214b",
+              "char_start": 0,
+              "char_end": 128
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "279a5feb4aca1cb3e1d28957379ba371",
+              "char_start": 0,
+              "char_end": 120
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "84206e975b4deb40ab56e56b5291e67c",
+              "char_start": 0,
+              "char_end": 176
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "3b5d88073bed3fb7850dc0fc012f3da6",
+              "char_start": 0,
+              "char_end": 212
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "b677cc3bc17798a151bd33a89f8a879d",
+              "char_start": 0,
+              "char_end": 343
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "5e1485adfe8c1a29299a9c47f7145043",
+              "char_start": 0,
+              "char_end": 110
+            }
+          ]
+        },
+        "whole_chunks": {
+          "gold_quotes": 2,
+          "covered_gold_quotes": 2,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 2,
+          "covered_gold_groups": 2,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "whole_retry",
+              "document": "pg-repeatable-read",
+              "quote": "it should abort the current transaction and retry the whole transaction from the beginning.",
+              "covered": true
+            },
+            {
+              "required_key": "retry_control",
+              "document": "celery-retry",
+              "quote": "The :meth:`Task.retry() <@Task.retry>` call will raise an exception so any code after the retry won't be reached.",
+              "covered": true
+            }
+          ],
+          "source_count": 18,
+          "quote_chars": 4067,
+          "quote_reference_tokens": 808,
+          "local_selection_seconds": 6.240000948309898e-05,
+          "selected_ranges": [
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "cffe6f729cf23feeb545f1edd52f4779",
+              "char_start": 0,
+              "char_end": 675
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86991cd937218d9098e955704ab58526",
+              "char_start": 0,
+              "char_end": 451
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "6864eaac882769e0ac07a5448689a702",
+              "char_start": 0,
+              "char_end": 101
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "24ccee3f86811ddaae58c184f657cf00",
+              "char_start": 0,
+              "char_end": 828
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "d0231772dfc5ecf6979d1aafa19a81fe",
+              "char_start": 0,
+              "char_end": 60
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86976154bc00fc870db7aead1b404965",
+              "char_start": 0,
+              "char_end": 141
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "31c2a5226e2236425f2270202701c926",
+              "char_start": 0,
+              "char_end": 393
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "dc64360b38965a051108c12ecdda214b",
+              "char_start": 0,
+              "char_end": 128
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "279a5feb4aca1cb3e1d28957379ba371",
+              "char_start": 0,
+              "char_end": 120
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "84206e975b4deb40ab56e56b5291e67c",
+              "char_start": 0,
+              "char_end": 176
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "0baf406167def0ad0d4c1779839e38e4",
+              "char_start": 0,
+              "char_end": 162
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "c88962712509e67c049cf9612ea803a4",
+              "char_start": 0,
+              "char_end": 36
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "5f67eedbc45a55797001a93641e2efd0",
+              "char_start": 0,
+              "char_end": 24
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "3b5d88073bed3fb7850dc0fc012f3da6",
+              "char_start": 0,
+              "char_end": 212
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "87cdda222876f20b555f416f57f406e5",
+              "char_start": 0,
+              "char_end": 11
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "b677cc3bc17798a151bd33a89f8a879d",
+              "char_start": 0,
+              "char_end": 343
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "5e1485adfe8c1a29299a9c47f7145043",
+              "char_start": 0,
+              "char_end": 110
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "43faf33a5cb596bf78e0599dcd268bf2",
+              "char_start": 0,
+              "char_end": 96
+            }
+          ]
+        },
+        "neighbor_blocks": {
+          "gold_quotes": 2,
+          "covered_gold_quotes": 2,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 2,
+          "covered_gold_groups": 2,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "whole_retry",
+              "document": "pg-repeatable-read",
+              "quote": "it should abort the current transaction and retry the whole transaction from the beginning.",
+              "covered": true
+            },
+            {
+              "required_key": "retry_control",
+              "document": "celery-retry",
+              "quote": "The :meth:`Task.retry() <@Task.retry>` call will raise an exception so any code after the retry won't be reached.",
+              "covered": true
+            }
+          ],
+          "source_count": 16,
+          "quote_chars": 3356,
+          "quote_reference_tokens": 685,
+          "local_selection_seconds": 1.580000389367342e-05,
+          "selected_ranges": [
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86991cd937218d9098e955704ab58526",
+              "char_start": 0,
+              "char_end": 451
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "6864eaac882769e0ac07a5448689a702",
+              "char_start": 0,
+              "char_end": 101
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "24ccee3f86811ddaae58c184f657cf00",
+              "char_start": 0,
+              "char_end": 828
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "d0231772dfc5ecf6979d1aafa19a81fe",
+              "char_start": 0,
+              "char_end": 60
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "86976154bc00fc870db7aead1b404965",
+              "char_start": 0,
+              "char_end": 141
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "31c2a5226e2236425f2270202701c926",
+              "char_start": 0,
+              "char_end": 393
+            },
+            {
+              "document": "pg-repeatable-read",
+              "block_id": "dc64360b38965a051108c12ecdda214b",
+              "char_start": 0,
+              "char_end": 128
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "279a5feb4aca1cb3e1d28957379ba371",
+              "char_start": 0,
+              "char_end": 120
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "84206e975b4deb40ab56e56b5291e67c",
+              "char_start": 0,
+              "char_end": 176
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "0baf406167def0ad0d4c1779839e38e4",
+              "char_start": 0,
+              "char_end": 162
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "5f67eedbc45a55797001a93641e2efd0",
+              "char_start": 0,
+              "char_end": 24
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "3b5d88073bed3fb7850dc0fc012f3da6",
+              "char_start": 0,
+              "char_end": 212
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "87cdda222876f20b555f416f57f406e5",
+              "char_start": 0,
+              "char_end": 11
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "b677cc3bc17798a151bd33a89f8a879d",
+              "char_start": 0,
+              "char_end": 343
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "5e1485adfe8c1a29299a9c47f7145043",
+              "char_start": 0,
+              "char_end": 110
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "43faf33a5cb596bf78e0599dcd268bf2",
+              "char_start": 0,
+              "char_end": 96
+            }
+          ]
+        }
+      },
+      "status": "replayed",
+      "max_context_chars": 8000,
+      "selected_chunk_count": 2,
+      "current_context_validation": "saved_gate_request_equal"
+    },
+    {
+      "question_id": "q08",
+      "category": "partial",
+      "saved_answer_status": "failed",
+      "source_result_sha256": "0dbc65bf0595a778a06dd318b7dcb99e2d1bf93cce9012439318325c45300f4d",
+      "methods": {
+        "selected_blocks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "delay",
+              "document": "celery-delay",
+              "quote": "By default this is set to 3 minutes. Note that the unit for setting the delay is in seconds (int or float).",
+              "covered": true
+            }
+          ],
+          "source_count": 6,
+          "quote_chars": 1256,
+          "quote_reference_tokens": 305,
+          "local_selection_seconds": 7.90000194683671e-06,
+          "selected_ranges": [
+            {
+              "document": "celery-delay",
+              "block_id": "12319d95c68320451beb066c0ce3d5b8",
+              "char_start": 0,
+              "char_end": 281
+            },
+            {
+              "document": "celery-delay",
+              "block_id": "eb8293bb2317b06fdb3eee76acde122a",
+              "char_start": 0,
+              "char_end": 97
+            },
+            {
+              "document": "celery-delay",
+              "block_id": "f30d9575c18e538b9494aa493397c25a",
+              "char_start": 0,
+              "char_end": 239
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "279a5feb4aca1cb3e1d28957379ba371",
+              "char_start": 0,
+              "char_end": 120
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "84206e975b4deb40ab56e56b5291e67c",
+              "char_start": 0,
+              "char_end": 176
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "b677cc3bc17798a151bd33a89f8a879d",
+              "char_start": 0,
+              "char_end": 343
+            }
+          ]
+        },
+        "whole_chunks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "delay",
+              "document": "celery-delay",
+              "quote": "By default this is set to 3 minutes. Note that the unit for setting the delay is in seconds (int or float).",
+              "covered": true
+            }
+          ],
+          "source_count": 14,
+          "quote_chars": 1931,
+          "quote_reference_tokens": 462,
+          "local_selection_seconds": 1.090002479031682e-05,
+          "selected_ranges": [
+            {
+              "document": "celery-delay",
+              "block_id": "12319d95c68320451beb066c0ce3d5b8",
+              "char_start": 0,
+              "char_end": 281
+            },
+            {
+              "document": "celery-delay",
+              "block_id": "eb8293bb2317b06fdb3eee76acde122a",
+              "char_start": 0,
+              "char_end": 97
+            },
+            {
+              "document": "celery-delay",
+              "block_id": "cce15486881f57939540ddf9c5a65512",
+              "char_start": 0,
+              "char_end": 24
+            },
+            {
+              "document": "celery-delay",
+              "block_id": "f30d9575c18e538b9494aa493397c25a",
+              "char_start": 0,
+              "char_end": 239
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "279a5feb4aca1cb3e1d28957379ba371",
+              "char_start": 0,
+              "char_end": 120
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "84206e975b4deb40ab56e56b5291e67c",
+              "char_start": 0,
+              "char_end": 176
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "0baf406167def0ad0d4c1779839e38e4",
+              "char_start": 0,
+              "char_end": 162
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "c88962712509e67c049cf9612ea803a4",
+              "char_start": 0,
+              "char_end": 36
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "5f67eedbc45a55797001a93641e2efd0",
+              "char_start": 0,
+              "char_end": 24
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "3b5d88073bed3fb7850dc0fc012f3da6",
+              "char_start": 0,
+              "char_end": 212
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "87cdda222876f20b555f416f57f406e5",
+              "char_start": 0,
+              "char_end": 11
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "b677cc3bc17798a151bd33a89f8a879d",
+              "char_start": 0,
+              "char_end": 343
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "5e1485adfe8c1a29299a9c47f7145043",
+              "char_start": 0,
+              "char_end": 110
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "43faf33a5cb596bf78e0599dcd268bf2",
+              "char_start": 0,
+              "char_end": 96
+            }
+          ]
+        },
+        "neighbor_blocks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "delay",
+              "document": "celery-delay",
+              "quote": "By default this is set to 3 minutes. Note that the unit for setting the delay is in seconds (int or float).",
+              "covered": true
+            }
+          ],
+          "source_count": 10,
+          "quote_chars": 1563,
+          "quote_reference_tokens": 377,
+          "local_selection_seconds": 1.0499963536858559e-05,
+          "selected_ranges": [
+            {
+              "document": "celery-delay",
+              "block_id": "12319d95c68320451beb066c0ce3d5b8",
+              "char_start": 0,
+              "char_end": 281
+            },
+            {
+              "document": "celery-delay",
+              "block_id": "eb8293bb2317b06fdb3eee76acde122a",
+              "char_start": 0,
+              "char_end": 97
+            },
+            {
+              "document": "celery-delay",
+              "block_id": "cce15486881f57939540ddf9c5a65512",
+              "char_start": 0,
+              "char_end": 24
+            },
+            {
+              "document": "celery-delay",
+              "block_id": "f30d9575c18e538b9494aa493397c25a",
+              "char_start": 0,
+              "char_end": 239
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "279a5feb4aca1cb3e1d28957379ba371",
+              "char_start": 0,
+              "char_end": 120
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "84206e975b4deb40ab56e56b5291e67c",
+              "char_start": 0,
+              "char_end": 176
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "0baf406167def0ad0d4c1779839e38e4",
+              "char_start": 0,
+              "char_end": 162
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "87cdda222876f20b555f416f57f406e5",
+              "char_start": 0,
+              "char_end": 11
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "b677cc3bc17798a151bd33a89f8a879d",
+              "char_start": 0,
+              "char_end": 343
+            },
+            {
+              "document": "celery-retry",
+              "block_id": "5e1485adfe8c1a29299a9c47f7145043",
+              "char_start": 0,
+              "char_end": 110
+            }
+          ]
+        }
+      },
+      "status": "replayed",
+      "max_context_chars": 8000,
+      "selected_chunk_count": 2,
+      "current_context_validation": "saved_gate_request_equal"
+    },
+    {
+      "question_id": "q09",
+      "category": "partial",
+      "saved_answer_status": "completed",
+      "source_result_sha256": "ba5dadead604db87b67806c1ca178c9f4af56083daaa9aba7d4693649409add0",
+      "methods": {
+        "selected_blocks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "default",
+              "document": "pg-read-committed",
+              "quote": "Read Committed is the default isolation level in PostgreSQL.",
+              "covered": true
+            }
+          ],
+          "source_count": 1,
+          "quote_chars": 783,
+          "quote_reference_tokens": 143,
+          "local_selection_seconds": 2.500019036233425e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-read-committed",
+              "block_id": "41fcc83398465d98389eac4357e4f5d2",
+              "char_start": 0,
+              "char_end": 783
+            }
+          ]
+        },
+        "whole_chunks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "default",
+              "document": "pg-read-committed",
+              "quote": "Read Committed is the default isolation level in PostgreSQL.",
+              "covered": true
+            }
+          ],
+          "source_count": 1,
+          "quote_chars": 783,
+          "quote_reference_tokens": 143,
+          "local_selection_seconds": 2.500019036233425e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-read-committed",
+              "block_id": "41fcc83398465d98389eac4357e4f5d2",
+              "char_start": 0,
+              "char_end": 783
+            }
+          ]
+        },
+        "neighbor_blocks": {
+          "gold_quotes": 1,
+          "covered_gold_quotes": 1,
+          "gold_quote_recall": 1.0,
+          "all_gold_quotes_present": true,
+          "gold_groups": 1,
+          "covered_gold_groups": 1,
+          "gold_group_recall": 1.0,
+          "quotation_checks": [
+            {
+              "required_key": "default",
+              "document": "pg-read-committed",
+              "quote": "Read Committed is the default isolation level in PostgreSQL.",
+              "covered": true
+            }
+          ],
+          "source_count": 1,
+          "quote_chars": 783,
+          "quote_reference_tokens": 143,
+          "local_selection_seconds": 2.600019797682762e-06,
+          "selected_ranges": [
+            {
+              "document": "pg-read-committed",
+              "block_id": "41fcc83398465d98389eac4357e4f5d2",
+              "char_start": 0,
+              "char_end": 783
+            }
+          ]
+        }
+      },
+      "status": "replayed",
+      "max_context_chars": 8000,
+      "selected_chunk_count": 1,
+      "current_context_validation": "saved_gate_request_equal"
+    },
+    {
+      "question_id": "q10",
+      "category": "insufficient",
+      "saved_answer_status": "completed",
+      "source_result_sha256": "ef09ee4bd5738780aed7a245d1dc90b3b61dcbbed45b8ab4846051a03f2daaca",
+      "methods": {
+        "selected_blocks": {
+          "gold_quotes": 0,
+          "covered_gold_quotes": 0,
+          "gold_quote_recall": null,
+          "all_gold_quotes_present": null,
+          "gold_groups": 0,
+          "covered_gold_groups": 0,
+          "gold_group_recall": null,
+          "quotation_checks": [],
+          "source_count": 0,
+          "quote_chars": 0,
+          "quote_reference_tokens": 0,
+          "local_selection_seconds": 8.00006091594696e-07,
+          "selected_ranges": []
+        },
+        "whole_chunks": {
+          "gold_quotes": 0,
+          "covered_gold_quotes": 0,
+          "gold_quote_recall": null,
+          "all_gold_quotes_present": null,
+          "gold_groups": 0,
+          "covered_gold_groups": 0,
+          "gold_group_recall": null,
+          "quotation_checks": [],
+          "source_count": 0,
+          "quote_chars": 0,
+          "quote_reference_tokens": 0,
+          "local_selection_seconds": 6.00004568696022e-07,
+          "selected_ranges": []
+        },
+        "neighbor_blocks": {
+          "gold_quotes": 0,
+          "covered_gold_quotes": 0,
+          "gold_quote_recall": null,
+          "all_gold_quotes_present": null,
+          "gold_groups": 0,
+          "covered_gold_groups": 0,
+          "gold_group_recall": null,
+          "quotation_checks": [],
+          "source_count": 0,
+          "quote_chars": 0,
+          "quote_reference_tokens": 0,
+          "local_selection_seconds": 4.00003045797348e-07,
+          "selected_ranges": []
+        }
+      },
+      "status": "replayed",
+      "max_context_chars": 8000,
+      "selected_chunk_count": 0,
+      "current_context_validation": "empty_context_gate_short_circuit"
+    },
+    {
+      "question_id": "q11",
+      "category": "insufficient",
+      "saved_answer_status": "completed",
+      "source_result_sha256": "b5de3c7ccf3a4853dbeddfc11d8b80e536e3196f298795a0d15b3c8d3977fdee",
+      "methods": {
+        "selected_blocks": {
+          "gold_quotes": 0,
+          "covered_gold_quotes": 0,
+          "gold_quote_recall": null,
+          "all_gold_quotes_present": null,
+          "gold_groups": 0,
+          "covered_gold_groups": 0,
+          "gold_group_recall": null,
+          "quotation_checks": [],
+          "source_count": 0,
+          "quote_chars": 0,
+          "quote_reference_tokens": 0,
+          "local_selection_seconds": 4.00003045797348e-07,
+          "selected_ranges": []
+        },
+        "whole_chunks": {
+          "gold_quotes": 0,
+          "covered_gold_quotes": 0,
+          "gold_quote_recall": null,
+          "all_gold_quotes_present": null,
+          "gold_groups": 0,
+          "covered_gold_groups": 0,
+          "gold_group_recall": null,
+          "quotation_checks": [],
+          "source_count": 0,
+          "quote_chars": 0,
+          "quote_reference_tokens": 0,
+          "local_selection_seconds": 4.00003045797348e-07,
+          "selected_ranges": []
+        },
+        "neighbor_blocks": {
+          "gold_quotes": 0,
+          "covered_gold_quotes": 0,
+          "gold_quote_recall": null,
+          "all_gold_quotes_present": null,
+          "gold_groups": 0,
+          "covered_gold_groups": 0,
+          "gold_group_recall": null,
+          "quotation_checks": [],
+          "source_count": 0,
+          "quote_chars": 0,
+          "quote_reference_tokens": 0,
+          "local_selection_seconds": 4.00003045797348e-07,
+          "selected_ranges": []
+        }
+      },
+      "status": "replayed",
+      "max_context_chars": 8000,
+      "selected_chunk_count": 0,
+      "current_context_validation": "empty_context_gate_short_circuit"
+    },
+    {
+      "question_id": "q12",
+      "category": "clarification",
+      "saved_answer_status": "completed",
+      "source_result_sha256": "4aca0f20f5011625fb3ca7f080408821f5576e20548c3830a0fe8ef0ca0b3ba3",
+      "methods": {},
+      "status": "not_replayed",
+      "reason": "no_saved_reranker_call"
+    }
+  ],
+  "production_default_changed": false,
+  "limitations": [
+    "No model API calls, downloads, reindexing or paid requests.",
+    "Do not edit frozen inputs, scoring labels, .env, product defaults or resume.",
+    "Use identical saved candidates, ranking scores and budgets across methods.",
+    "No gold labels may be used to select or order context.",
+    "No parameter search, extra budget sweeps or selective reruns.",
+    "neighbor_blocks is bounded context expansion, not a complete small-to-parent retrieval experiment.",
+    "Small Agent-authored labels are not independent human evaluation or production answer accuracy.",
+    "Gold quotation presence does not judge semantics, all required conditions, answer correctness or hallucinations.",
+    "Saved model calls are reused. No total latency or cost improvement is measured.",
+    "Current-method contexts are checked byte-for-byte against saved EvidenceGate inputs."
+  ]
+}

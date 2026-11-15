@@ -9,6 +9,7 @@
 | [public_docs_v1/](public_docs_v1/) | PostgreSQL 17.6 / Celery 5.5.3 六份官方摘录、原始文件、许可证、价格依据和 12 题；不是两套完整手册 |
 | [两组问答结果](results/public-3yuan-v1/) | 基础 RAG / 完整 Agent 各 12 题，逐题 trace、失败、manifest、总账和 Agent 评分 |
 | [BGE 离线对照](results/public-3yuan-v1-bge-offline-v2/report.json) | 冻结候选的排序比较，不是端到端答案质量 |
+| [上下文选择对照](../docs/records/2026-11/上下文选择离线对照_2026-11-15.md) | 当前块级筛选 / 补邻段 / 返回整块；9 题标注原文覆盖相同，当前方式最紧凑，非答案正确率 |
 | [评测规范](评测要求.md) | 正式至少 30 道独立人工审核题、指标定义与证据要求 |
 | [发布与回退](版本发布与回退.md) | 版本组合及回退检查 |
 | `quality_suite.json`、`hallucination_dev.jsonl` | 虚构教学控制材料，只作开发验证 |
@@ -40,6 +41,7 @@
 | --- | --- |
 | 两组官方资料实验、预算与定向续跑 | `scripts/evaluation/run_public_evaluation.py` |
 | 已存请求的本地 BGE 排序对照 | `scripts/evaluation/compare_saved_reranker.py` |
+| 已存候选的三种上下文组装对照 | `scripts/evaluation/compare_context_selection.py`，不调用模型 |
 | API 配置选择/交错执行 | `evaluation/run.py` |
 | 空人审或 Agent 标注模板 | `python -m evaluation.review` |
 | Agent 逐题注释绑定 | `python -m evaluation.apply_agent_review` |
