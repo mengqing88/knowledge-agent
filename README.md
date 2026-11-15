@@ -6,7 +6,7 @@
 
 当前未完成事项、依赖和验收条件见 [TODO](TODO.md)。
 
-查询术语扩展、问答内 MCP 只读工具循环、角色模型路由/专用重排和 Redis 跨 worker 配额已接入。可用 `scripts\start.ps1 -AgentUpgrades` 为新进程启用配置；真实 `.env` 不变。Docker 已恢复，隔离 PG/Milvus/Redis、独立 Celery/beat 和页面流程有实测证据；改写收益、BGE 和角色路由的独立效果仍待验证。历史记录见 [四项升级记录](docs/查询改写_MCP编排_角色模型与共享配额.md)，本次范围见 [3 元收尾](docs/3元精简收尾_2026-11-14.md)。
+查询术语扩展、问答内 MCP 只读工具循环、角色模型路由/专用重排和 Redis 跨 worker 配额已接入。可用 `scripts\start.ps1 -AgentUpgrades` 为新进程启用配置；真实 `.env` 不变。Docker 已恢复，隔离 PG/Milvus/Redis、独立 Celery/beat 和页面流程有实测证据；BGE 已完成冻结候选离线对照，改写收益和角色路由/在线专用重排的独立效果仍待验证。历史记录见 [四项升级记录](docs/查询改写_MCP编排_角色模型与共享配额.md)，本次范围见 [3 元收尾](docs/3元精简收尾_2026-11-14.md)。
 
 面向本机团队成员的知识问答：PDF、DOCX、Markdown、TXT、CSV/TSV、JSON/JSONL、HTML/HTM 和 XLSX 按版本解析入库；PDF 中可检测的有边框表格按表头和行结构保存，原文块保留页码与行坐标。在固定快照内混合检索，由 Planner / Retriever / Analyst / Verifier 生成逐论点引用答案，并保留任务状态和运行记录。输入需要匹配已实现的类型解析器，不代表任意二进制文件或在线数据源均可直接检索。
 

@@ -128,7 +128,7 @@ API/前端显示 `mcp_observation`、调用 ID、观察时间及保存的回执�
 
 ### 实际多进程检查
 
-Docker Linux 引擎在本轮不可用，因此用 WSL Ubuntu 编译 Redis 7.4.2，单独绑定 `127.0.0.1:56480`，关闭快照和 AOF；不是生产 Celery broker。Windows 客户端实际连接该 Redis，由 4 个 spawn 进程发起 12 次申请，每次估算 100 token；测试额度设为 3 RPM/300 TPM。
+历史记录：Docker Linux 引擎曾在本轮不可用，因此用 WSL Ubuntu 编译 Redis 7.4.2，单独绑定 `127.0.0.1:56480`，关闭快照和 AOF；不是生产 Celery broker。随后 Docker Desktop 恢复，代码修复回归在固定镜像中完成。Windows 客户端实际连接该 Redis，由 4 个 spawn 进程发起 12 次申请，每次估算 100 token；测试额度设为 3 RPM/300 TPM。
 
 结果：**3 放行、9 拒绝、无意外结果**；把随机测试命名空间中的时间戳设为已过期后再次申请成功；测试键剩余 0。该检查没有调用模型 HTTP，也没有等待一整分钟模拟自然窗口。报告 `docs/provider-quota-live-check.json`。临时 Redis 在验证后关闭，源代码/编译产物留在 `tmp/provider-quota-runtime`，没有改生产 Redis 数据。
 
@@ -167,9 +167,9 @@ Docker Linux 引擎在本轮不可用，因此用 WSL Ubuntu 编译 Redis 7.4.2�
 ## 8. 本轮最终收尾证据
 
 - 新增升级专项：**18 passed, 1 warning in 9.26s**。包括真实 stdio 读取持久日志、当前身份/普通阅读者限制、回执篡改、未知/写工具拒绝、角色路由、专用重排异常响应、长问题明确跳过、配额失败零 HTTP、0011 保留原引用。
-- 当前工作区全量：**314 passed, 6 failed, 6 warnings in 78.06s**。六个失败均在 `test_code_repair.py` 的 Docker 测试与审批流程，具体报错包含“无法确认本机 Docker Client/Engine 版本”；未改成 Mock 或跳过。不能称全量通过。另一次早期全量为 294 通过/6 失败，属于历史过程，不与最终数量相加。
+- 历史工作区全量曾为 **314 passed, 6 failed, 6 warnings in 78.06s**，六个失败由 Docker Engine 当时不可用造成。Docker Desktop 恢复后重新验证：`test_code_repair.py` **14 passed**，全后端 **430 passed, 6 warnings in 101.84s**；没有改成 Mock 或跳过。真实代码修复质量和独立隐藏验收集仍未评测。
 - `npm.cmd run build` 成功，`npm.cmd test` **10 passed**；未做本轮浏览器操作验收。
-- 全仓 Ruff、`uv lock --check`、`docker compose config --quiet` 与 `start.ps1` PowerShell AST 解析通过。Compose 配置通过不代表 Engine 可用；`docker info` 仍报 `dockerDesktopLinuxEngine` 管道缺失。
+- 全仓 Ruff、`uv lock --check`、`docker compose config --quiet` 与 `start.ps1` PowerShell AST 解析通过；Docker Desktop 当前使用本机 `desktop-linux` context，Client/Server 均为 29.7.2。
 - 真实检索首次尝试因管理连接没有显式连接时限而长时间等待，终止了本次评测自己的 Python 进程；给新评测入口的管理连接补充 5 秒连接时限后重新执行，得到 `OperationalError / e3q8` 的失败报告。没有改原分块 benchmark。当前未取得真实改写检索成绩。
 - 临时 Redis 7.4.2 已检查无剩余键并关闭；实际 `.env` SHA-256 仍为 `9e47455bfa42bddeb2df145781e1da850cf3d2ba9358a080e27c0348d6ef9391`。没有记录密钥、初始化 Git、覆盖生产语料或重启原 API/worker。
 
