@@ -18,6 +18,19 @@ def case_order(questions, modes):
     return [(number, question, mode) for number, question in enumerate(questions, 1) for mode in modes]
 
 
+def select_questions(questions, question_ids=None):
+    if question_ids is None:
+        return list(questions)
+    if len(set(question_ids)) != len(question_ids):
+        raise ValueError("Duplicate question IDs")
+    by_id = {question["question_id"]: question for question in questions}
+    selected = set(question_ids)
+    unknown = selected - set(by_id)
+    if unknown:
+        raise ValueError(f"Unknown question IDs: {', '.join(sorted(unknown))}")
+    return [question for question in questions if question["question_id"] in selected]
+
+
 def evaluate_case(client, q, mode, timeout):
     record = {"question_id": q["question_id"], "mode": mode}
     start = time.monotonic()

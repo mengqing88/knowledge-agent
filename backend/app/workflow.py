@@ -150,7 +150,9 @@ class Workflow:
             if estimated > cap:
                 raise BudgetExhausted("request_input_tokens")
             remaining = self.limits.get("max_run_tokens", self.settings.max_run_tokens) - usage["reserved_or_actual_tokens"]
-            output = min(self.limits.get("max_output_tokens", 6000), remaining - estimated) if role != "Embedding" else 0
+            role_limit = self.limits.get("role_output_token_limits", {}).get(
+                role, self.limits.get("max_output_tokens", 6000))
+            output = min(role_limit, remaining - estimated) if role != "Embedding" else 0
             if remaining < estimated or (role != "Embedding" and output < 1):
                 raise BudgetExhausted("tokens")
             if self.limits.get("max_run_cost") is not None:

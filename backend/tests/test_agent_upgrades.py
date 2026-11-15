@@ -88,6 +88,17 @@ def test_role_routes_reject_unsafe_config(route):
         ModelRoute(**route)
 
 
+@pytest.mark.parametrize("limits", [
+    {"UnknownRole": 8000},
+    {"Analyst": 0},
+    {"Analyst": 32001},
+    {"Analyst": True},
+])
+def test_role_output_limits_reject_unknown_roles_and_invalid_caps(settings, limits):
+    with pytest.raises(ValidationError):
+        settings.__class__.model_validate({**settings.model_dump(), "role_output_token_limits": limits})
+
+
 def test_dedicated_rerank_orders_known_candidates_and_rejects_forged_ids(settings, monkeypatch):
     settings.reranker_backend = "rerank_api"
     settings.role_model_routes = {"Reranker": ModelRoute(model="ranker")}

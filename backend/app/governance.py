@@ -16,7 +16,7 @@ ROLES = {"Planner": (PLANNER, Plan), "Reranker": (RERANKER, Reranking),
          "Analyst": (ANALYST, Analysis), "Verifier": (VERIFIER, Verification),
          "EvidenceGate": (EVIDENCE_GATE, EvidenceGate), "ToolRouter": (TOOL_ROUTER, ToolDecision)}
 PUBLIC_SETTINGS = (
-    "model", "embedding_model", "chat_api_style", "embedding_dimensions", "embedding_revision",
+    "model", "embedding_model", "chat_api_style", "role_output_token_limits", "embedding_dimensions", "embedding_revision",
     "chunk_strategy", "chunk_size_tokens", "chunk_overlap_tokens", "chunk_semantic_threshold",
     "chunk_semantic_max_units",
     "max_model_calls", "max_run_seconds", "max_retrieval_rounds", "max_revision_rounds", "max_context_chars",

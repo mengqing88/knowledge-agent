@@ -22,6 +22,23 @@ def queue(sessions, settings, key="part4-first"):
                           key, "local-user", settings).id
 
 
+def test_role_output_limit_is_frozen_and_reserved_per_call(sessions, settings, corpus):
+    settings.max_output_tokens = 4000
+    settings.role_output_token_limits = {"Analyst": 8000}
+    run_id = queue(sessions, settings, "role-output-limit")
+    job = claim_job(sessions, settings)
+    workflow = Workflow(sessions, settings, object(), run_id, job[2])
+    with sessions() as db:
+        run = db.get(QuestionRun, run_id)
+        assert run.config["role_output_token_limits"] == {"Analyst": 8000}
+        state = initial_state(run)
+    _, output_limit = workflow.begin_call(state, "Analyst", {"question": run.question}, 100)
+    with sessions() as db:
+        call = db.scalar(select(ModelCall).where(ModelCall.run_id == run_id))
+        assert output_limit == call.request["output_limit"] == 8000
+        assert call.reserved_tokens == 8100
+
+
 @pytest.fixture
 def client(sessions, settings, corpus, monkeypatch):
     def override():

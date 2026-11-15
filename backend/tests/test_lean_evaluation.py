@@ -1,5 +1,6 @@
 import json
 import subprocess
+from decimal import Decimal
 from pathlib import Path
 
 import pytest
@@ -7,7 +8,9 @@ from app.errors import BudgetExhausted
 
 from evaluation.budget import BudgetLedger, BudgetProvider
 from evaluation.review import make_template, summarize_agent, summarize_manual
-from evaluation.run import case_order
+from evaluation.run import case_order, select_questions
+from scripts.compare_saved_reranker import ranking_metrics, saved_cases
+from scripts.run_public_evaluation import seed_budget_ledger
 
 
 def prices():
@@ -31,6 +34,73 @@ def test_global_budget_reserves_before_send_and_keeps_margin(tmp_path):
     ledger.settle(ticket, {"usage": {"input_tokens": 10, "output_tokens": 20}})
     assert ledger.total() < .001
     reserve(ledger)
+
+
+def test_reconciled_prior_charge_is_added_to_the_inherited_budget(tmp_path):
+    source = tmp_path / "prior.json"
+    prior = BudgetLedger(source, prices())
+    ticket = reserve(prior, 1000, 100)
+    prior.settle(ticket, {"usage": {"input_tokens": 10, "output_tokens": 20}})
+    destination = tmp_path / "continued" / "cost.json"
+    assert seed_budget_ledger(source, destination, "0.25") == "0.25"
+    continued = BudgetLedger(destination, prices())
+    assert continued.total() == prior.total() + Decimal("0.25")
+    assert prior.total() < .001
+    with pytest.raises(BudgetExhausted):
+        continued.reserve("chat", "https://chat.test/v1", "m", 249000, 250000)
+
+
+def test_budget_ledger_seed_rejects_unresolved_requests(tmp_path):
+    source = tmp_path / "prior.json"
+    prior = BudgetLedger(source, prices())
+    reserve(prior)
+    with pytest.raises(ValueError, match="unresolved"):
+        seed_budget_ledger(source, tmp_path / "continued.json", 0)
+
+
+def test_budget_ledger_seed_rejects_non_cny_ledger(tmp_path):
+    source = tmp_path / "prior.json"
+    prior = BudgetLedger(source, prices())
+    prior.data["currency"] = "USD"
+    prior.save()
+    with pytest.raises(ValueError, match="CNY"):
+        seed_budget_ledger(source, tmp_path / "continued.json", 0)
+
+
+def test_selected_question_subset_is_deterministic_and_validated():
+    questions = [{"question_id": "q01"}, {"question_id": "q04"}, {"question_id": "q07"}]
+    assert select_questions(questions, ["q07", "q04"]) == questions[1:]
+    assert select_questions(questions, None) == questions
+    with pytest.raises(ValueError, match="Unknown"):
+        select_questions(questions, ["q99"])
+    with pytest.raises(ValueError, match="Duplicate"):
+        select_questions(questions, ["q04", "q04"])
+
+
+def test_saved_reranker_replay_preserves_candidate_text_and_maps_gold_docs(tmp_path):
+    (tmp_path / "full_agent").mkdir()
+    question = {"question_id": "q1", "required_claims": [{"evidence": [{"document": "doc-a"}]}]}
+    saved = {"question_id": "q1", "trace": {
+        "retrievals": [{"rankings": [{"chunk_id": "c1", "paper_version_id": "doc-b"},
+                                      {"chunk_id": "c2", "paper_version_id": "doc-a"}]}],
+        "model_calls": [{"role": "Reranker", "request": {"data": {
+            "question": "Q", "plan": {"subquestions": [{"target": "target"}]},
+            "candidates": [{"chunk_id": "c1", "blocks": [{"text": "irrelevant"}]},
+                           {"chunk_id": "c2", "blocks": [{"text": "evidence"}]}]}},
+                         "response": {"items": [{"chunk_id": "c2"}, {"chunk_id": "c1"}]}}]}}
+    (tmp_path / "full_agent/0001.json").write_text(json.dumps(saved), encoding="utf-8")
+    cases, excluded = saved_cases(tmp_path, {"questions": [question]})
+    assert not excluded
+    assert cases[0]["candidates"] == [{"id": "c1", "text": "irrelevant"}, {"id": "c2", "text": "evidence"}]
+    assert cases[0]["question"] == "Q\n\n问题要点：\n- target"
+    assert ranking_metrics(cases[0]["llm_order"], cases[0]["candidate_documents"], ["doc-a"])["mrr"] == 1
+
+
+def test_ranking_metrics_are_document_level_and_exclude_unanswerable():
+    mapping = {"first": "doc-a", "duplicate": "doc-a", "second": "doc-b", "wrong": "doc-c"}
+    metrics = ranking_metrics(["first", "duplicate", "second", "wrong"], mapping, ["doc-b", "doc-c"])
+    assert metrics == pytest.approx({"recall_at_3": 1.0, "mrr": .5, "ndcg_at_3": 0.693426})
+    assert ranking_metrics(["wrong"], mapping, []) is None
 
 
 @pytest.mark.parametrize("usage", [None, {}, {"input_tokens": 1}, {"input_tokens": True, "output_tokens": 1}])

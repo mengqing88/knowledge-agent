@@ -2,6 +2,28 @@
 
 2026-11-14 新增精简入口：API 运行器使用 `--modes baseline_rag full_agent` 只选择两组，按题交错执行；`--review-source agent` 接受明确标为 `agent_reviewed=true`、`human_reviewed=false`、`fictional=false` 的题集。原正式人审入口及业务审批门禁保留。Agent 标注不能汇入人工评分。
 
+2026-11-15 增加按角色输出上限和定向续跑入口。对 `full_agent` 的 q04/q05/q07/q08 可新建结果目录，仅重跑失败题；只提高 Analyst、Verifier 上限至 8000，保留其他角色 4000，且不覆盖原记录。启动前必须从供应商账单核实旧专用重排 smoke 那笔未记账费用，并把该人民币金额写入新账本；新账本继承原 143 次已记账请求，仍按累计 ¥2.5 停止线和 ¥3 硬上限运行。未核实账外费用前禁止收费续跑。示例：
+
+```powershell
+.venv\Scripts\python.exe scripts\run_public_evaluation.py `
+  --project kbaccept-本轮隔离栈 `
+  --output evaluation\results\public-3yuan-v1-retry-01 `
+  --modes full_agent `
+  --question-ids q04 q05 q07 q08 `
+  --ledger-seed evaluation\results\public-3yuan-v1\cost-ledger.json `
+  --reconciled-untracked-charge-cny 核账金额
+```
+
+本地 BGE 比较脚本 `scripts/compare_saved_reranker.py` 重放已存的 11 份重排请求，不访问模型服务；按照唯一来源文档计算 Recall@3、MRR、nDCG@3，并将无 gold 的缺证题排除在排序分母外。2026-11-15 的固定小题集结果为 9 道可回答/部分可答题：LLM MRR 1.000，BGE MRR 0.944；两者 Recall@3 均为 1.000，BGE nDCG@3 为 0.950。q10/q11 缺少正例而不计排序分；q12 未调用重排。此结果仅代表已冻结候选的排序对照，不能外推到端到端答案质量或生产数据。逐题指标、源结果 SHA、模型 revision 与推理版本记录于 `evaluation/results/public-3yuan-v1-bge-offline-v2/report.json`。CUDA 环境命令示例：
+
+```powershell
+python scripts\compare_saved_reranker.py `
+  --python C:\Users\mengq\AppData\Local\Temp\knowledge-agent-bge-cu128\Scripts\python.exe `
+  --output evaluation\results\public-3yuan-v1-bge-offline-v1
+```
+
+离线重排对照只说明冻结候选上的排序效果，不等于端到端问答效果。真实角色路由质量对照仍需在同题同提示下调用路由模型；因历史专用重排请求存在未知费用，在费用核清前不发送在线评测请求。已有 Agent 二次复核保持 Agent 标记，不计为独立人工评测。
+
 `public_docs_v1/` 保存 PostgreSQL 17.6、Celery 5.5.3 官方版本摘录、完整原始文件和许可证、SHA-256、12 道题及逐字依据。范围是六份选定摘录，不是两套完整手册；缺证题只能对这个范围判断缺少证据。题集分布为事实 4、复合 3、部分可答 2、缺证 2、澄清 1。题集与结果均由 Agent 审核，不声称独立人工或正式业务准确率。
 
 ```powershell

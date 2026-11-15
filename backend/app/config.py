@@ -2,7 +2,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field, model_validator
+from pydantic import Field, StrictInt, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from .model_routing import ROLES, ModelRoute
@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     model: str = ""
     chat_api_style: str = "responses"
     role_model_routes: dict[str, ModelRoute] = Field(default_factory=dict)
+    role_output_token_limits: dict[str, StrictInt] = Field(default_factory=dict)
     reranker_backend: Literal["llm", "rerank_api"] = "llm"
     query_rewrite_enabled: bool = True
     query_terms_file: Path | None = None
@@ -98,6 +99,10 @@ class Settings(BaseSettings):
             raise ValueError("CHUNK_OVERLAP_TOKENS 必须小于 CHUNK_SIZE_TOKENS")
         if set(self.role_model_routes) - ROLES:
             raise ValueError("ROLE_MODEL_ROUTES 包含未知工作流角色")
+        if set(self.role_output_token_limits) - ROLES:
+            raise ValueError("ROLE_OUTPUT_TOKEN_LIMITS 包含未知工作流角色")
+        if any(not 1 <= value <= 32000 for value in self.role_output_token_limits.values()):
+            raise ValueError("ROLE_OUTPUT_TOKEN_LIMITS 必须在 1 到 32000 之间")
         if self.reranker_backend == "rerank_api" and "Reranker" not in self.role_model_routes:
             raise ValueError("专用重排接口需要显式的 Reranker 模型路由")
         if self.provider_quota_enabled and not self.provider_quota_redis_url.startswith(("redis://", "rediss://")):

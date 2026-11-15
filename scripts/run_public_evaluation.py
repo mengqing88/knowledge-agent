@@ -9,6 +9,7 @@ import json
 import sys
 import time
 from datetime import datetime, timezone
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from uuid import uuid4
 
@@ -25,7 +26,7 @@ from evaluation.budget import BudgetLedger, BudgetProvider  # noqa: E402
 from evaluation.quality_profiles import LIMITS  # noqa: E402
 from evaluation.report import summarize  # noqa: E402
 from evaluation.review import make_template, summarize_agent, summarize_manual  # noqa: E402
-from evaluation.run import case_order  # noqa: E402
+from evaluation.run import case_order, select_questions  # noqa: E402
 from scripts.benchmark_chunking import scratch  # noqa: E402
 from scripts.benchmark_quality import trace_data, write  # noqa: E402
 from scripts.isolated_acceptance import port  # noqa: E402
@@ -35,14 +36,55 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def seed_budget_ledger(source, destination, reconciled_untracked_cost):
+    source, destination = Path(source).resolve(), Path(destination).resolve()
+    if source == destination:
+        raise ValueError("Continuation runs require a separate budget ledger")
+    if destination.exists():
+        raise ValueError("Continuation budget ledger already exists")
+    try:
+        amount = Decimal(str(reconciled_untracked_cost))
+    except InvalidOperation:
+        raise ValueError("Prior untracked charge must be reconciled to a CNY amount") from None
+    if not amount.is_finite() or amount < 0:
+        raise ValueError("Prior untracked charge must be a finite nonnegative CNY amount")
+    data = json.loads(source.read_text(encoding="utf-8"))
+    if data.get("currency") != "CNY":
+        raise ValueError("The seed ledger must use CNY")
+    if data.get("halt_reason") or any(call.get("status") != "settled" for call in data.get("calls", [])):
+        raise ValueError("The seed ledger contains unresolved or interrupted requests")
+    data.setdefault("adjustments", []).append({
+        "kind": "reconciled_prior_untracked_charge",
+        "amount": str(amount),
+        "currency": data.get("currency"),
+        "reconciled_at": datetime.now(timezone.utc).isoformat(),
+        "source": "caller-provided external billing reconciliation",
+    })
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    return str(amount)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project", required=True)
     parser.add_argument("--output", type=Path, default=ROOT / "evaluation/results/public-3yuan-v1")
     parser.add_argument("--prices", type=Path, default=ROOT / "evaluation/public_docs_v1/prices.json")
+    parser.add_argument("--question-ids", nargs="+", help="Run only the named frozen question IDs")
+    parser.add_argument("--modes", nargs="+", choices=["baseline_rag", "full_agent"],
+                        default=["baseline_rag", "full_agent"])
+    parser.add_argument("--ledger-seed", type=Path,
+                        help="Prior budget ledger to carry into a targeted continuation run")
+    parser.add_argument("--reconciled-untracked-charge-cny",
+                        help="Previously unlogged charge verified against provider billing")
     args = parser.parse_args()
     if not args.project.startswith("kbaccept-"):
         raise SystemExit("Use a dedicated acceptance Compose project")
+    if args.question_ids and (args.modes != ["full_agent"] or not args.ledger_seed
+                              or args.reconciled_untracked_charge_cny is None):
+        raise SystemExit("Targeted retries require --modes full_agent, --ledger-seed, and a reconciled prior charge")
+    if len(set(args.modes)) != len(args.modes):
+        raise SystemExit("Duplicate evaluation modes")
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=True)
     if (output / "manifest.json").exists():
@@ -51,9 +93,21 @@ def main():
     for evidence in prices["evidence"]:
         if digest(ROOT / evidence["file"]) != evidence["sha256"]:
             raise SystemExit("Price evidence hash changed")
-    ledger = BudgetLedger(output / "cost-ledger.json", prices["rates"])
     source = ROOT / "evaluation/public_docs_v1"
     suite = json.loads((source / "suite.json").read_text(encoding="utf-8"))
+    try:
+        questions = select_questions(suite["questions"], args.question_ids)
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from None
+    ledger_path = output / "cost-ledger.json"
+    reconciled_charge = None
+    if args.question_ids:
+        try:
+            reconciled_charge = seed_budget_ledger(args.ledger_seed, ledger_path,
+                                                   args.reconciled_untracked_charge_cny)
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            raise SystemExit(f"Cannot prepare continued budget ledger: {exc}") from None
+    ledger = BudgetLedger(ledger_path, prices["rates"])
     corpus = json.loads((source / "corpus.json").read_text(encoding="utf-8"))
     if digest(source / "corpus.json") != suite["corpus_manifest_sha256"]:
         raise SystemExit("Corpus manifest changed")
@@ -62,8 +116,8 @@ def main():
             raise SystemExit("Corpus excerpt changed")
         if digest(source / "originals" / doc["source"]["file"]) != doc["source"]["sha256"]:
             raise SystemExit("Original source changed")
-    modes = ["baseline_rag", "full_agent"]
-    settings = Settings(**{**LIMITS, "max_context_chars": 8000, "max_run_tokens": 180000,
+    modes = args.modes
+    limits = {**LIMITS, "max_context_chars": 8000, "max_run_tokens": 180000,
         "query_rewrite_enabled": False, "query_max_per_subquestion": 2,
         "provider_quota_enabled": False,
         "database_url": f"postgresql+psycopg://acceptance:acceptance-local-only@127.0.0.1:{port(args.project, 'db', 5432)}/acceptance",
@@ -73,13 +127,18 @@ def main():
         "chat_input_price_per_million": float(prices["rates"]["chat"]["input"]),
         "chat_output_price_per_million": float(prices["rates"]["chat"]["output"]),
         "embedding_price_per_million": float(prices["rates"]["embedding"]["input"]),
-        "price_currency": "CNY", "price_source": "evaluation/public_docs_v1/prices.json"})
+        "price_currency": "CNY", "price_source": "evaluation/public_docs_v1/prices.json"}
+    if args.question_ids:
+        limits["role_output_token_limits"] = {"Analyst": 8000, "Verifier": 8000}
+    settings = Settings(**limits)
     settings.storage_dir.mkdir(exist_ok=True)
     manifest = dict(created_at=datetime.now(timezone.utc).isoformat(), dev_only=True, fictional=False,
                     human_reviewed=False, review_source="agent", manual_semantic_review="pending",
-                    question_set_sha256=digest(source / "suite.json"),
+                    question_set_sha256=digest(source / "suite.json"), selected_question_ids=[
+                        question["question_id"] for question in questions],
+                    reconciled_untracked_charge_cny=reconciled_charge,
                     corpus_manifest_sha256=digest(source / "corpus.json"),
-                    questions=suite["questions"], mode_order=modes, limits=LIMITS,
+                    questions=questions, mode_order=modes, limits=limits,
                     model=settings.model, embedding_model=settings.embedding_model,
                     project=args.project, status="preparing", execution="synchronous isolated real worker; shared vector cache",
                     price_manifest_sha256=digest(args.prices))
@@ -117,7 +176,7 @@ def main():
                 for question in manifest["questions"]:
                     question["snapshot_id"] = snapshot.id
             write(output / "manifest.json", manifest)
-            for number, question, mode in case_order(suite["questions"], modes):
+            for number, question, mode in case_order(questions, modes):
                 ledger.guard()
                 arm = isolated.model_copy(update={"evidence_gate_enabled": mode == "full_agent"})
                 row = dict(question_id=question["question_id"], mode=mode)
@@ -139,7 +198,7 @@ def main():
         print("Stopped:", stop_reason, flush=True)
     finally:
         skipped = []
-        for number, question, mode in case_order(suite["questions"], modes):
+        for number, question, mode in case_order(questions, modes):
             path = output / mode / f"{number:04d}.json"
             if not path.exists():
                 skipped.append([question["question_id"], mode])

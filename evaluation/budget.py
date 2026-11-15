@@ -33,12 +33,13 @@ class BudgetLedger:
             decimal(price["input"])
             decimal(price["output"])
         self.data = {"currency": "CNY", "hard_limit": str(self.hard_limit), "stop_at": str(self.stop_at),
-                     "prices": prices, "calls": [], "halt_reason": None}
+                     "prices": prices, "calls": [], "adjustments": [], "halt_reason": None}
         if self.path.exists():
             self.data = json.loads(self.path.read_text(encoding="utf-8"))
             if (self.data["prices"] != prices or self.data["hard_limit"] != str(self.hard_limit)
                     or self.data["stop_at"] != str(self.stop_at)):
                 raise ValueError("Existing ledger identity/limits differ")
+            self.data.setdefault("adjustments", [])
             if any(c["status"] == "reserved" for c in self.data["calls"]):
                 self.data["halt_reason"] = "interrupted_request_usage_unknown"
         self.save()
@@ -50,7 +51,9 @@ class BudgetLedger:
         temporary.replace(self.path)
 
     def total(self):
-        return sum((decimal(c.get("actual_cost", c["reserved_cost"])) for c in self.data["calls"]), Decimal(0))
+        calls = sum((decimal(c.get("actual_cost", c["reserved_cost"])) for c in self.data["calls"]), Decimal(0))
+        adjustments = sum((decimal(item["amount"]) for item in self.data.get("adjustments", [])), Decimal(0))
+        return calls + adjustments
 
     def guard(self):
         if self.data["halt_reason"] or self.total() >= self.stop_at:
