@@ -19,9 +19,9 @@ def main():
     sys.argv = [sys.argv[0], *rest]
     if args.command == "api":
         import uvicorn
-        uvicorn.run("app.main:app", host="127.0.0.1", port=int(os.environ.get("KB_API_PORT", "8000")))
+        uvicorn.run("app.api.main:app", host="127.0.0.1", port=int(os.environ.get("KB_API_PORT", "8000")))
     elif args.command == "worker":
-        from app.worker import main as worker
+        from app.jobs.worker import main as worker
         worker()
     elif args.command in ("doctor", "migrate-vectors"):
         from app.cli import main as cli
@@ -31,7 +31,7 @@ def main():
         from app.bootstrap import main as bootstrap
         return bootstrap()
     elif args.command in ("celery", "beat"):
-        from app.tasks import celery_app
+        from app.jobs.tasks import celery_app
         if args.command == "celery":
             celery_app.worker_main(["worker", "--pool=solo", "--loglevel=INFO", *rest])
         else:

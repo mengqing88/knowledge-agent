@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { BookOpen, Check, ChevronDown, CircleAlert, FileText, LoaderCircle, LogOut, MessageSquare, Plus, RefreshCw, Send, Square, Upload, Users, Wrench, X, Pencil, Trash2, History, Search, ClipboardCheck } from 'lucide-vue-next'
-import { api, ApiError } from './api'
-import CodeRepairPanel from './CodeRepairPanel.vue'
-import { elapsedTime, mergeEvents, runProgress } from './runProgress'
-import { watchRun } from './runStream'
-import { loadRunView, reviewRunAnswer } from './runView'
-import type { RunView } from './runView'
-import type { ConnectionState } from './runStream'
-import type { Corpus, PaperVersion, Run, RunEvent, Snapshot, Evidence, User, Member, Role, Trace, HistoryItem, Health } from './types'
+import { api, ApiError } from './api/client'
+import CodeRepairPanel from './components/CodeRepairPanel.vue'
+import { elapsedTime, mergeEvents, runProgress } from './features/runs/runProgress'
+import { watchRun } from './features/runs/runStream'
+import { loadRunView, reviewRunAnswer } from './features/runs/runView'
+import type { RunView } from './features/runs/runView'
+import type { ConnectionState } from './features/runs/runStream'
+import type { Corpus, PaperVersion, Run, RunEvent, Snapshot, Evidence, User, Member, Role, Trace, HistoryItem, Health } from './types/index'
 
 const user = ref<User | null>(null), booting = ref(true), busy = ref(false), loading = ref(false)
 const error = ref(''), notice = ref(''), username = ref('admin'), password = ref('')

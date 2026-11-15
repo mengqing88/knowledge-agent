@@ -1,11 +1,11 @@
 import pytest
-from app.errors import DomainError, ProviderError
-from app.evidence import get_or_create_span, validate_span
-from app.models import Chunk, IndexRevision, Snapshot, SourceBlock
-from app.retrieval import collapse_duplicate_hits, hybrid_search, rrf
-from app.schemas import RunCreate
-from app.services import create_run
-from app.tools import ScopedTools
+from app.agents.tools import ScopedTools
+from app.core.errors import DomainError, ProviderError
+from app.core.models import Chunk, IndexRevision, Snapshot, SourceBlock
+from app.core.schemas import RunCreate
+from app.jobs.services import create_run
+from app.knowledge.evidence import get_or_create_span, validate_span
+from app.knowledge.retrieval import collapse_duplicate_hits, hybrid_search, rrf
 from sqlalchemy import select
 
 
@@ -133,7 +133,7 @@ def test_source_tool_rejects_invalid_ids_before_database_access(block_ids):
 
 
 def test_changed_chunk_rule_requires_reindex_without_mutating_old_snapshot(sessions, settings, corpus, fake):
-    from app.ingestion import CHUNK_CONFIG, index_config
+    from app.knowledge.ingestion import CHUNK_CONFIG, index_config
 
     with sessions.begin() as db:
         index = db.get(IndexRevision, "index1")
@@ -175,7 +175,7 @@ def test_keyword_fallback_remains_snapshot_scoped(sessions, corpus, fake, monkey
     def fail_embedding(_self, _query):
         raise ProviderError("embedding is temporarily unavailable", "embedding_unavailable", retryable=True)
 
-    monkeypatch.setattr("app.retrieval.ProviderEmbedding.get_query_embedding", fail_embedding)
+    monkeypatch.setattr("app.knowledge.retrieval.ProviderEmbedding.get_query_embedding", fail_embedding)
     with sessions() as db:
         result = hybrid_search(db, db.get(Snapshot, "snap1"), "M F1 dataset X", fake, "test-embedding")
     assert result.degradation == {"code": "embedding_unavailable", "route": "keyword_only"}
@@ -203,7 +203,7 @@ def test_keyword_fallback_collapses_duplicates_before_limit(sessions, corpus, fa
     def fail_embedding(_self, _query):
         raise ProviderError("embedding is temporarily unavailable", "embedding_unavailable", retryable=True)
 
-    monkeypatch.setattr("app.retrieval.ProviderEmbedding.get_query_embedding", fail_embedding)
+    monkeypatch.setattr("app.knowledge.retrieval.ProviderEmbedding.get_query_embedding", fail_embedding)
     with sessions() as db:
         result = hybrid_search(db, db.get(Snapshot, "snap1"), "fallbackmarker", fake, "test-embedding", limit=3)
     assert result.degradation == {"code": "embedding_unavailable", "route": "keyword_only"}

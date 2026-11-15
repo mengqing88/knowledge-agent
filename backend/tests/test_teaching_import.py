@@ -3,7 +3,7 @@ import json
 import httpx
 import pytest
 
-from scripts import load_teaching_demo
+from scripts.demo import load_teaching_demo
 
 
 @pytest.fixture

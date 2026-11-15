@@ -1,19 +1,32 @@
 from datetime import timedelta
 
 import pytest
-from app import main as main_module
-from app.db import get_db
-from app.errors import BudgetExhausted, ProviderError
-from app.governance import digest, usage_summary
-from app.main import app
-from app.models import AnswerRevision, ModelCall, QuestionRun, ReviewRecord, RunEvent, now
-from app.providers import ModelProvider
-from app.schemas import Plan, RunCreate
-from app.services import claim_job, create_run
-from app.worker import process_job
-from app.workflow import Workflow, initial_state
+from app.agents.governance import digest, usage_summary
+from app.agents.workflow import Workflow, initial_state
+from app.api import main as main_module
+from app.api.main import app
+from app.core.db import get_db
+from app.core.errors import BudgetExhausted, ProviderError
+from app.core.models import AnswerRevision, ModelCall, QuestionRun, ReviewRecord, RunEvent, now
+from app.core.schemas import Plan, RunCreate
+from app.integrations.providers import ModelProvider
+from app.jobs.services import claim_job, create_run
+from app.jobs.worker import process_job
 from fastapi.testclient import TestClient
 from sqlalchemy import func, select
+
+
+def test_nested_application_change_invalidates_recorded_code_identity(tmp_path, monkeypatch):
+    from app.agents import governance
+
+    module = tmp_path / "backend/app/knowledge/retrieval.py"
+    module.parent.mkdir(parents=True)
+    module.write_text("value = 1\n", encoding="utf-8")
+    monkeypatch.setattr(governance, "ROOT", tmp_path)
+    recorded = governance.code_identity()
+    assert "backend/app/knowledge/retrieval.py" in recorded
+    module.write_text("value = 2\n", encoding="utf-8")
+    assert governance.code_identity() != recorded
 
 
 def queue(sessions, settings, key="part4-first"):
@@ -263,7 +276,7 @@ def test_audit_commit_failure_prevents_provider_call(sessions, settings, corpus,
     workflow = Workflow(sessions, settings, fake, run_id, job[2])
     with sessions() as db:
         state = initial_state(db.get(QuestionRun, run_id))
-    monkeypatch.setattr("app.workflow.emit", lambda *_args, **_kwargs: (_ for _ in ()).throw(RuntimeError("disk")))
+    monkeypatch.setattr("app.agents.workflow.emit", lambda *_args, **_kwargs: (_ for _ in ()).throw(RuntimeError("disk")))
     with pytest.raises(RuntimeError, match="disk"):
         workflow.call(state, "Planner", "", {"question": "M F1"}, Plan)
     assert not fake.roles

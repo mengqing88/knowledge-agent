@@ -1,7 +1,7 @@
 import pytest
-from app.config import Settings
-from app.db import Base, make_engine
-from app.models import (
+from app.core.config import Settings
+from app.core.db import Base, make_engine
+from app.core.models import (
     Chunk,
     Corpus,
     IndexRevision,
@@ -32,9 +32,9 @@ def settings(tmp_path):
 
 @pytest.fixture
 def corpus(sessions, settings):
-    from app.ingestion import index_config
+    from app.knowledge.ingestion import index_config
     with sessions.begin() as db:
-        from app.auth import hash_password
+        from app.core.auth import hash_password
         db.add(User(id="local-user", username="admin", password_hash=hash_password("test-password")))
         db.flush()
         db.add(Corpus(id="corpus1", owner_id="local-user", name="教学样例"))
@@ -73,7 +73,7 @@ class FakeProvider:
         return [[1., 0., 0.] for _ in texts]
 
     def structured(self, role, prompt, data, schema):
-        from app.errors import ProviderError
+        from app.core.errors import ProviderError
         self.roles.append(role)
         if self.fail:
             raise ProviderError("模型服务超时")

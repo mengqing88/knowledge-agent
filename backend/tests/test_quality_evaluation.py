@@ -5,7 +5,7 @@ import pytest
 
 from evaluation.report import summarize
 from evaluation.review import make_template, modes_for, summarize_manual
-from scripts.benchmark_quality import load_suite
+from scripts.benchmarks.benchmark_quality import load_suite
 
 ROOT = Path(__file__).resolve().parents[2]
 

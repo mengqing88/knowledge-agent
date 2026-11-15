@@ -1,9 +1,9 @@
 import pytest
-from app.errors import ProviderError
-from app.models import ModelCall, QuestionRun, RetrievalRecord, RunEvent
-from app.schemas import RunCreate
-from app.services import claim_job, create_run
-from app.worker import process_job
+from app.core.errors import ProviderError
+from app.core.models import ModelCall, QuestionRun, RetrievalRecord, RunEvent
+from app.core.schemas import RunCreate
+from app.jobs.services import claim_job, create_run
+from app.jobs.worker import process_job
 from conftest import FakeProvider
 from sqlalchemy import select
 
@@ -42,8 +42,8 @@ def test_permanent_embedding_error_does_not_silently_degrade(sessions, settings,
             raise ProviderError("向量维度不匹配", "embedding_invalid")
 
     with sessions() as db:
-        from app.models import Snapshot
-        from app.retrieval import hybrid_search
+        from app.core.models import Snapshot
+        from app.knowledge.retrieval import hybrid_search
 
         with pytest.raises(ProviderError) as exc:
             hybrid_search(db, db.get(Snapshot, "snap1"), "M F1 dataset X", InvalidEmbedding(),

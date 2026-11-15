@@ -2,7 +2,7 @@ import subprocess
 from types import SimpleNamespace
 
 import pytest
-from app import code_repair
+from app.repair import service as code_repair
 
 
 @pytest.mark.parametrize("stdout,stderr", [("partial-output", None), (b"partial-output", b"partial-error")])

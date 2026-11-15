@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 import pytest
-from app.services import answer_content_hash
+from app.jobs.services import answer_content_hash
 
 
 @pytest.fixture

@@ -1,14 +1,14 @@
 import copy
 
 import pytest
-from app.errors import InterruptedRun, ProviderError
-from app.models import AnswerClaim, AnswerRevision, QuestionRun
-from app.prompts import EVIDENCE_GATE
-from app.quality_gate import validate_readiness
-from app.schemas import EvidenceReadiness, RunCreate, Subquestion
-from app.services import claim_job, create_run
-from app.worker import process_job
-from app.workflow import Workflow, initial_state
+from app.agents.prompts import EVIDENCE_GATE
+from app.agents.quality_gate import validate_readiness
+from app.agents.workflow import Workflow, initial_state
+from app.core.errors import InterruptedRun, ProviderError
+from app.core.models import AnswerClaim, AnswerRevision, QuestionRun
+from app.core.schemas import EvidenceReadiness, RunCreate, Subquestion
+from app.jobs.services import claim_job, create_run
+from app.jobs.worker import process_job
 from conftest import FakeProvider
 from pydantic import ValidationError
 from sqlalchemy import select

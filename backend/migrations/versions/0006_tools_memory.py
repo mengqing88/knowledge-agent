@@ -1,6 +1,6 @@
 """Explicit external operations and user-confirmed private memory."""
 from alembic import op
-from app.models import ExternalOperation, ExternalOperationEvent, MCPInvocation, MemoryEntry, MemoryEvent
+from app.core.models import ExternalOperation, ExternalOperationEvent, MCPInvocation, MemoryEntry, MemoryEvent
 
 revision = "0006"
 down_revision = "0005"

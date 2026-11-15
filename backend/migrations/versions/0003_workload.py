@@ -1,6 +1,6 @@
 """Serialize task admission and capacity checks across API/worker processes."""
 from alembic import op
-from app.models import WorkloadGate
+from app.core.models import WorkloadGate
 
 revision = "0003"
 down_revision = "0002"

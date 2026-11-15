@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import {test} from 'node:test'
-import {elapsedTime, mergeEvents, runProgress} from '../src/runProgress.ts'
-import {watchRun} from '../src/runStream.ts'
+import {elapsedTime, mergeEvents, runProgress} from '../src/features/runs/runProgress.ts'
+import {watchRun} from '../src/features/runs/runStream.ts'
 
 const event = (seq, kind = 'node_started', payload = {node: 'planner'}, attempt = 1) => ({seq, kind, payload, attempt, created_at: '2026-11-12T00:00:00'})
 const run = (status = 'running', attempt = 1, mode = 'full_agent') => ({id: 'run-1', status, attempt, mode})

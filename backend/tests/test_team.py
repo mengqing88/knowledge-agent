@@ -4,16 +4,15 @@ from datetime import timedelta
 from io import BytesIO
 
 import pytest
-from app import main as main_module
-from app import services as services_module
-from app.access import require_role
-from app.auth import hash_password, verify_password
-from app.db import get_db
-from app.errors import DomainError
-from app.governance import digest
-from app.ingestion import build_chunks, extract_document, ingest_version
-from app.main import app
-from app.models import (
+from app.agents.governance import digest
+from app.agents.workflow import Workflow, initial_state
+from app.api import main as main_module
+from app.api.main import app
+from app.core.access import require_role
+from app.core.auth import hash_password, verify_password
+from app.core.db import get_db
+from app.core.errors import DomainError
+from app.core.models import (
     AcceptedAnswerExperience,
     AnswerApprovalRecord,
     AnswerClaim,
@@ -30,9 +29,10 @@ from app.models import (
     User,
     now,
 )
-from app.schemas import Reranking, RunCreate
-from app.services import answer_content_hash, claim_job, create_run, create_snapshot
-from app.workflow import Workflow, initial_state
+from app.core.schemas import Reranking, RunCreate
+from app.jobs import services as services_module
+from app.jobs.services import answer_content_hash, claim_job, create_run, create_snapshot
+from app.knowledge.ingestion import build_chunks, extract_document, ingest_version
 from docx import Document
 from fastapi.testclient import TestClient
 from sqlalchemy import select
@@ -265,7 +265,7 @@ def test_uploaded_document_question_lifecycle(client, sessions, settings, fake, 
     version_id = uploaded.json()["id"]
     ingest_job = claim_job(sessions, settings)
     assert ingest_job[:2] == ("ingest", version_id)
-    from app.worker import process_job
+    from app.jobs.worker import process_job
     process_job(sessions, settings, fake, ingest_job)
     ready = client.get(f"/api/paper-versions/{version_id}").json()
     assert ready["status"] == "ready" and ready["is_active"]
@@ -340,7 +340,7 @@ def create_pending_answer(client, sessions, settings, fake, question):
     run_id = response.json()["id"]
     job = claim_job(sessions, settings)
     assert job and job[1] == run_id
-    from app.worker import process_job
+    from app.jobs.worker import process_job
     process_job(sessions, settings, fake, job)
     with sessions() as db:
         answer = db.scalar(select(AnswerRevision).where(AnswerRevision.run_id == run_id))
@@ -548,7 +548,7 @@ def test_answer_approval_rechecks_author_and_snapshot(client, sessions, settings
 
 def test_answer_rejection_requires_reason_and_replay_carries_feedback(
         client, sessions, settings, fake, monkeypatch):
-    from app import team_api
+    from app.api import team_api
 
     settings.answer_review_required = True
     monkeypatch.setattr(team_api, "get_settings", lambda: settings)
@@ -727,7 +727,7 @@ def test_reranker_selects_actual_result_blocks_instead_of_repeated_headings(sess
 
 
 def test_failed_update_leaves_old_version_available(sessions, settings, corpus):
-    from app.worker import process_job
+    from app.jobs.worker import process_job
     from conftest import FakeProvider
 
     settings.storage_dir.mkdir()
@@ -739,7 +739,7 @@ def test_failed_update_leaves_old_version_available(sessions, settings, corpus):
                             status="uploaded", is_active=False))
     class BrokenEmbedding(FakeProvider):
         def embed(self, *args):
-            from app.errors import ProviderError
+            from app.core.errors import ProviderError
             raise ProviderError("模拟向量服务失败")
     process_job(sessions, settings, BrokenEmbedding(), claim_job(sessions, settings))
     with sessions() as db:
@@ -749,8 +749,9 @@ def test_failed_update_leaves_old_version_available(sessions, settings, corpus):
 
 
 def test_celery_task_runs_durable_job(sessions, settings, corpus, fake, monkeypatch):
-    from app import db as database
-    from app import providers, tasks
+    from app.core import db as database
+    from app.integrations import providers
+    from app.jobs import tasks
 
     settings.database_url = "sqlite:///test-only"
     monkeypatch.setattr(tasks, "settings", settings)

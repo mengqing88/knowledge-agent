@@ -1,7 +1,7 @@
-import app.main as main_module
-from app.db import get_db
-from app.main import app
-from app.models import Corpus, QuestionRun
+import app.api.main as main_module
+from app.api.main import app
+from app.core.db import get_db
+from app.core.models import Corpus, QuestionRun
 from fastapi.testclient import TestClient
 from sqlalchemy import select
 

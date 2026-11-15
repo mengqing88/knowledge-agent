@@ -4,13 +4,13 @@ from decimal import Decimal
 from pathlib import Path
 
 import pytest
-from app.errors import BudgetExhausted
+from app.core.errors import BudgetExhausted
 
 from evaluation.budget import BudgetLedger, BudgetProvider
 from evaluation.review import make_template, summarize_agent, summarize_manual
 from evaluation.run import case_order, select_questions
-from scripts.compare_saved_reranker import ranking_metrics, saved_cases
-from scripts.run_public_evaluation import seed_budget_ledger
+from scripts.evaluation.compare_saved_reranker import ranking_metrics, saved_cases
+from scripts.evaluation.run_public_evaluation import seed_budget_ledger
 
 
 def prices():
@@ -136,7 +136,7 @@ def test_unpriced_endpoint_and_exceeded_usage_stop(tmp_path):
 
 
 def test_provider_uses_single_global_ledger_and_exact_embedding_cache(tmp_path, settings, monkeypatch):
-    from app.providers import ModelProvider
+    from app.integrations.providers import ModelProvider
     settings = settings.model_copy(update={"provider_max_retries": 0, "embedding_model": "e",
                                           "embedding_base_url": "https://embed.test/v1"})
     ledger = BudgetLedger(tmp_path / "cost.json", prices())

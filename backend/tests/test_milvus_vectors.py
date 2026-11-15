@@ -5,12 +5,12 @@ from alembic.config import Config
 from alembic.migration import MigrationContext
 from alembic.operations import Operations
 from alembic.script import ScriptDirectory
-from app.config import ROOT
-from app.errors import ProviderError
-from app.models import Chunk, IndexRevision, Snapshot
-from app.retrieval import milvus_search
-from app.vector_migration import migrate_vectors
-from app.vector_store import MilvusVectorStore
+from app.core.config import ROOT
+from app.core.errors import ProviderError
+from app.core.models import Chunk, IndexRevision, Snapshot
+from app.knowledge.retrieval import milvus_search
+from app.knowledge.vector_migration import migrate_vectors
+from app.knowledge.vector_store import MilvusVectorStore
 from sqlalchemy import create_engine, text
 
 

@@ -3,10 +3,10 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 import pymupdf
 import pytest
-from app import ingestion
-from app.errors import DomainError
-from app.ingestion import build_chunks, extract_document, extract_pdf, ingest_version
-from app.models import Chunk, PaperVersion, SourceBlock
+from app.core.errors import DomainError
+from app.core.models import Chunk, PaperVersion, SourceBlock
+from app.knowledge import ingestion
+from app.knowledge.ingestion import build_chunks, extract_document, extract_pdf, ingest_version
 from sqlalchemy import func, select
 
 

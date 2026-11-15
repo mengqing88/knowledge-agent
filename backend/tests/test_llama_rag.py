@@ -1,8 +1,9 @@
 from types import SimpleNamespace
 
 import pytest
-from app.errors import BudgetExhausted, ProviderError
-from app.llama_rag import (
+from app.core.errors import BudgetExhausted, ProviderError
+from app.core.models import Chunk, IndexRevision
+from app.knowledge.llama_rag import (
     ProviderEmbedding,
     RevisionVectorStore,
     chunk_node,
@@ -10,7 +11,6 @@ from app.llama_rag import (
     index_chunks,
     retrieve_revision,
 )
-from app.models import Chunk, IndexRevision
 from llama_index.core import VectorStoreIndex
 from llama_index.core.schema import MetadataMode, QueryBundle
 from llama_index.core.settings import Settings as LlamaSettings

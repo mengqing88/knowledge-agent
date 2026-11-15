@@ -1,13 +1,13 @@
 from concurrent.futures import ThreadPoolExecutor
 
 import pytest
-from app.errors import ProviderError
-from app.resilience import Circuits
+from app.core.errors import ProviderError
+from app.integrations.resilience import Circuits
 
 
 def test_circuit_opens_after_threshold_allows_one_probe_and_recovers(monkeypatch):
     now = [100.0]
-    monkeypatch.setattr("app.resilience.time.monotonic", lambda: now[0])
+    monkeypatch.setattr("app.integrations.resilience.time.monotonic", lambda: now[0])
     circuit = Circuits()
 
     for _ in range(3):
@@ -28,7 +28,7 @@ def test_circuit_opens_after_threshold_allows_one_probe_and_recovers(monkeypatch
 
 def test_circuit_allows_only_one_concurrent_half_open_probe(monkeypatch):
     now = [100.0]
-    monkeypatch.setattr("app.resilience.time.monotonic", lambda: now[0])
+    monkeypatch.setattr("app.integrations.resilience.time.monotonic", lambda: now[0])
     circuit = Circuits()
     circuit.enter("chat-provider", cooldown=30)
     circuit.finish("chat-provider", failed=True, threshold=1)

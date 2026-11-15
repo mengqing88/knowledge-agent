@@ -7,11 +7,11 @@ from typing import Literal
 from pydantic import BaseModel
 from sqlalchemy import text
 
-from .config import get_settings
-from .db import Session
-from .errors import DomainError, ProviderError
-from .providers import ModelProvider
-from .vector_store import MilvusVectorStore
+from app.core.config import get_settings
+from app.core.db import Session
+from app.core.errors import DomainError, ProviderError
+from app.integrations.providers import ModelProvider
+from app.knowledge.vector_store import MilvusVectorStore
 
 
 class Probe(BaseModel):
@@ -71,7 +71,7 @@ def main():
     if args.command == "doctor":
         return doctor(args.output)
     if args.command == "migrate-vectors":
-        from .vector_migration import migrate_vectors
+        from app.knowledge.vector_migration import migrate_vectors
 
         with Session() as db:
             if db.bind.dialect.name != "postgresql":

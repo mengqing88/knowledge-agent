@@ -1,8 +1,9 @@
 from datetime import timedelta
 
 import pytest
-from app.errors import DomainError, InterruptedRun
-from app.models import (
+from app.agents.workflow import Workflow, initial_state
+from app.core.errors import DomainError, InterruptedRun
+from app.core.models import (
     AnswerClaim,
     AnswerRevision,
     Chunk,
@@ -17,10 +18,9 @@ from app.models import (
     SourceBlock,
     now,
 )
-from app.schemas import RunCreate
-from app.services import claim_job, create_run
-from app.worker import process_job
-from app.workflow import Workflow, initial_state
+from app.core.schemas import RunCreate
+from app.jobs.services import claim_job, create_run
+from app.jobs.worker import process_job
 from conftest import FakeProvider
 from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
@@ -193,7 +193,7 @@ def test_timeout_is_technical_failure_not_refusal(sessions, settings, corpus):
 
 
 def test_reranker_failure_is_recorded_without_unverified_fallback(sessions, settings, corpus):
-    from app.errors import ProviderError
+    from app.core.errors import ProviderError
 
     class FailingReranker(FakeProvider):
         def structured(self, role, *args):
@@ -222,7 +222,7 @@ def test_idempotency_and_snapshot_immutable(sessions, settings, corpus):
 
 
 def test_unrelated_integrity_error_does_not_retry_creation(sessions, settings, corpus, monkeypatch):
-    import app.services as services
+    import app.jobs.services as services
 
     calls = []
 

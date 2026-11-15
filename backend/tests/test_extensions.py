@@ -11,22 +11,23 @@ from pathlib import Path
 
 import httpx
 import pytest
-from app import external_operations, memory
-from app.db import get_db
-from app.errors import DomainError
-from app.extension_schemas import (
+from app.agents import memory
+from app.api.main import app
+from app.core.db import get_db
+from app.core.errors import DomainError
+from app.core.extension_schemas import (
     MemoryCreate,
     MemoryEdit,
     OperationCreate,
     OperationDecision,
     Resolution,
 )
-from app.main import app
-from app.mcp_client import MCPClient, ServerConfig, configured_server, load_servers
-from app.models import MemoryEntry, QuestionRun, now
-from app.schemas import RunCreate
-from app.services import claim_job, create_run
-from app.worker import process_job
+from app.core.models import MemoryEntry, QuestionRun, now
+from app.core.schemas import RunCreate
+from app.integrations import external_operations
+from app.integrations.mcp_client import MCPClient, ServerConfig, configured_server, load_servers
+from app.jobs.services import claim_job, create_run
+from app.jobs.worker import process_job
 from conftest import FakeProvider
 from fastapi.testclient import TestClient
 
@@ -243,7 +244,7 @@ def test_memory_confirmation_context_separate_quotas_versions_deletion_and_scope
         memory.delete_memory(db, pref, "local-user", 2)
         assert db.get(MemoryEntry, pref.id).content == ""
         assert memory.active_frozen_context(db, "other-user", context) == []
-        snapshot = db.get(__import__("app.models", fromlist=["Snapshot"]).Snapshot, "snap1")
+        snapshot = db.get(__import__("app.core.models", fromlist=["Snapshot"]).Snapshot, "snap1")
         snapshot.manifest = [{**snapshot.manifest[0], "sha256": "b"*64}]
         db.commit()
         assert not [r for r in memory.context_for_run(db, run) if r["memory_kind"] in ("success", "failure")]
@@ -275,7 +276,7 @@ def test_confirmed_memory_reaches_next_model_request_but_candidates_do_not(sessi
 
 
 def test_extension_api_auth_confirmation_scope_cleanup_and_default_closed(sessions, settings, corpus):
-    from app.config import get_settings
+    from app.core.config import get_settings
 
     def override_db():
         with sessions() as db:

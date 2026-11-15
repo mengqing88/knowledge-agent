@@ -1,6 +1,6 @@
 """Team membership, authentication and document metadata (also upgrades existing demos)."""
 from alembic import op
-from app import models
+from app.core import models
 from sqlalchemy import inspect, text
 
 revision = "0002"

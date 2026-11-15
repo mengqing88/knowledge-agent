@@ -3,18 +3,18 @@ import json
 from datetime import timedelta
 from types import SimpleNamespace
 
-import app.main as main_module
+import app.api.main as main_module
 import pytest
-from app.auth import create_session, token_hash
-from app.db import get_db
-from app.errors import InterruptedRun
-from app.main import app
-from app.models import AnswerRevision, LoginSession, Membership, QuestionRun, RunEvent, User, now
-from app.progress import progress_event
-from app.schemas import RunCreate
-from app.services import claim_job, create_run, emit, run_data
-from app.worker import process_job
-from app.workflow import Workflow, initial_state
+from app.agents.progress import progress_event
+from app.agents.workflow import Workflow, initial_state
+from app.api.main import app
+from app.core.auth import create_session, token_hash
+from app.core.db import get_db
+from app.core.errors import InterruptedRun
+from app.core.models import AnswerRevision, LoginSession, Membership, QuestionRun, RunEvent, User, now
+from app.core.schemas import RunCreate
+from app.jobs.services import claim_job, create_run, emit, run_data
+from app.jobs.worker import process_job
 from conftest import FakeProvider
 from fastapi.testclient import TestClient
 from sqlalchemy import event, select

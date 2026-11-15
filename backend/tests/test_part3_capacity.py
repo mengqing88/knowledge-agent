@@ -1,10 +1,10 @@
 from datetime import timedelta
 
 import pytest
-from app.errors import DomainError
-from app.models import QuestionRun, RunEvent, now
-from app.schemas import RunCreate
-from app.services import claim_job, create_run, heartbeat
+from app.core.errors import DomainError
+from app.core.models import QuestionRun, RunEvent, now
+from app.core.schemas import RunCreate
+from app.jobs.services import claim_job, create_run, heartbeat
 from sqlalchemy import select
 
 

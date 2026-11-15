@@ -2,19 +2,19 @@ import json
 from unittest.mock import Mock
 
 import pytest
-from app import provider_quota
-from app.errors import DomainError, ProviderError
-from app.evidence import evidence_data, validate_evidence
-from app.governance import role_rates
-from app.model_routing import ModelRoute, resolve_route
-from app.models import EvidenceSpan, MCPInvocation, ModelCall, QuestionRun, RunEvent, Snapshot
-from app.providers import ModelProvider
-from app.query_rewrite import rewrite_queries
-from app.schemas import Plan, Reranking, RunCreate
-from app.security import redact
-from app.services import claim_job, create_run, run_data
-from app.worker import process_job
-from app.workflow_tools import project_server
+from app.agents.governance import role_rates
+from app.agents.model_routing import ModelRoute, resolve_route
+from app.agents.workflow_tools import project_server
+from app.core.errors import DomainError, ProviderError
+from app.core.models import EvidenceSpan, MCPInvocation, ModelCall, QuestionRun, RunEvent, Snapshot
+from app.core.schemas import Plan, Reranking, RunCreate
+from app.core.security import redact
+from app.integrations import provider_quota
+from app.integrations.providers import ModelProvider
+from app.jobs.services import claim_job, create_run, run_data
+from app.jobs.worker import process_job
+from app.knowledge.evidence import evidence_data, validate_evidence
+from app.knowledge.query_rewrite import rewrite_queries
 from conftest import FakeProvider
 from pydantic import ValidationError
 from sqlalchemy import select
@@ -154,7 +154,7 @@ def test_quota_denial_and_redis_failure_send_zero_http_requests(settings, monkey
     client.eval.return_value = [0, 60, 1000]
     monkeypatch.setattr(provider_quota, "client_for", lambda _: client)
     http = Mock()
-    monkeypatch.setattr("app.providers.httpx.Client", http)
+    monkeypatch.setattr("app.integrations.providers.httpx.Client", http)
     provider = ModelProvider(settings)
     with pytest.raises(ProviderError, match="配额已满"):
         provider._post(settings.chat_base_url, settings.chat_api_key, "responses", {"model": "test"})
@@ -223,7 +223,7 @@ def test_real_stdio_project_logs_complete_workflow_and_tamper_protection(session
         info = evidence_data(db, span, "local-user")
         assert info["source_kind"] == "mcp_observation" and info["pdf_page_number"] is None
         assert run_data(db, run, "local-user")["answer"]["claims"][0]["text"].startswith("工具记录")
-        from app.models import Membership, User
+        from app.core.models import Membership, User
         db.add(User(id="log-reader", username="log-reader", password_hash="unused"))
         db.flush()
         member = Membership(corpus_id="corpus1", user_id="log-reader", role="reader")
@@ -240,7 +240,7 @@ def test_real_stdio_project_logs_complete_workflow_and_tamper_protection(session
 
 
 def test_project_logs_actor_scope_is_server_bound(sessions, settings, corpus, monkeypatch):
-    from app.project_logs_mcp import query_run_logs
+    from app.integrations.project_logs_mcp import query_run_logs
     with sessions() as db:
         monkeypatch.setenv("PROJECT_LOGS_DATABASE_URL", db.bind.url.render_as_string(hide_password=False))
     monkeypatch.setenv("PROJECT_LOGS_ACTOR", "outsider")
@@ -250,7 +250,7 @@ def test_project_logs_actor_scope_is_server_bound(sessions, settings, corpus, mo
 
 
 def test_reserved_builtin_server_is_not_user_configurable(settings, tmp_path):
-    from app.mcp_client import load_servers
+    from app.integrations.mcp_client import load_servers
     settings.mcp_enabled = True
     settings.mcp_servers_file = tmp_path / "servers.json"
     settings.mcp_servers_file.write_text(json.dumps({"servers": [project_server().model_dump()]}), encoding="utf-8")
@@ -260,8 +260,8 @@ def test_reserved_builtin_server_is_not_user_configurable(settings, tmp_path):
 
 @pytest.mark.parametrize("identity", ["unlisted:read", "project_runtime_logs:delete_logs"])
 def test_tool_router_cannot_select_unknown_or_write_tools(sessions, settings, corpus, identity, monkeypatch):
-    from app.workflow import Workflow, initial_state
-    from app.workflow_tools import WorkflowTools
+    from app.agents.workflow import Workflow, initial_state
+    from app.agents.workflow_tools import WorkflowTools
     settings.workflow_mcp_enabled, settings.project_logs_mcp_enabled = True, True
     with sessions() as db:
         run = create_run(db, RunCreate(snapshot_id="snap1", question="查看最近故障记录"),
@@ -276,7 +276,7 @@ def test_tool_router_cannot_select_unknown_or_write_tools(sessions, settings, co
         return {"project_runtime_logs:query_run_logs": (server, {"name": "query_run_logs"})}
     tools = WorkflowTools(workflow)
     monkeypatch.setattr(tools, "catalog", catalog)
-    from app.schemas import ToolDecision
+    from app.core.schemas import ToolDecision
     monkeypatch.setattr(workflow, "call", lambda *_args: ToolDecision(tool_identity=identity, arguments={}, reason="test"))
     with pytest.raises(ProviderError, match="未授权"):
         tools.run(state)
@@ -289,7 +289,7 @@ def test_external_evidence_migration_preserves_document_offsets(tmp_path):
     from alembic.migration import MigrationContext
     from alembic.operations import Operations
     from alembic.script import ScriptDirectory
-    from app.config import ROOT
+    from app.core.config import ROOT
     from sqlalchemy import create_engine, inspect, text
     config = Config(str(ROOT / "alembic.ini"))
     config.set_main_option("script_location", str(ROOT / "backend/migrations"))

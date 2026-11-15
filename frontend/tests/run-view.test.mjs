@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import {test} from 'node:test'
-import {loadRunView, reviewRunAnswer} from '../src/runView.ts'
+import {loadRunView, reviewRunAnswer} from '../src/features/runs/runView.ts'
 
 const pending = is_owner => ({id: 'run1', snapshot_id: 'snapshot1', status: 'review_pending',
   is_owner, answer: {id: 'answer1'}, answer_sha256: 'a'.repeat(64)})

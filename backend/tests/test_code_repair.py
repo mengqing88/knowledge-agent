@@ -2,13 +2,14 @@ import subprocess
 import sys
 
 import pytest
-from app import code_api, code_repair
-from app import main as main_module
-from app.code_repair import _validate_patch
-from app.db import get_db
-from app.errors import DomainError
-from app.main import app
-from app.models import CodeRepairTask, RepairExperience
+from app.api import main as main_module
+from app.api.main import app
+from app.core.db import get_db
+from app.core.errors import DomainError
+from app.core.models import CodeRepairTask, RepairExperience
+from app.repair import api as code_api
+from app.repair import service as code_repair
+from app.repair.service import _validate_patch
 from fastapi.testclient import TestClient
 from sqlalchemy import select
 

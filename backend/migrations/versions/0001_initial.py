@@ -3,8 +3,8 @@
 Revision ID: 0001
 """
 from alembic import op
-from app import models  # noqa: F401
-from app.db import Base
+from app.core import models  # noqa: F401
+from app.core.db import Base
 
 revision = "0001"
 down_revision = None

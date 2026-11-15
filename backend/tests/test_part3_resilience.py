@@ -5,9 +5,9 @@ from types import SimpleNamespace
 
 import httpx
 import pytest
-from app.errors import BudgetExhausted, ProviderError
-from app.providers import ModelProvider
-from app.resilience import circuits
+from app.core.errors import BudgetExhausted, ProviderError
+from app.integrations.providers import ModelProvider
+from app.integrations.resilience import circuits
 
 
 class Response:
@@ -89,7 +89,7 @@ def test_retry_after_is_a_minimum_and_backoff_jitter_is_bounded(settings, monkey
     settings.provider_backoff_seconds = 2
     settings.provider_backoff_jitter = .25
     provider = ModelProvider(settings)
-    import app.providers as providers
+    import app.integrations.providers as providers
     monkeypatch.setattr(providers.random, "random", lambda: 0)
     assert provider.retry_delay("3", 0) == 3
     assert provider.retry_delay(None, 1) == 3
@@ -130,7 +130,7 @@ def test_cancelled_during_backoff_does_not_start_next_request(settings, monkeypa
     def cancel_during_sleep(_seconds):
         cancelled[0] = True
 
-    import app.providers as providers
+    import app.integrations.providers as providers
     monkeypatch.setattr(providers.time, "sleep", cancel_during_sleep)
 
     with pytest.raises(BudgetExhausted):
@@ -172,7 +172,7 @@ def test_expired_task_deadline_blocks_provider_request(settings, monkeypatch):
 @pytest.mark.parametrize("stage", ["quota", "retry", "progress"])
 @pytest.mark.parametrize("deadline_kind", ["run", "provider"])
 def test_preflight_wait_cannot_dispatch_after_deadline(settings, monkeypatch, stage, deadline_kind):
-    import app.providers as providers
+    import app.integrations.providers as providers
 
     settings.provider_backoff_seconds = 0
     settings.model_timeout_seconds = 5 if deadline_kind == "provider" else 45
@@ -203,7 +203,7 @@ def test_preflight_wait_cannot_dispatch_after_deadline(settings, monkeypatch, st
 
 
 def test_http_timeout_uses_remaining_budget_after_preflight_wait(settings, monkeypatch):
-    import app.providers as providers
+    import app.integrations.providers as providers
 
     provider, requests = provider_for(settings, monkeypatch, [Response(200)])
     stamp, timeouts = [100.], []
@@ -225,8 +225,8 @@ def test_http_timeout_uses_remaining_budget_after_preflight_wait(settings, monke
 
 
 def test_revocation_during_quota_wait_blocks_dispatch(settings, monkeypatch):
-    import app.providers as providers
-    from app.errors import InterruptedRun
+    import app.integrations.providers as providers
+    from app.core.errors import InterruptedRun
 
     provider, requests = provider_for(settings, monkeypatch, [Response(200)])
     cancelled = [False]

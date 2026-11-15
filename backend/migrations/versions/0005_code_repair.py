@@ -1,6 +1,6 @@
 """Commit-pinned code repair tasks and artifact-bound human reviews."""
 from alembic import op
-from app import models
+from app.core import models
 
 revision = "0005"
 down_revision = "0004"

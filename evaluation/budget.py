@@ -9,8 +9,8 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
 
-from app.errors import BudgetExhausted
-from app.providers import ModelProvider
+from app.core.errors import BudgetExhausted
+from app.integrations.providers import ModelProvider
 
 
 def decimal(value):

@@ -1,11 +1,11 @@
 from copy import deepcopy
 
 import pytest
-from app.grounding import condition_present, numeric_issues
-from app.models import AnswerClaim, AnswerRevision, QuestionRun
-from app.schemas import RunCreate
-from app.services import claim_job, create_run
-from app.worker import process_job
+from app.core.models import AnswerClaim, AnswerRevision, QuestionRun
+from app.core.schemas import RunCreate
+from app.jobs.services import claim_job, create_run
+from app.jobs.worker import process_job
+from app.knowledge.grounding import condition_present, numeric_issues
 from conftest import FakeProvider
 from sqlalchemy import select
 

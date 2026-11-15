@@ -3,8 +3,8 @@ from alembic.config import Config
 from alembic.migration import MigrationContext
 from alembic.operations import Operations
 from alembic.script import ScriptDirectory
-from app import config as configuration
-from app.config import ROOT
+from app.core import config as configuration
+from app.core.config import ROOT
 from sqlalchemy import create_engine, inspect, text
 
 

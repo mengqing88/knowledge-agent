@@ -3,15 +3,16 @@ import json
 from datetime import datetime, timedelta, timezone
 
 import pytest
-from app import external_operations, memory
-from app.auth import hash_password
-from app.config import get_settings
-from app.db import get_db
-from app.errors import DomainError
-from app.extension_schemas import MemoryCreate, OperationDecision
-from app.main import app
-from app.mcp_client import validate_arguments
-from app.models import ExternalOperation, Membership, QuestionRun, User, now
+from app.agents import memory
+from app.api.main import app
+from app.core.auth import hash_password
+from app.core.config import get_settings
+from app.core.db import get_db
+from app.core.errors import DomainError
+from app.core.extension_schemas import MemoryCreate, OperationDecision
+from app.core.models import ExternalOperation, Membership, QuestionRun, User, now
+from app.integrations import external_operations
+from app.integrations.mcp_client import validate_arguments
 from fastapi.testclient import TestClient
 from test_extensions import make_run, mcp_settings, proposal  # noqa: F401
 
@@ -104,7 +105,7 @@ def test_write_schema_change_does_not_dispatch(sessions, corpus, mcp_settings): 
         row = asyncio.run(external_operations.propose(db, mcp_settings, "local-user", proposal(run_id), "operation-key-123"))
         external_operations.decide(db, row, "local-user", OperationDecision(digest=row.digest, decision="approve"))
         row.binding = {**row.binding, "schema_sha256": "0"*64}
-        row.digest = __import__("app.governance", fromlist=["digest"]).digest(row.binding)
+        row.digest = __import__("app.agents.governance", fromlist=["digest"]).digest(row.binding)
         db.commit()
         with pytest.raises(DomainError):
             asyncio.run(external_operations.execute(db, mcp_settings, row, "local-user", row.digest))

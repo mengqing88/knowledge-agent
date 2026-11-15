@@ -1,5 +1,5 @@
 import pytest
-from app.retrieval import rrf
+from app.knowledge.retrieval import rrf
 
 from evaluation.retrieval_profiles import query_route, rank_profile, weighted_rrf
 

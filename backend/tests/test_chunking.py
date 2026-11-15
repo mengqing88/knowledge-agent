@@ -2,11 +2,11 @@ import hashlib
 from types import SimpleNamespace
 
 import pytest
-from app.chunking import ChunkPolicy, clean, token_count
-from app.config import Settings
-from app.errors import BudgetExhausted, ProviderError
-from app.ingestion import build_chunks, index_config, ingest_version
-from app.models import Chunk, IndexRevision, PaperVersion, Snapshot, SourceBlock
+from app.core.config import Settings
+from app.core.errors import BudgetExhausted, ProviderError
+from app.core.models import Chunk, IndexRevision, PaperVersion, Snapshot, SourceBlock
+from app.knowledge.chunking import ChunkPolicy, clean, token_count
+from app.knowledge.ingestion import build_chunks, index_config, ingest_version
 from pydantic import ValidationError
 from sqlalchemy import select
 

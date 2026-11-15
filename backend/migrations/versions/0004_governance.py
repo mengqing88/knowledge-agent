@@ -1,6 +1,6 @@
 """Feedback provenance and durable request reservations; preserve historical records."""
 from alembic import op
-from app import models
+from app.core import models
 from sqlalchemy import inspect
 
 revision = "0004"

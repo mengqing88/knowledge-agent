@@ -3,11 +3,11 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
-from app.chunking import token_count
-from app.errors import BudgetExhausted
+from app.core.errors import BudgetExhausted
+from app.knowledge.chunking import token_count
 
 ROOT = Path(__file__).resolve().parents[2]
-spec = importlib.util.spec_from_file_location("chunk_benchmark", ROOT / "scripts/benchmark_chunking.py")
+spec = importlib.util.spec_from_file_location("chunk_benchmark", ROOT / "scripts/benchmarks/benchmark_chunking.py")
 benchmark = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(benchmark)
 

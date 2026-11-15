@@ -5,7 +5,7 @@ import ts from 'typescript'
 
 // Use the project's compiler because api.ts contains a parameter property,
 // which Node's strip-only TypeScript loader cannot execute.
-const source = await readFile(new URL('../src/api.ts', import.meta.url), 'utf8')
+const source = await readFile(new URL('../src/api/client.ts', import.meta.url), 'utf8')
 const {outputText} = ts.transpileModule(source, {compilerOptions: {
   module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022,
 }})

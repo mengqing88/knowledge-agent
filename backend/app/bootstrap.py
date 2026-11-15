@@ -6,10 +6,10 @@ from pathlib import Path
 
 from sqlalchemy import select
 
-from .auth import hash_password
-from .config import ROOT
-from .db import Session
-from .models import Corpus, Membership, User
+from app.core.auth import hash_password
+from app.core.config import ROOT
+from app.core.db import Session
+from app.core.models import Corpus, Membership, User
 
 
 def main():

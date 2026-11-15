@@ -1,7 +1,7 @@
 import pytest
-from app.errors import ProviderError
-from app.providers import ModelProvider
-from app.schemas import Plan
+from app.core.errors import ProviderError
+from app.core.schemas import Plan
+from app.integrations.providers import ModelProvider
 
 
 @pytest.mark.parametrize("data", [
@@ -135,7 +135,7 @@ def test_untrusted_instruction_payload_stays_separate_from_system_boundary(
     monkeypatch.setattr(provider, "_post", post)
     schema = Plan
     if role == "CodeRepair":
-        from app.schemas import CodeRepairPatch
+        from app.core.schemas import CodeRepairPatch
         schema = CodeRepairPatch
     provider.structured(role, "analyze", data, schema)
     assert expected_boundary in observed["payload"]["instructions"]

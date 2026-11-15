@@ -1,5 +1,5 @@
-from app.errors import BudgetExhausted
-from app.ingestion import extract_document
+from app.core.errors import BudgetExhausted
+from app.knowledge.ingestion import extract_document
 
 
 def test_document_parser_checks_task_deadline_between_markdown_lines(tmp_path):

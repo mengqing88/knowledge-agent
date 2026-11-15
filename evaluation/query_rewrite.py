@@ -12,17 +12,26 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT), str(ROOT / "backend")]
 
-from app.chunking import token_count  # noqa: E402
-from app.config import Settings  # noqa: E402
-from app.ingestion import index_config  # noqa: E402
-from app.llama_rag import embed_chunks, index_chunks  # noqa: E402
-from app.models import Chunk, Corpus, IndexRevision, Paper, PaperVersion, ParseRevision, Snapshot, SourceBlock  # noqa: E402
-from app.query_rewrite import rewrite_queries  # noqa: E402
-from app.retrieval import hybrid_search, query_terms, rrf  # noqa: E402
+from app.core.config import Settings  # noqa: E402
+from app.core.models import (  # noqa: E402
+    Chunk,
+    Corpus,
+    IndexRevision,
+    Paper,
+    PaperVersion,
+    ParseRevision,
+    Snapshot,
+    SourceBlock,
+)
+from app.knowledge.chunking import token_count  # noqa: E402
+from app.knowledge.ingestion import index_config  # noqa: E402
+from app.knowledge.llama_rag import embed_chunks, index_chunks  # noqa: E402
+from app.knowledge.query_rewrite import rewrite_queries  # noqa: E402
+from app.knowledge.retrieval import hybrid_search, query_terms, rrf  # noqa: E402
 from sqlalchemy import func, update  # noqa: E402
 from sqlalchemy.engine import make_url  # noqa: E402
 
-from scripts.benchmark_chunking import CachedEmbedding, scratch  # noqa: E402
+from scripts.benchmarks.benchmark_chunking import CachedEmbedding, scratch  # noqa: E402
 
 
 def fixture():
@@ -78,7 +87,7 @@ def live_search(settings, texts, callback):
                 db.add(SourceBlock(id=key, parse_revision_id="control", page_index=0, block_index=i,
                                    bbox=[], text=value, section=key))
         vectors = embed_chunks([{"text": t} for t in texts.values()], provider, settings.embedding_model)
-        from app.vector_store import collection_name
+        from app.knowledge.vector_store import collection_name
         with sessions.begin() as db:
             index = IndexRevision(id="control", parse_revision_id="control", config_version=index_config(settings),
                 embedding_model=settings.embedding_model, embedding_dimensions=len(vectors[0]), vector_backend="milvus",
@@ -112,7 +121,7 @@ def main():
         "limitations": ["Agent-authored fictional controls are not independent business-quality acceptance.",
                         "Only deterministic terminology expansion is compared, not Planner semantic quality.",
                         "Offline scores are lexical-control results, not Milvus/embedding Recall@5."]}
-    output = args.output or ROOT / "docs" / ("query-rewrite-live-evaluation.json" if args.live else
+    output = args.output or ROOT / "tmp/reports" / ("query-rewrite-live-evaluation.json" if args.live else
                                               "query-rewrite-offline-evaluation.json")
     try:
         if args.live:

@@ -12,5 +12,7 @@ data/
 tmp/
 evaluation/runs/
 evaluation/reports/generated-*
+# Retain the interrupted local attempt; the frozen comparison is v2.
+evaluation/results/public-3yuan-v1-bge-offline-v1/
 *.log
 .idea/

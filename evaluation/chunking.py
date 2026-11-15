@@ -1,6 +1,6 @@
 """Run offline chunk-structure checks or delegate live retrieval evaluation.
 
-The live benchmark has one maintained entry point: scripts/benchmark_chunking.py.
+The live benchmark has one maintained entry point: scripts/benchmarks/benchmark_chunking.py.
 Use --structural-only here to avoid external services and model charges.
 """
 from __future__ import annotations
@@ -17,9 +17,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
 
-from app.chunking import TOKENIZER, ChunkPolicy, token_count  # noqa: E402
-from app.ingestion import build_chunks, extract_document  # noqa: E402
-from app.models import SourceBlock  # noqa: E402
+from app.core.models import SourceBlock  # noqa: E402
+from app.knowledge.chunking import TOKENIZER, ChunkPolicy, token_count  # noqa: E402
+from app.knowledge.ingestion import build_chunks, extract_document  # noqa: E402
 
 FIXTURE_DIR = ROOT / "fixtures" / "chunking"
 CHUNK_SIZE_TOKENS = 512
@@ -259,12 +259,12 @@ def main(argv=None):
         if forwarded:
             parser.error(f"unsupported structural-only arguments: {' '.join(forwarded)}")
         result = run_structural_comparison()
-        output = args.output or ROOT / "docs" / "chunk-strategy-structural-evaluation.json"
+        output = args.output or ROOT / "tmp/reports/chunk-strategy-structural-evaluation.json"
         write_report(output, result)
         print(json.dumps({"report": str(output), "strategies": list(result["strategies"])}, ensure_ascii=False))
         return 0
 
-    script = ROOT / "scripts" / "benchmark_chunking.py"
+    script = ROOT / "scripts/benchmarks/benchmark_chunking.py"
     command = [sys.executable, str(script), *forwarded]
     if args.output:
         command.extend(["--output", str(args.output)])

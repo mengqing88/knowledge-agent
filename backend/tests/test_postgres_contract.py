@@ -1,5 +1,5 @@
-from app.db import Base
-from app.models import Chunk
+from app.core.db import Base
+from app.core.models import Chunk
 from sqlalchemy import select
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.schema import CreateIndex, CreateTable
