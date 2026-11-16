@@ -1,3 +1,4 @@
+import codecs
 import csv
 import hashlib
 import json
@@ -19,7 +20,7 @@ from app.knowledge.chunking import ChunkPolicy, split_blocks
 from app.knowledge.llama_rag import embed_chunks, index_chunks
 from app.knowledge.vector_store import collection_name, production_store
 
-PARSE_CONFIG = f"multiformat-v4-pymupdf-{pymupdf.VersionBind}"
+PARSE_CONFIG = f"multiformat-v5-pymupdf-{pymupdf.VersionBind}"
 SUPPORTED_SUFFIXES = frozenset({
     ".pdf", ".docx", ".md", ".markdown", ".txt", ".csv", ".tsv", ".json", ".jsonl",
     ".html", ".htm", ".xlsx",
@@ -259,12 +260,20 @@ def clean(text: str) -> str:
 
 def _text_bytes(path: Path, kind: str) -> str:
     data = path.read_bytes()
+    if data.startswith((codecs.BOM_UTF16_LE, codecs.BOM_UTF16_BE)):
+        try:
+            return data.decode("utf-16")
+        except UnicodeError:
+            raise DomainError(f"{kind} 文本编码无效") from None
     if b"\x00" in data:
         raise DomainError(f"{kind} 不能包含二进制内容")
     try:
         return data.decode("utf-8-sig")
     except UnicodeError:
-        raise DomainError(f"{kind} 需要使用 UTF-8 编码") from None
+        try:
+            return data.decode("gb18030")
+        except UnicodeError:
+            raise DomainError(f"{kind} 需要使用 UTF-8、UTF-16 或 GB18030 编码") from None
 
 
 def _table_rows(rows, section_prefix: str, guard=None, allow_empty=False):

@@ -134,6 +134,26 @@ def test_text_and_structured_formats_preserve_searchable_source_locations(tmp_pa
             assert "负责人复核" in text and "secret" not in text
 
 
+@pytest.mark.parametrize("encoding", ["utf-8-sig", "utf-16", "gb18030"])
+def test_txt_parser_accepts_common_chinese_encodings(tmp_path, encoding):
+    expected = "七堇年作品中的原文检索证据。"
+    path = tmp_path / "novel.txt"
+    path.write_bytes(expected.encode(encoding))
+
+    blocks, pages, warnings = extract_document(path, path.name)
+
+    assert pages is None and warnings
+    assert "".join(block["text"] for block in blocks) == expected
+
+
+def test_txt_parser_still_rejects_binary_data(tmp_path):
+    path = tmp_path / "novel.txt"
+    path.write_bytes(b"\x00\xff\x10")
+
+    with pytest.raises(DomainError):
+        extract_document(path, path.name)
+
+
 def test_xlsx_parser_keeps_sheet_and_row_location(tmp_path):
     openpyxl = pytest.importorskip("openpyxl")
     workbook = openpyxl.Workbook()
