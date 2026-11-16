@@ -19,24 +19,6 @@ def query_clauses(question):
                               if len(part.strip()) >= 5))
 
 
-def child_windows(text):
-    """Short lexical windows mapped back to the unchanged source chunk."""
-    if not text.strip():
-        return []
-    buffer, windows = "", []
-    for unit in (piece for piece in re.split(r"(?<=[。！？!?\n])", text) if piece):
-        if len(buffer) + len(unit) > 160 and buffer:
-            windows.append(buffer)
-            buffer = ""
-        if len(unit) > 200:
-            windows.extend(unit[start:start+160] for start in range(0, len(unit), 130))
-        else:
-            buffer += unit
-    if buffer:
-        windows.append(buffer)
-    return windows
-
-
 def round_robin(rankings):
     seen, output = set(), []
     for rank in range(max(map(len, rankings), default=0)):

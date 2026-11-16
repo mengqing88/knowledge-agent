@@ -13,17 +13,33 @@ HAN_PATTERN = re.compile(r"[\u4e00-\u9fff]+")
 
 
 def lexical_tokens(text):
-    """Han bigrams/trigrams, preserving punctuation boundaries and Latin IDs."""
+    """Han unigrams/bigrams, preserving punctuation boundaries and Latin IDs."""
     output = []
     for piece in TOKEN_PATTERN.findall(text.casefold()):
         if HAN_PATTERN.fullmatch(piece):
-            if len(piece) == 1:
-                output.append(piece)
-            for n in (2, 3):
+            for n in (1, 2):
                 output.extend(piece[start:start+n] for start in range(len(piece)-n+1))
         else:
             output.append(piece)
     return output
+
+
+def lexical_windows(text):
+    """Short lexical windows mapped back to unchanged source chunks."""
+    if not text.strip():
+        return []
+    buffer, windows = "", []
+    for unit in (piece for piece in re.split(r"(?<=[。！？!?\n])", text) if piece):
+        if len(buffer) + len(unit) > 160 and buffer:
+            windows.append(buffer)
+            buffer = ""
+        if len(unit) > 200:
+            windows.extend(unit[start:start+160] for start in range(0, len(unit), 130))
+        else:
+            buffer += unit
+    if buffer:
+        windows.append(buffer)
+    return windows
 
 
 class LexicalBM25:
@@ -71,7 +87,7 @@ def scoped_bm25(db, index_ids, query, *, max_chunks=5000, max_chars=2_000_000, c
     check()
     index = cache.get(key) if cache is not None else None
     if index is None:
-        documents, characters = {}, 0
+        documents, parents, characters = {}, {}, 0
         statement = select(Chunk.id, Chunk.text).where(Chunk.index_revision_id.in_(index_ids)).order_by(
             Chunk.id).limit(max_chunks + 1).execution_options(yield_per=64)
         for number, (chunk_id, text) in enumerate(db.execute(statement), 1):
@@ -81,10 +97,22 @@ def scoped_bm25(db, index_ids, query, *, max_chunks=5000, max_chars=2_000_000, c
             if number > max_chunks or characters > max_chars:
                 raise ProviderError("中文词法检索超过本次快照容量上限；请缩小范围或使用 legacy 配置",
                                     "lexical_capacity")
-            documents[chunk_id] = text
-        index = LexicalBM25(documents, guard=check)
+            for number, window in enumerate(lexical_windows(text)):
+                window_id = f"{chunk_id}:{number}"
+                documents[window_id] = window
+                parents[window_id] = chunk_id
+        index = (LexicalBM25(documents, guard=check), parents)
         if cache is not None:
             cache[key] = index
-    result = index.search(query)
+    index, parents = index
+    result, seen = [], set()
+    if parents:
+        for window_id in index.search(query, limit=len(parents)):
+            chunk_id = parents[window_id]
+            if chunk_id not in seen:
+                seen.add(chunk_id)
+                result.append(chunk_id)
+                if len(result) == 30:
+                    break
     check()
     return result

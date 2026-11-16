@@ -3,8 +3,9 @@ from types import SimpleNamespace
 
 import pytest
 from app.core.models import Chunk, IndexRevision
+from app.knowledge.lexical import LexicalBM25, lexical_tokens, lexical_windows
 
-from evaluation.lexical_recall import LexicalBM25, child_windows, lexical_tokens, round_robin
+from evaluation.lexical_recall import round_robin
 from scripts.benchmarks import benchmark_lexical_recall as benchmark
 
 
@@ -12,8 +13,9 @@ def test_chinese_paraphrase_has_lexical_overlap_without_whole_sentence_match():
     index = LexicalBM25({"evidence": "外部成员需要管理员批准后才有访问权限。",
                          "distractor": "管理员今天讨论了食堂菜单。"})
     assert index.search("外部成员怎样申请访问权限？")[0] == "evidence"
-    assert index.search("不存在的外星词xyz") == []
+    assert index.search("nonexistentxyz") == []
     tokens = lexical_tokens("访问，权限 service.timeout_seconds ≤ 100")
+    assert {"访", "问", "权", "限", "访问", "权限"} <= set(tokens)
     assert "问权" not in tokens
     assert "service.timeout_seconds" in tokens and "100" in tokens
     assert "service" not in tokens and "timeout" not in tokens
@@ -31,7 +33,7 @@ def test_bm25_rare_terms_beat_repeated_common_word_and_ties_are_stable():
 
 def test_window_and_balanced_controls_return_only_real_source_content_and_ids():
     source = "甲" * 250 + "。下一句话说明条件。\n最后一句。"
-    windows = child_windows(source)
+    windows = lexical_windows(source)
     assert windows and all(window in source and len(window) <= 200 for window in windows)
     assert any("下一句话说明条件。" in window for window in windows)
     assert round_robin([["a", "b", "c"], ["b", "d"]]) == ["a", "b", "d", "c"]
@@ -69,6 +71,7 @@ def test_offline_benchmark_keeps_snapshot_scope_and_never_needs_a_provider(
     benchmark.run(args)
     result = json.loads(args.output.read_text(encoding="utf-8"))
     assert result["status"] == "completed" and result["new_model_calls"] == 0
+    assert result["parameters"]["han_ngram_sizes"] == [1, 2]
     assert result["chunk_count"] == 1 and result["oracle_coverable_labels"] == 1
     for method in result["cases"][0]["methods"].values():
         assert method["top30"] == ["chunk1"]

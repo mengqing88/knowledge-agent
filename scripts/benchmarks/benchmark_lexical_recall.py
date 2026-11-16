@@ -17,11 +17,12 @@ sys.path[:0] = [str(ROOT), str(ROOT / "backend")]
 
 from app.core.models import Chunk, IndexRevision, Snapshot, SourceBlock  # noqa: E402
 from app.knowledge.chunking import token_count  # noqa: E402
+from app.knowledge.lexical import LexicalBM25, lexical_windows  # noqa: E402
 from app.knowledge.retrieval import collapse_duplicate_hits, rrf  # noqa: E402
 from sqlalchemy import create_engine, select  # noqa: E402
 from sqlalchemy.orm import Session, defer  # noqa: E402
 
-from evaluation.lexical_recall import LexicalBM25, child_windows, query_clauses, round_robin  # noqa: E402
+from evaluation.lexical_recall import query_clauses, round_robin  # noqa: E402
 
 CUTOFFS = (5, 12, 20, 30)
 
@@ -147,7 +148,7 @@ def run(args):
         bm25 = LexicalBM25({key: chunk.text for key, chunk in chunks.items()})
         children, parents = {}, {}
         for key, chunk in chunks.items():
-            for number, text in enumerate(child_windows(chunk.text)):
+            for number, text in enumerate(lexical_windows(chunk.text)):
                 child_id = f"{key}:{number}"
                 children[child_id], parents[child_id] = text, key
         small_bm25 = LexicalBM25(children)
@@ -205,7 +206,9 @@ def run(args):
               "inputs": {"suite_sha256": sha(args.suite), "saved_rankings_sha256": sha(args.saved_rankings),
                          "clause_vectors_sha256": sha(args.clause_vectors) if args.clause_vectors else None,
                          "snapshot_id": suite["snapshot_id"]},
-              "parameters": {"bm25_k1": 1.2, "bm25_b": .75, "han_ngram_sizes": [2, 3],
+              "parameters": {"bm25_k1": 1.2, "bm25_b": .75, "han_ngram_sizes": [1, 2],
+                             "window_target_chars": 160, "long_unit_threshold_chars": 200,
+                             "long_unit_stride_chars": 130,
                              "route_candidates": 30, "rrf_k": 60},
               "oracle_coverable_labels": oracle_total, "chunk_count": len(chunks),
               "bm25_vector_pool_ceiling": {
