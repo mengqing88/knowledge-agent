@@ -10,15 +10,16 @@ class ScopedTools:
     """No caller-supplied owner, snapshot or database scope. Context is injected by the server."""
 
     def __init__(self, db, snapshot, run_id, provider, embedding_model, expected_index_config=None,
-                 vector_store=None):
+                 vector_store=None, **lexical_options):
         self.db, self.snapshot, self.run_id = db, snapshot, run_id
         self.provider, self.embedding_model = provider, embedding_model
         self.expected_index_config = expected_index_config
         self.vector_store = vector_store
+        self.lexical_options = lexical_options
 
     def search_evidence(self, query: str, limit=12):
         return hybrid_search(self.db, self.snapshot, query, self.provider, self.embedding_model, limit,
-                             self.expected_index_config, self.vector_store)
+                             self.expected_index_config, self.vector_store, **self.lexical_options)
 
     def read_source_blocks(self, block_ids: list[str]):
         if (not isinstance(block_ids, list) or not 1 <= len(block_ids) <= 24 or

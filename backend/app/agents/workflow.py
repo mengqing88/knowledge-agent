@@ -82,6 +82,7 @@ class Workflow:
         self.sessions, self.settings, self.provider = session_factory, settings, provider
         self.run_id, self.attempt = run_id, attempt
         self.vector_store = None
+        self.lexical_cache = {}
         self.started = time.monotonic()
         with self.sessions() as db:
             run = check_attempt(db, run_id, attempt)
@@ -346,7 +347,11 @@ class Workflow:
                 if self.vector_store is None:
                     self.vector_store = production_store(self.settings, db)
                 tools = ScopedTools(db, snapshot, self.run_id, self, self.settings.embedding_model,
-                                    index_config(self.settings), self.vector_store)
+                                    index_config(self.settings), self.vector_store,
+                                    lexical_backend=self.limits.get("lexical_backend", "legacy"),
+                                    lexical_max_chunks=self.limits.get("lexical_max_chunks", 5000),
+                                    lexical_max_chars=self.limits.get("lexical_max_chars", 2_000_000),
+                                    lexical_cache=self.lexical_cache, guard=self.guard)
                 ranked = tools.search_evidence(query)
                 if ranked.degradation:
                     emit(db, self.run_id, self.attempt, "retrieval_degraded", {

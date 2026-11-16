@@ -28,6 +28,7 @@ PUBLIC_SETTINGS = (
     "vector_store", "milvus_index_type", "milvus_timeout_seconds",
     "mcp_approval_ttl_seconds",
     "query_rewrite_enabled", "query_max_per_subquestion", "workflow_mcp_enabled", "project_logs_mcp_enabled",
+    "lexical_backend", "lexical_max_chunks", "lexical_max_chars",
     "max_workflow_tool_calls", "max_external_evidence_chars", "reranker_backend",
     "provider_quota_enabled", "provider_quota_namespace", "provider_quota_rpm", "provider_quota_tpm",
 )

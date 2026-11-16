@@ -7,6 +7,7 @@ from sqlalchemy import func, literal_column, or_, select
 
 from app.core.errors import DomainError, ProviderError
 from app.core.models import Chunk, IndexRevision, Snapshot
+from app.knowledge.lexical import scoped_bm25
 from app.knowledge.llama_rag import ProviderEmbedding, retrieve_revision
 
 
@@ -90,22 +91,27 @@ def milvus_search(db, indexes, vector, vector_store) -> list[str]:
 
 
 def hybrid_search(db, snapshot: Snapshot, query: str, provider, embedding_model: str, limit=12,
-                  expected_index_config: str | None = None, vector_store=None) -> list[dict]:
+                  expected_index_config: str | None = None, vector_store=None, **lexical_options) -> list[dict]:
     if type(limit) is not int or not 1 <= limit <= 30:
         raise DomainError("检索参数超出范围")
     keyword, semantic, degradation = retrieve_rankings(db, snapshot, query, provider, embedding_model,
-                                                      expected_index_config, vector_store)
+                                                      expected_index_config, vector_store, **lexical_options)
     rankings = [keyword] if degradation else [keyword, semantic]
     fused = collapse_duplicate_hits(db, rrf(rankings))
     return SearchResults(fused[:limit], degradation)
 
 
 def retrieve_rankings(db, snapshot: Snapshot, query: str, provider, embedding_model: str,
-                      expected_index_config: str | None = None, vector_store=None):
+                      expected_index_config: str | None = None, vector_store=None, *, lexical_backend="legacy",
+                      lexical_max_chunks=5000, lexical_max_chars=2_000_000, lexical_cache=None, guard=None):
     """Shared scoped recall for offline route comparisons; production still uses equal RRF."""
     if (not isinstance(query, str) or not query.strip() or len(query) > 500 or
             not snapshot.manifest):
         raise DomainError("检索参数超出范围")
+    if (lexical_backend not in ("legacy", "ngram_bm25") or
+            type(lexical_max_chunks) is not int or not 1 <= lexical_max_chunks <= 20000 or
+            type(lexical_max_chars) is not int or not 1 <= lexical_max_chars <= 8_000_000):
+        raise DomainError("词法检索配置超出范围")
     index_ids = [member["index_revision_id"] for member in snapshot.manifest]
     indexes = list(db.scalars(select(IndexRevision).where(IndexRevision.id.in_(index_ids))))
     if len(indexes) != len(set(index_ids)) or any(i.status != "ready" for i in indexes):
@@ -119,14 +125,19 @@ def retrieve_rankings(db, snapshot: Snapshot, query: str, provider, embedding_mo
     if db.bind.dialect.name == "postgresql":
         if any(i.vector_backend != "milvus" or not i.vector_collection for i in indexes):
             raise ProviderError("索引尚未迁入 Milvus，请先运行 migrate-vectors", "vector_store_config")
+    lexical = None
+    if lexical_backend == "ngram_bm25":
+        lexical = scoped_bm25(db, index_ids, query, max_chunks=lexical_max_chunks, max_chars=lexical_max_chars,
+                              cache=lexical_cache, guard=guard)
+    if db.bind.dialect.name == "postgresql":
         # OR terms preserves recall for method IDs and English expansions; this is native FTS, not BM25.
         tsquery = func.plainto_tsquery(literal_column("'simple'"), terms[0] if terms else query)
         for term in terms[1:]:
             tsquery = tsquery.op("||")(func.plainto_tsquery(literal_column("'simple'"), term))
         match = Chunk.search_vector.op("@@")(tsquery)
         exact = [Chunk.text.ilike(f"%{term.replace('%', '').replace('_', '')}%") for term in terms]
-        keyword = list(db.scalars(select(Chunk.id).where(scope, or_(match, *exact)).order_by(
-            func.ts_rank_cd(Chunk.search_vector, tsquery).desc(), Chunk.id).limit(30)))
+        keyword = lexical if lexical is not None else list(db.scalars(select(Chunk.id).where(
+            scope, or_(match, *exact)).order_by(func.ts_rank_cd(Chunk.search_vector, tsquery).desc(), Chunk.id).limit(30)))
         try:
             vector = ProviderEmbedding(provider, embedding_model, indexes[0].embedding_dimensions).get_query_embedding(query)
         except ProviderError as exc:
@@ -137,8 +148,11 @@ def retrieve_rankings(db, snapshot: Snapshot, query: str, provider, embedding_mo
     else:
         # Test-only SQLite backend. Normal application startup rejects SQLite.
         chunks = list(db.scalars(select(Chunk).where(scope)))
-        scores = [(c.id, sum(c.text.lower().count(t) for t in terms)) for c in chunks]
-        keyword = [cid for cid, s in sorted(scores, key=lambda x: (-x[1], x[0])) if s > 0][:30]
+        if lexical is not None:
+            keyword = lexical
+        else:
+            scores = [(c.id, sum(c.text.lower().count(t) for t in terms)) for c in chunks]
+            keyword = [cid for cid, s in sorted(scores, key=lambda x: (-x[1], x[0])) if s > 0][:30]
         try:
             vector = ProviderEmbedding(provider, embedding_model, indexes[0].embedding_dimensions).get_query_embedding(query)
         except ProviderError as exc:

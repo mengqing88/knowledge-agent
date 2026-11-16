@@ -26,6 +26,9 @@ class Settings(BaseSettings):
     query_rewrite_enabled: bool = True
     query_terms_file: Path | None = None
     query_max_per_subquestion: int = Field(5, ge=1, le=6)
+    lexical_backend: Literal["legacy", "ngram_bm25"] = "legacy"
+    lexical_max_chunks: int = Field(5000, ge=1, le=20000)
+    lexical_max_chars: int = Field(2_000_000, ge=1, le=8_000_000)
     workflow_mcp_enabled: bool = False
     project_logs_mcp_enabled: bool = False
     max_workflow_tool_calls: int = Field(2, ge=1, le=5)
