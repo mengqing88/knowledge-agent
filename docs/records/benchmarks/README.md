@@ -7,6 +7,7 @@
 | 分块控制集与结构对照 | [fixture](chunk-strategy-fixture-evaluation.json)、[结构](chunk-strategy-structural-evaluation.json) |
 | 历史分块真实向量实验 | [最终记录](chunking-benchmark.json)、[首轮](chunking-benchmark-attempt1.json)、[中断](chunking-benchmark-interrupted.json)、[语义策略前](chunking-benchmark-before-semantic.json) |
 | 检索与向量存储控制 | [检索](retrieval-benchmark.json)、[向量存储](vector-store-benchmark.json) |
+| 私有长文本开发集的 80% 离线目标 | [无原文汇总](context-recall-80-20261117.json)、[过程与边界](../2026-11/召回覆盖率80达标对照_2026-11-17.md)；逐题原文只保存在本机忽略目录 |
 | 查询改写 | [离线](query-rewrite-offline-evaluation.json)、[真实依赖](query-rewrite-live-evaluation.json) |
 | 模型与角色冒烟 | [连接](connection-check.json)、[教学资料模型冒烟](live-model-smoke.json)、[角色冒烟](role-model-live-smoke.json) |
 | 存储与配额冒烟 | [LlamaIndex](llamaindex-storage-check.json)、[Milvus](milvus-storage-check.json)、[Redis 配额](provider-quota-live-check.json) |

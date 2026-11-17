@@ -1,0 +1,143 @@
+{
+  "status": "completed",
+  "scope": "frozen SQLite development diagnostic",
+  "human_reviewed": false,
+  "question_count": 17,
+  "gold_count": 43,
+  "suite_sha256": "4adb5c2b252b0ca9792d2eaf245c8211c99dde21efb5bd2a0f1a441fdf6f5a3a",
+  "database_sha256": "b722b891322ad649632e38c73b44d4180f1830cfda242a0bd98b30beca858110",
+  "requests_sha256": "f562cda7265d51a675f0eed86310ff6f32b5c37e6670ce588e145660dd62e715",
+  "scores_sha256": "d39fbc48c6c7da42b5eceeaf922950df67d739b7c638f690b4a2857c6cd20850",
+  "model": {
+    "manifest_sha256": "d660546dbfe10e9f6fd5863e1add4fc4a9209addf0f7263dc1a657fc08dc56f3",
+    "name": "BAAI/bge-reranker-v2-m3",
+    "revision": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e"
+  },
+  "parameters": {
+    "route_limit": 100,
+    "final_limit": 12,
+    "forward_seed_count": 6,
+    "han_ngram_sizes": [
+      1,
+      2
+    ],
+    "window_target_chars": 160,
+    "rrf_k": 60
+  },
+  "inference": {
+    "device": "cuda",
+    "precision": "float16",
+    "torch": "2.8.0+cu128",
+    "transformers": "4.57.6",
+    "max_length": 1024,
+    "load_seconds": 4.484
+  },
+  "summary": {
+    "window_rrf": {
+      "5": {
+        "covered": 20,
+        "gold": 43,
+        "recall": 0.46511627906976744,
+        "complete_questions": 6,
+        "mean_reference_tokens": 2558.47
+      },
+      "12": {
+        "covered": 28,
+        "gold": 43,
+        "recall": 0.6511627906976745,
+        "complete_questions": 7,
+        "mean_reference_tokens": 6140.82
+      },
+      "30": {
+        "covered": 30,
+        "gold": 43,
+        "recall": 0.6976744186046512,
+        "complete_questions": 8,
+        "mean_reference_tokens": 15347.76
+      }
+    },
+    "wide_bge": {
+      "5": {
+        "covered": 32,
+        "gold": 43,
+        "recall": 0.7441860465116279,
+        "complete_questions": 9,
+        "mean_reference_tokens": 2558.88
+      },
+      "12": {
+        "covered": 32,
+        "gold": 43,
+        "recall": 0.7441860465116279,
+        "complete_questions": 9,
+        "mean_reference_tokens": 6139.82
+      },
+      "30": {
+        "covered": 36,
+        "gold": 43,
+        "recall": 0.8372093023255814,
+        "complete_questions": 11,
+        "mean_reference_tokens": 15350.29
+      }
+    },
+    "wide_bge_forward": {
+      "5": {
+        "covered": 30,
+        "gold": 43,
+        "recall": 0.6976744186046512,
+        "complete_questions": 9,
+        "mean_reference_tokens": 2558.53
+      },
+      "12": {
+        "covered": 36,
+        "gold": 43,
+        "recall": 0.8372093023255814,
+        "complete_questions": 12,
+        "mean_reference_tokens": 6140.53
+      },
+      "30": {
+        "covered": 38,
+        "gold": 43,
+        "recall": 0.8837209302325582,
+        "complete_questions": 14,
+        "mean_reference_tokens": 15350.0
+      }
+    }
+  },
+  "comparison_at_12": {
+    "wide_bge": {
+      "improved_questions": 3,
+      "regressed_questions": 0,
+      "new_labels": 4,
+      "lost_labels": 0
+    },
+    "wide_bge_forward": {
+      "improved_questions": 7,
+      "regressed_questions": 0,
+      "new_labels": 8,
+      "lost_labels": 0
+    }
+  },
+  "candidate_pool_covered": 40,
+  "inference_seconds": 96.063,
+  "truncated_pairs": 0,
+  "threshold": {
+    "target": 0.8,
+    "covered": 36,
+    "total": 43,
+    "met": true
+  },
+  "new_paid_model_requests": 0,
+  "new_model_cost_cny": "0",
+  "limitations": [
+    "Parameters were explored on these development questions; no independent test set.",
+    "Exact source-range coverage is not answer accuracy or independent human review.",
+    "One successor consumes one of the same final 12 original chunk slots.",
+    "Runtime web defaults and PostgreSQL/Milvus have not been changed or revalidated.",
+    "A forward neighbor can be irrelevant or cross a section boundary within the same document."
+  ],
+  "local_inference_pairs": 3579,
+  "prepare_seconds": 6.265,
+  "parameter_selection": "Development questions were inspected; neighbor direction and seed count were selected on this same set.",
+  "private_report_sha256": "c9be9200aea59bf4c8448a75c2ad202cdf7dbf95353051274479179db76dbb34",
+  "prepared_manifest_sha256": "e6610e4bec8909901e8f894d01aa0d8012cbdf8186ce3c0b07e87e7339e6378b"
+}

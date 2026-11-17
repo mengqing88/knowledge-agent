@@ -10,6 +10,7 @@
 | 已存候选 BGE 离线对照 | `evaluation/compare_saved_reranker.py` | 本地模型与独立推理环境；不发模型 API |
 | 已存候选上下文选择对照 | `evaluation/compare_context_selection.py` | 本地参考 Tokenizer；不调用模型或数据库 |
 | 中文词法召回离线对照 | `benchmarks/benchmark_lexical_recall.py` | 本机只读 SQLite、私有范围题集、已存排序/可选子问句向量；无模型请求，逐题输出仅限 `tmp/` |
+| 宽召回、BGE 与后续原文块对照 | `benchmarks/benchmark_context_recall.py prepare/score` | 只读 SQLite、冻结查询向量、本地 BGE；推理经 `models/local_rerank.py` 单独运行，逐题数据仅限 `tmp/`，不改变网页默认 |
 | 中文词法实际存储验证 | `benchmarks/validate_lexical_runtime.py` | 复制本机快照/向量到临时 PostgreSQL/Milvus；不调用模型，结束清理临时库和集合 |
 | 分块、检索、质量和向量存储实验 | `benchmarks/` | 因入口而异，部分调用收费模型/真实数据库 |
 | 模型/存储/角色/配额冒烟 | `smoke/` | 真实服务；模型冒烟会产生费用 |
