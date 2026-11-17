@@ -31,19 +31,20 @@ class Settings(BaseSettings):
     local_reranker_device: Literal["auto", "cpu", "cuda"] = "auto"
     local_reranker_timeout_seconds: int = Field(120, ge=5, le=600)
     query_rewrite_enabled: bool = True
+    query_builtin_terms_enabled: bool = True
     query_terms_file: Path | None = None
     query_max_per_subquestion: int = Field(5, ge=1, le=6)
     lexical_backend: Literal["legacy", "ngram_bm25"] = "legacy"
     lexical_max_chunks: int = Field(5000, ge=1, le=20000)
     lexical_max_chars: int = Field(2_000_000, ge=1, le=8_000_000)
-    workflow_mcp_enabled: bool = False
-    project_logs_mcp_enabled: bool = False
+    workflow_mcp_enabled: bool = True
+    project_logs_mcp_enabled: bool = True
     max_workflow_tool_calls: int = Field(2, ge=1, le=5)
     max_external_evidence_chars: int = Field(10000, ge=500, le=20000)
-    provider_quota_enabled: bool = False
+    provider_quota_enabled: bool = True
     provider_quota_redis_url: str = "redis://127.0.0.1:56379/0"
     provider_quota_namespace: str = Field("paperqa_model_quota", pattern=r"^[A-Za-z0-9_-]{1,60}$")
-    provider_quota_rpm: int = Field(60, ge=1, le=10000)
+    provider_quota_rpm: int = Field(30, ge=1, le=10000)
     provider_quota_tpm: int = Field(200000, ge=100, le=10000000)
     embedding_api_key: str = ""
     embedding_base_url: str = ""

@@ -11,6 +11,7 @@ MESSAGES = {
     "evidence_gate": "生成前证据检查完成",
     "local_rerank_started": "正在精排检索候选",
     "local_rerank_finished": "候选精排已完成", "context_selection": "原文上下文已选定",
+    "lexical_expansion": "检索同义表达已扩展",
 }
 NUMBERS = {"round", "revisions", "evidence_count", "new_evidence", "claim_count", "approved",
            "queries_done", "queries_total", "candidate_count", "seconds", "blocked_count"}

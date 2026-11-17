@@ -15,7 +15,27 @@ from app.knowledge.context_selection import (
 )
 from app.knowledge.llama_rag import ProviderEmbedding
 from app.knowledge.local_reranker import rerank_local, validate_local_model
+from app.knowledge.query_rewrite import rewrite_queries
 from app.knowledge.retrieval import SearchResults, collapse_duplicate_hits, milvus_search
+
+
+def expanded_rankings(ranker, query, dense, corpus_id, config):
+    queries = [query]
+    if config.get("query_rewrite_enabled"):
+        rewritten, _ = rewrite_queries(query, [{"id": "retrieval", "queries": []}], corpus_id,
+            config.get("query_term_rules", []), config.get("query_max_per_subquestion", 5))
+        queries = rewritten[0]["queries"] or queries
+    lexical_routes = [ranker.rankings(text, [], limit=100)[0] for text in queries]
+    routes = {}
+    for name in ("full", "window"):
+        # Round-robin gives each expression slots without expanding the fixed
+        # candidate/model budget. All dense scores still use the original query.
+        routes[name] = list(dict.fromkeys(
+            route[name][i] for i in range(100) for route in lexical_routes if i < len(route[name])))[:100]
+    routes["dense"] = dense[:100]
+    combined = list(dict.fromkeys(
+        routes[name][i] for i in range(100) for name in routes if i < len(routes[name])))
+    return routes, combined, queries
 
 
 def scoped_context(db, snapshot, embedding_model, expected_index_config, config, cache, guard):
@@ -105,7 +125,11 @@ def context_search(db, snapshot, query, provider, embedding_model, expected_inde
     guard()
     if not set(dense) <= set(chunks):
         raise DomainError("向量候选超出当前快照", 403)
-    routes, combined = ranker.rankings(query, dense, limit=100)
+    routes, combined, lexical_queries = expanded_rankings(ranker, query, dense, snapshot.corpus_id, config)
+    if observe:
+        observe("lexical_expansion", {"query_count": len(lexical_queries), "lexical_queries": lexical_queries,
+                "candidate_count": len(combined), "embedding_query_count": 1,
+                "lexical_only": True})
     if not combined:
         return SearchResults(degradation=degradation)
     candidates = [{"id": key, "text": chunks[key].text} for key in combined]

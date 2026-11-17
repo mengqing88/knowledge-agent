@@ -12,8 +12,10 @@ from app.core.schemas import RunCreate
 from app.jobs.services import claim_job, create_run
 from app.jobs.worker import process_job
 from app.knowledge import facet_retrieval, local_reranker
-from app.knowledge.facet_retrieval import context_search
+from app.knowledge.context_selection import WideCandidates
+from app.knowledge.facet_retrieval import context_search, expanded_rankings
 from app.knowledge.ingestion import index_config
+from app.knowledge.query_rewrite import load_rules
 from sqlalchemy import select
 
 
@@ -33,8 +35,62 @@ def search(db, fake, config, **options):
 
 
 def test_settings_enable_new_strategy_but_test_fixture_pins_legacy(settings):
-    assert Settings(_env_file=None).retrieval_strategy == "facet_context"
+    defaults = Settings(_env_file=None)
+    assert defaults.retrieval_strategy == "facet_context"
+    assert defaults.workflow_mcp_enabled and defaults.project_logs_mcp_enabled
+    assert defaults.provider_quota_enabled and defaults.query_builtin_terms_enabled
     assert settings.retrieval_strategy == "legacy"
+
+
+def test_builtin_terms_are_frozen_and_bound_to_each_corpus(settings, sessions, corpus):
+    settings.query_builtin_terms_enabled = True
+    assert all(r["corpus_ids"] == ["corpus1"] for r in load_rules(settings, "corpus1"))
+    with sessions() as db:
+        run = create_run(db, RunCreate(snapshot_id="snap1", question="如何实现幂等性？"),
+                         "freeze-builtins", "local-user", settings)
+        frozen = run.config["query_term_rules"]
+    settings.query_builtin_terms_enabled = False
+    assert any("idempotency" in rule["aliases"] for rule in frozen)
+    assert load_rules(settings, "corpus1") == []
+
+
+def test_synonyms_join_bounded_lexical_routes_without_replacing_original_question(settings):
+    settings.query_builtin_terms_enabled = True
+    question = "如何实现幂等性？"
+    ranker = WideCandidates({"english": "idempotency requires a stable request key.", "other": "lunch menu"})
+    assert ranker.rankings(question, [])[1] == []
+    config = {"query_rewrite_enabled": True, "query_term_rules": load_rules(settings, "corpus1")}
+    routes, combined, queries = expanded_rankings(ranker, question, ["other"], "corpus1", config)
+    assert "english" in routes["full"] and "english" in routes["window"]
+    assert routes["dense"] == ["other"] and len(combined) <= 300
+    assert queries[0] == question and all(query.startswith(question) for query in queries)
+    assert len(queries) <= 5
+    foreign, _, queries = expanded_rankings(ranker, question, [], "foreign", config)
+    assert foreign["full"] == [] and queries == [question]
+    disabled, _, queries = expanded_rankings(ranker, question, [], "corpus1", {**config, "query_rewrite_enabled": False})
+    assert disabled["full"] == [] and queries == [question]
+
+
+def test_expansion_uses_one_embedding_and_one_rerank_batch(sessions, corpus, fake, context_config, monkeypatch):
+    context_config.update(query_rewrite_enabled=True, query_term_rules=[
+        {"corpus_ids": ["corpus1"], "term": "F1 score", "aliases": ["F1"]}])
+    counts = {"embedding": 0, "reranking": 0}
+    original_embed = fake.embed
+    def embed(*args):
+        counts["embedding"] += 1
+        return original_embed(*args)
+    def rerank(requests, config, **options):
+        counts["reranking"] += 1
+        assert requests[0]["question"] == "M F1 dataset X"
+        return [["chunk1"] for r in requests]
+    monkeypatch.setattr(fake, "embed", embed)
+    monkeypatch.setattr(facet_retrieval, "rerank_local", rerank)
+    events = {}
+    with sessions() as db:
+        assert search(db, fake, context_config, observe=lambda kind, payload: events.update({kind: payload}))
+    assert counts == {"embedding": 1, "reranking": 1}
+    assert events["lexical_expansion"]["query_count"] == 2
+    assert events["lexical_expansion"]["lexical_only"]
 
 
 def test_live_selection_keeps_sources_and_rejects_capacity_before_embedding(sessions, corpus, fake, context_config,

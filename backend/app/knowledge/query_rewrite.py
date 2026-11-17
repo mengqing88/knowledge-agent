@@ -14,18 +14,38 @@ class TermRule(BaseModel):
     aliases: list[str] = Field(min_length=1, max_length=8)
 
 
-def load_rules(settings):
-    if not settings.query_terms_file:
-        return []
+# Conservative public technical names, not inferred business/domain mappings.
+# Bound to the current corpus before freezing, exactly like user rules.
+BUILTIN_TERMS = (
+    ("PostgreSQL", ("Postgres",)),
+    ("检索增强生成", ("RAG", "retrieval augmented generation")),
+    ("模型上下文协议", ("MCP", "Model Context Protocol")),
+    ("倒数排名融合", ("RRF", "reciprocal rank fusion")),
+    ("向量嵌入", ("Embedding", "文本嵌入")),
+    ("消息队列", ("message queue",)),
+    ("死信队列", ("DLQ", "dead letter queue")),
+    ("并发控制", ("concurrency control",)),
+    ("多版本并发控制", ("MVCC", "multiversion concurrency control")),
+    ("幂等性", ("idempotency",)),
+    ("基于角色的访问控制", ("RBAC", "role based access control")),
+)
+
+
+def load_rules(settings, corpus_id=None):
+    rules = []
     try:
-        if settings.query_terms_file.stat().st_size > 128000:
-            raise ValueError()
-        raw = json.loads(settings.query_terms_file.read_text(encoding="utf-8-sig"))
-        if set(raw) != {"rules"} or len(raw["rules"]) > 200:
-            raise ValueError()
-        rules = [TermRule.model_validate(item).model_dump() for item in raw["rules"]]
-        if any(not alias.strip() or len(alias) > 100 for r in rules for alias in r["aliases"]):
-            raise ValueError()
+        if settings.query_terms_file:
+            if settings.query_terms_file.stat().st_size > 128000:
+                raise ValueError()
+            raw = json.loads(settings.query_terms_file.read_text(encoding="utf-8-sig"))
+            if set(raw) != {"rules"} or len(raw["rules"]) > 200:
+                raise ValueError()
+            rules = [TermRule.model_validate(item).model_dump() for item in raw["rules"]]
+            if any(not alias.strip() or len(alias) > 100 for r in rules for alias in r["aliases"]):
+                raise ValueError()
+        if corpus_id and settings.query_builtin_terms_enabled:
+            rules.extend({"corpus_ids": [corpus_id], "term": term, "aliases": list(aliases)}
+                         for term, aliases in BUILTIN_TERMS)
         return rules
     except (OSError, ValueError, TypeError):
         raise DomainError("查询术语配置不合法，未执行检索", 503, "query_terms_invalid") from None

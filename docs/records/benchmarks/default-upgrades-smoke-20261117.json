@@ -1,0 +1,56 @@
+{
+  "status": "passed",
+  "scope": "one synthetic full_agent workflow, real PostgreSQL/Milvus/local BGE",
+  "external_model_requests": 0,
+  "new_external_cost_cny": 0,
+  "independent_quality_evaluation": false,
+  "scratch_database": "paperqa_chunk_check_44624c2f3092",
+  "scratch_prefix": "chunk_44624c2f3092",
+  "workflow_status": "review_pending",
+  "evidence_count": 2,
+  "local_inference": {
+    "seconds": 20.343,
+    "query_count": 3,
+    "pair_count": 3,
+    "truncated_pairs": 0,
+    "request_sha256": [
+      "a1c4ceeb209bb039e2e1938c4ce77c06f353d6f0b1c70a8d874f47fcc41ba468",
+      "ee487512982dbc2e6eb4f6c5fabe1204c5dda233061e2fe8cf38078660c77610",
+      "9b8ea55afd8ccf7543cbaf84372ef8bb4b0ad47d61233123c7fe7b9ae9c5066f"
+    ],
+    "device": "cpu",
+    "precision": "float32",
+    "manifest_sha256": "d660546dbfe10e9f6fd5863e1add4fc4a9209addf0f7263dc1a657fc08dc56f3",
+    "worker_sha256": "c6d24071a9b2dda93abe33ebb14965ac655e4427d878af9fd5e75e6ff6f73d90"
+  },
+  "selection": {
+    "strategy": "facet_context",
+    "query_sha256": "5a023981650cc7bf353e8000c91e9cf6b9165828c6e105e28528400b0c51fcdb",
+    "candidate_count": 1,
+    "routes": {
+      "full": [],
+      "window": [],
+      "dense": [
+        "chunk1"
+      ]
+    },
+    "selected_chunk_ids": [
+      "chunk1"
+    ],
+    "facet_count": 2,
+    "selected_count": 1,
+    "final_limit": 12
+  },
+  "approval_gate": "preserved",
+  "production_sql_vectors": "not_used",
+  "upgrades": {
+    "lexical_query_count": 2,
+    "mcp_stdio_status": "succeeded",
+    "quota_reservations": 7,
+    "quota_shared_pools": 1,
+    "provider_transport": "in_memory_httpx_mock_no_network"
+  },
+  "cleanup": "passed",
+  "remaining_test_quota_keys": 0,
+  "elapsed_seconds": 178.0
+}
