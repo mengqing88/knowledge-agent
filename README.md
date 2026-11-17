@@ -37,6 +37,8 @@ scripts\start.ps1
 scripts\stop.ps1
 ```
 
+新建完整 Agent 问答默认使用三路宽召回、本地 BGE 和子问句原文邻块选择。首次克隆还需准备独立的 BGE 环境与约 2.3 GB 模型，步骤及 `RETRIEVAL_STRATEGY=legacy` 回退方式见[检索配置](docs/guides/开发与运维.md#本地-bge-检索)。环境缺失会明确报错，不自动下载或改用收费重排。
+
 只启动 API 不会处理入库/问答任务。启动脚本同时管理 API、Celery worker 和 beat；详细步骤、前端开发和隔离运行见[使用手册](docs/guides/启动与日常使用.md)与[开发运维](docs/guides/开发与运维.md)。
 
 ## 目录

@@ -27,7 +27,7 @@ def sessions(tmp_path):
 def settings(tmp_path):
     return Settings(_env_file=None, model="test-model", embedding_model="test-embedding",
                     storage_dir=tmp_path / "pdfs", max_run_seconds=60, answer_review_required=False,
-                    query_rewrite_enabled=False)
+                    query_rewrite_enabled=False, retrieval_strategy="legacy")
 
 
 @pytest.fixture

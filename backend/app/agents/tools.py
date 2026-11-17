@@ -21,6 +21,12 @@ class ScopedTools:
         return hybrid_search(self.db, self.snapshot, query, self.provider, self.embedding_model, limit,
                              self.expected_index_config, self.vector_store, **self.lexical_options)
 
+    def search_context_evidence(self, query, config, cache, *, guard, deadline, observe):
+        from app.knowledge.facet_retrieval import context_search
+        return context_search(self.db, self.snapshot, query, self.provider, self.embedding_model,
+            self.expected_index_config, self.vector_store, config, cache,
+            guard=guard, deadline=deadline, observe=observe)
+
     def read_source_blocks(self, block_ids: list[str]):
         if (not isinstance(block_ids, list) or not 1 <= len(block_ids) <= 24 or
                 any(not isinstance(bid, str) or not bid.strip() for bid in block_ids)):

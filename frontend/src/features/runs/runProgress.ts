@@ -35,6 +35,10 @@ export function runProgress(run: Run, events: RunEvent[]) {
       const roles: Record<string, string> = {Planner: 'planner', Embedding: 'retriever', Reranker: 'reranker', EvidenceGate: 'evidence_gate', ToolRouter: 'tools', Analyst: 'analyst', Verifier: 'verifier'}
       stage = roles[String(p.role)] || stage
     }
+    if (event.kind === 'local_rerank_started') {
+      stage = 'reranker'
+      if (typeof p.candidate_count === 'number') candidates = p.candidate_count
+    }
     if (typeof p.round === 'number') round = p.round
     if (typeof p.revisions === 'number') revisions = p.revisions
     if (event.kind === 'retrieval_progress') {

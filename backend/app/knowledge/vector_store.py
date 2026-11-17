@@ -93,7 +93,7 @@ class MilvusVectorStore:
                 anns_field="embedding",
                 limit=limit,
                 output_fields=["chunk_id"],
-                search_params={"metric_type": "COSINE", "params": {"ef": 64}},
+                search_params={"metric_type": "COSINE", "params": {"ef": max(64, limit)}},
                 consistency_level="Strong",
                 timeout=self.timeout,
             )

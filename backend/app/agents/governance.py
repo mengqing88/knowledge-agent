@@ -29,6 +29,8 @@ PUBLIC_SETTINGS = (
     "mcp_approval_ttl_seconds",
     "query_rewrite_enabled", "query_max_per_subquestion", "workflow_mcp_enabled", "project_logs_mcp_enabled",
     "lexical_backend", "lexical_max_chunks", "lexical_max_chars",
+    "retrieval_strategy", "local_reranker_python", "local_reranker_model", "local_reranker_device",
+    "local_reranker_timeout_seconds",
     "max_workflow_tool_calls", "max_external_evidence_chars", "reranker_backend",
     "provider_quota_enabled", "provider_quota_namespace", "provider_quota_rpm", "provider_quota_tpm",
 )
@@ -91,6 +93,9 @@ def freeze_execution(settings, snapshot, question, context, memory_context=None,
               "replay_of": replay_of,
               "model_version": "provider_alias_only",
               "rebuild_status": "hashes_only_no_source_or_image_archive"}
+    if settings.retrieval_strategy == "facet_context":
+        from app.knowledge.local_reranker import local_model_identity
+        frozen["retrieval_model_identity"] = local_model_identity(frozen)
     return {**frozen, "manifest_sha256": digest(frozen)}
 
 

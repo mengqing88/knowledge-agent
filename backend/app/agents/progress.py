@@ -9,6 +9,8 @@ MESSAGES = {
     "completed": "答案已发布", "cancelled": "已取消后续处理", "failed": "处理失败",
     "rejected": "答案审核未通过", "retrieval_degraded": "正在使用可用的检索方式",
     "evidence_gate": "生成前证据检查完成",
+    "local_rerank_started": "正在精排检索候选",
+    "local_rerank_finished": "候选精排已完成", "context_selection": "原文上下文已选定",
 }
 NUMBERS = {"round", "revisions", "evidence_count", "new_evidence", "claim_count", "approved",
            "queries_done", "queries_total", "candidate_count", "seconds", "blocked_count"}

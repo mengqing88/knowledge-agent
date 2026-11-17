@@ -1,3 +1,4 @@
+import os
 from functools import lru_cache
 from pathlib import Path
 from typing import Literal
@@ -23,6 +24,12 @@ class Settings(BaseSettings):
     role_model_routes: dict[str, ModelRoute] = Field(default_factory=dict)
     role_output_token_limits: dict[str, StrictInt] = Field(default_factory=dict)
     reranker_backend: Literal["llm", "rerank_api"] = "llm"
+    retrieval_strategy: Literal["legacy", "facet_context"] = "facet_context"
+    local_reranker_python: str = str(ROOT / "tmp" / "rag-reranker-env" /
+                                     ("Scripts/python.exe" if os.name == "nt" else "bin/python"))
+    local_reranker_model: str = str(ROOT / "tmp" / "rag-models" / "bge-reranker-v2-m3")
+    local_reranker_device: Literal["auto", "cpu", "cuda"] = "auto"
+    local_reranker_timeout_seconds: int = Field(120, ge=5, le=600)
     query_rewrite_enabled: bool = True
     query_terms_file: Path | None = None
     query_max_per_subquestion: int = Field(5, ge=1, le=6)

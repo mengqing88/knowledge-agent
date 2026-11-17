@@ -75,7 +75,7 @@ def collapse_duplicate_hits(db, hits: list[dict]) -> list[dict]:
     return representatives
 
 
-def milvus_search(db, indexes, vector, vector_store) -> list[str]:
+def milvus_search(db, indexes, vector, vector_store, limit=30) -> list[str]:
     """Rank Milvus hits and resolve each ID against its own PostgreSQL index."""
     if vector_store is None:
         raise ProviderError("Milvus 向量后端未配置", "vector_store_config")
@@ -83,11 +83,11 @@ def milvus_search(db, indexes, vector, vector_store) -> list[str]:
     for index in indexes:
         # QueryBundle carries the one already-accounted query embedding, so a
         # multi-document snapshot does not issue another model call per index.
-        hits = retrieve_revision(db, index, vector_store, None, "", embedding=vector)
+        hits = retrieve_revision(db, index, vector_store, None, "", embedding=vector, limit=limit)
         semantic_hits.extend((hit.node.node_id, hit.score) for hit in hits)
     # Milvus COSINE returns similarity: larger values are more relevant.
     return [chunk_id for chunk_id, _score in sorted(
-        semantic_hits, key=lambda item: (-item[1], item[0]))][:30]
+        semantic_hits, key=lambda item: (-item[1], item[0]))][:limit]
 
 
 def hybrid_search(db, snapshot: Snapshot, query: str, provider, embedding_model: str, limit=12,

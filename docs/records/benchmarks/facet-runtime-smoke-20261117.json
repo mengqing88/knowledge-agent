@@ -1,0 +1,52 @@
+{
+  "status": "passed",
+  "scope": "one synthetic full_agent workflow, real PostgreSQL/Milvus/local BGE",
+  "external_model_requests": 0,
+  "new_external_cost_cny": 0,
+  "independent_quality_evaluation": false,
+  "scratch_database": "paperqa_chunk_check_1fa2b1049068",
+  "scratch_prefix": "chunk_1fa2b1049068",
+  "workflow_status": "review_pending",
+  "evidence_count": 1,
+  "local_inference": {
+    "seconds": 45.078,
+    "query_count": 3,
+    "pair_count": 3,
+    "truncated_pairs": 0,
+    "request_sha256": [
+      "fd34664a6926cddbdf00a47c32128b41d0703a91657e72b101034599a7eb663d",
+      "69b33dcce269efd7ac80472433f687fa0b79f1b2ed8c140a5cf76f9599a2bfd4",
+      "9b8ea55afd8ccf7543cbaf84372ef8bb4b0ad47d61233123c7fe7b9ae9c5066f"
+    ],
+    "device": "cpu",
+    "precision": "float32",
+    "manifest_sha256": "d660546dbfe10e9f6fd5863e1add4fc4a9209addf0f7263dc1a657fc08dc56f3",
+    "worker_sha256": "c6d24071a9b2dda93abe33ebb14965ac655e4427d878af9fd5e75e6ff6f73d90"
+  },
+  "selection": {
+    "strategy": "facet_context",
+    "query_sha256": "ea87a10c64df3aa0ee0482f7df7e49b058b665b7d97ad18c09e1a1f7d2fb182b",
+    "candidate_count": 1,
+    "routes": {
+      "full": [
+        "chunk1"
+      ],
+      "window": [
+        "chunk1"
+      ],
+      "dense": [
+        "chunk1"
+      ]
+    },
+    "selected_chunk_ids": [
+      "chunk1"
+    ],
+    "facet_count": 2,
+    "selected_count": 1,
+    "final_limit": 12
+  },
+  "approval_gate": "preserved",
+  "production_sql_vectors": "not_used",
+  "cleanup": "passed",
+  "elapsed_seconds": 201.922
+}

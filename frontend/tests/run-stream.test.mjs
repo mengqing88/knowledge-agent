@@ -7,6 +7,16 @@ const event = (seq, kind = 'node_started', payload = {node: 'planner'}, attempt 
 const run = (status = 'running', attempt = 1, mode = 'full_agent') => ({id: 'run-1', status, attempt, mode})
 const flush = () => new Promise(resolve => setImmediate(resolve))
 
+test('local BGE progress shows the reranking stage without any draft text', () => {
+  const progress = runProgress(run(), [
+    event(1, 'node_started', {node: 'retriever'}),
+    event(2, 'local_rerank_started', {candidate_count: 240}),
+  ])
+  assert.equal(progress.title, '正在筛选证据')
+  assert.equal(progress.candidates, 240)
+  assert.equal(progress.steps[progress.index].id, 'reranker')
+})
+
 function harness(overrides = {}) {
   const sources = [], timers = new Map(), updates = [], states = [], reads = []
   let timerId = 0, complete = 0

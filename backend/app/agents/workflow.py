@@ -320,11 +320,19 @@ class Workflow:
         if not self.budget_available(state, reserve=0) or state["round"] >= self.limits["max_retrieval_rounds"]:
             raise BudgetExhausted(state.get("budget_category", "retrieval_rounds"))
         state["round"] += 1
+        use_context = (self.limits.get("retrieval_strategy", "legacy") == "facet_context" and
+                       state["mode"] != "baseline_rag")
         before = {item["id"] for item in state["sources"]}
         pending = state.get("pending_queries") or [
             (sub["id"], query) for sub in state["plan"]["subquestions"] for query in sub["queries"]
         ]
-        if not state.get("pending_queries") and self.limits.get("query_rewrite_enabled"):
+        if use_context and not state.get("pending_queries"):
+            # Keep the original clause boundaries for the experimental selector;
+            # follow-ups use Planner's resolved references from frozen history.
+            query = (state["plan"]["normalized_question"] if self.limits.get("previous_questions")
+                     else state["question"])
+            pending = [(sub["id"], query) for sub in state["plan"]["subquestions"]]
+        if not use_context and not state.get("pending_queries") and self.limits.get("query_rewrite_enabled"):
             subs = state["plan"]["subquestions"]
             pending = [(sub["id"], sub["queries"][i])
                        for i in range(max((len(s["queries"]) for s in subs), default=0))
@@ -352,7 +360,15 @@ class Workflow:
                                     lexical_max_chunks=self.limits.get("lexical_max_chunks", 5000),
                                     lexical_max_chars=self.limits.get("lexical_max_chars", 2_000_000),
                                     lexical_cache=self.lexical_cache, guard=self.guard)
-                ranked = tools.search_evidence(query)
+                if use_context:
+                    def observe(kind, payload):
+                        with self.sessions.begin() as audit_db:
+                            check_attempt(audit_db, self.run_id, self.attempt, lock=True)
+                            emit(audit_db, self.run_id, self.attempt, kind, payload)
+                    ranked = tools.search_context_evidence(query, self.limits, self.lexical_cache,
+                        guard=self.guard, deadline=self.started + self.limits["max_run_seconds"], observe=observe)
+                else:
+                    ranked = tools.search_evidence(query)
                 if ranked.degradation:
                     emit(db, self.run_id, self.attempt, "retrieval_degraded", {
                         "subquestion_id": sub_id, "round": state["round"], **ranked.degradation})
@@ -368,6 +384,8 @@ class Workflow:
                     entry["score"] += candidate["score"]
                     if sub_id not in entry["retrieved_for_subquestion_ids"]:
                         entry["retrieved_for_subquestion_ids"].append(sub_id)
+                    if use_context and not state.get("pending_queries"):
+                        entry["retrieved_for_subquestion_ids"] = [sub["id"] for sub in state["plan"]["subquestions"]]
                     if not entry["blocks"]:
                         for source_range in chunk.source_ranges:
                             block = tools.read_source_blocks([source_range["block_id"]])[0]
@@ -391,7 +409,9 @@ class Workflow:
             grouped.setdefault(item["index_id"], []).append(item)
         pool = [items[i] for i in range(max((len(v) for v in grouped.values()), default=0))
                 for items in grouped.values() if i < len(items)][:24]
-        if pool and state["mode"] != "baseline_rag":
+        if use_context:
+            selected = sorted(candidates.values(), key=lambda c: (-c["score"], c["chunk_id"]))[:12]
+        elif pool and state["mode"] != "baseline_rag":
             result = self.call(state, "Reranker", RERANKER, {
                 "question": state["question"], "plan": state["plan"],
                 "candidates": [{"chunk_id": c["chunk_id"],

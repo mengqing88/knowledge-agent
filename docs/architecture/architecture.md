@@ -22,7 +22,9 @@ Planner → 查询改写 → Retriever/重排 → 可选 MCP 只读循环 → Ev
 
 专用 rerank API 使用一条请求；`query` 包含原问题和去重后的 Planner 子问题目标，候选仍映射回服务端已授权的 chunk 与 block ID。应用内 LLM 重排还会收到每个候选的 `retrieved_for_subquestion_ids`；该列表仅作召回来源提示。
 
-Retriever 不调用聊天模型。原生 PostgreSQL 全文召回限制索引 ID 白名单；Milvus 为每个索引版本使用独立 collection（HNSW/COSINE，M=16、efConstruction=200、ef=64），返回的 Chunk ID 再逐 collection 对照 PostgreSQL 中的索引归属，以 Chunk ID 做 RRF(k=60)。COSINE 分数越大越相似，合并时按降序排名。原生 simple 分词不等于 BM25 或高质量中文分词；中文有必要实体子串匹配，跨语言语义依赖实际向量模型与 Planner 的英文查询。多论文按对象交错取证并限制每篇数量。
+新建完整 Agent 问答默认走 `facet_context`。`knowledge/facet_retrieval.py` 在服务端确定的快照内读取有容量限制的文本，整块 BM25、160 字符短窗口 BM25、Milvus 向量各取最多 100 条并交错去重；查询向量只请求一次。`local_reranker.py` 启动独立环境的本地 BGE，对完整问题和最多两个原文子句分别排序，再由共享的 `context_selection.py` 在 12 个名额内保留主要命中、子句新命中及来源邻块。首问保留原问题，追问采用 Planner 消解指代的表达；门控补查仍有轮数与时间限制。不再用聊天重排器二次过滤已选原文，引用仍从 SourceBlock 的精确范围生成；字符及证据数量上限仍可能裁掉部分内容。
+
+`RETRIEVAL_STRATEGY=legacy` 和 `baseline_rag` 保留旧路：PostgreSQL 全文/可选中文 BM25 与向量做 RRF(k=60)，完整 Agent 再做既有重排。Milvus 每索引版本独立 collection（HNSW/COSINE，M=16、efConstruction=200、ef=max(64,请求数量)）；每个返回 ID 仍须按所属 collection 在 SQL 复核索引范围。原生 PostgreSQL simple 全文不是 BM25，中文 BM25 为应用内有界索引。本地 BGE 增加模型加载、CPU/GPU 计算和最长 120 秒推理等待，进度与完整性哈希写入审计事件。95.35% 是历史同题离线开发覆盖，不是线上效果保证。
 
 同一 Chunk 可能由多个子问题的查询命中；工作流合并候选时保留全部 `retrieved_for_subquestion_ids`，并传给 Reranker 与重排后的 EvidenceGate，避免只留下首次命中的子问题。该字段只表示检索来源关系，不代表证据已支持对应问题；两个提示都要求模型检查原文，不把该字段当成相关或支持结论。
 
