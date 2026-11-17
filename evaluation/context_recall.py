@@ -93,10 +93,10 @@ def query_facets(question):
 def with_facet_context(ranking, facet_rankings, successors, allowed_ids):
     """Protect five full-query anchors, then spend remaining top-12 slots.
 
-    Preserve each anchor and its successor. Add absent facet leaders with one
-    successor before extending already selected leaders by up to two unseen
-    chunks. All additions consume slots; traversal stays within scoped source
-    successors. No question IDs, scores or evidence labels enter selection.
+    Preserve each anchor and its successor. Add absent facet leaders with the
+    preceding source chunk, then extend their forward context by up to two
+    unseen chunks. All additions consume slots; traversal stays within scoped
+    source successors. No question IDs, scores or evidence labels enter selection.
     """
     allowed = set(allowed_ids)
     with_forward_context(ranking, successors, allowed, seed_count=5)
@@ -107,6 +107,11 @@ def with_facet_context(ranking, facet_rankings, successors, allowed_ids):
             raise ValueError("Facet ranking is empty, duplicated or outside scope")
     if not facet_rankings:
         return with_forward_context(ranking, successors, allowed)[:12]
+    predecessors = {}
+    for source, target in successors.items():
+        if target in predecessors:
+            raise ValueError("Source successors must form nonbranching order")
+        predecessors[target] = source
     out = []
     for key in ranking[:5]:
         out.extend([key] + ([successors[key]] if key in successors else []))
@@ -114,7 +119,9 @@ def with_facet_context(ranking, facet_rankings, successors, allowed_ids):
     leaders = [part[0] for part in facet_rankings]
     for key in leaders:
         if key not in out:
-            out.extend([key] + ([successors[key]] if key in successors else []))
+            out.append(key)
+            if key in predecessors:
+                out.append(predecessors[key])
     for key in leaders:
         added = 0
         for _ in range(5):

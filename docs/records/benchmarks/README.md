@@ -9,6 +9,7 @@
 | 检索与向量存储控制 | [检索](retrieval-benchmark.json)、[向量存储](vector-store-benchmark.json) |
 | 私有长文本开发集的 80% 离线目标 | [无原文汇总](context-recall-80-20261117.json)、[过程与边界](../2026-11/召回覆盖率80达标对照_2026-11-17.md)；逐题原文只保存在本机忽略目录 |
 | 同题开发集 93.0% 的子问句与上下文实验 | [无原文汇总](facet-recall-90-20261117.json)、[过程与边界](../2026-11/召回覆盖率90开发对照_2026-11-17.md)；保留开发选参和退步尝试说明 |
+| 同题开发集 95.35% 的前邻块调整 | [无原文汇总](facet-recall-95-20261117.json)、[过程与边界](../2026-11/召回覆盖率95开发对照_2026-11-17.md)；相同分数重放，不重复模型推理 |
 | 查询改写 | [离线](query-rewrite-offline-evaluation.json)、[真实依赖](query-rewrite-live-evaluation.json) |
 | 模型与角色冒烟 | [连接](connection-check.json)、[教学资料模型冒烟](live-model-smoke.json)、[角色冒烟](role-model-live-smoke.json) |
 | 存储与配额冒烟 | [LlamaIndex](llamaindex-storage-check.json)、[Milvus](milvus-storage-check.json)、[Redis 配额](provider-quota-live-check.json) |

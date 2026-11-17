@@ -91,10 +91,10 @@ def test_query_facets_keep_source_text_and_bounded_contrastive_clauses():
 def test_facet_context_spends_fixed_slots_on_unseen_continuation_and_stays_scoped():
     ranking = ["a", "b", "a0", "d", "b0", "f"]
     successors = {"a": "a0", "a0": "a1", "a1": "a2", "b": "b0", "b0": "b1",
-                  "b1": "b2", "b2": "b3", "d": "d0", "e": "e0", "z": "z0"}
+                  "b1": "b2", "b2": "b3", "d": "d0", "p": "e", "e": "e0", "z": "z0"}
     allowed = set(ranking) | set(successors) | set(successors.values())
     result = with_facet_context(ranking, [["b", "a"], ["e", "a"]], successors, allowed)
-    assert result == ["a", "a0", "b", "b0", "a1", "d", "d0", "b1", "e", "e0", "b2", "b3"]
+    assert result == ["a", "a0", "b", "b0", "a1", "d", "d0", "b1", "e", "p", "b2", "b3"]
     assert len(result) == len(set(result)) == 12
     assert "z" not in result and "z0" not in result
     assert with_facet_context(ranking, [], successors, allowed) == with_forward_context(
@@ -102,6 +102,18 @@ def test_facet_context_spends_fixed_slots_on_unseen_continuation_and_stays_scope
     for parts in ([[]], [["outside"]], [["a", "a"]], [["a"], ["b"], ["d"]]):
         with pytest.raises(ValueError):
             with_facet_context(ranking, parts, successors, allowed)
+
+
+def test_facet_context_uses_predecessor_only_for_a_new_facet_leader():
+    ranking = [f"full{i}" for i in range(12)]
+    successors = {"full0": "full0next", "left": "leader", "leader": "right", "right": "farther"}
+    allowed = set(ranking) | set(successors) | set(successors.values())
+    result = with_facet_context(ranking, [["leader"]], successors, allowed)
+    assert result[:8] == ["full0", "full0next", "full1", "full2", "full3", "full4", "leader", "left"]
+    assert len(result) == len(set(result)) == 12
+    with pytest.raises(ValueError, match="nonbranching"):
+        with_facet_context(ranking, [["leader"]], {**successors, "other": "leader"},
+                           allowed | {"other"})
 
 
 def test_offline_prepare_and_score_keep_input_scope_and_all_questions(sessions, corpus, tmp_path, monkeypatch):
@@ -188,3 +200,14 @@ def test_facet_benchmark_freezes_all_inputs_and_rejects_incomplete_scores(sessio
     report = json.loads((facet_run / "report.json").read_text(encoding="utf-8"))
     assert report["threshold"]["met"] and report["summary_at_12"]["covered"] == 1
     assert report["new_paid_model_requests"] == 0 and report["human_reviewed"] is False
+
+    child_run = tmp_path / "tmp/facet-child"
+    facet_benchmark.prepare(SimpleNamespace(base_run=base_run, model=model, output=child_run,
+                                            reference_run=facet_run, target_recall=.95))
+    child_scores = child_run / "scores.jsonl"
+    child_scores.write_bytes(scores.read_bytes())
+    facet_benchmark.score_run(SimpleNamespace(run=child_run, scores=child_scores))
+    child_report = json.loads((child_run / "report.json").read_text(encoding="utf-8"))
+    assert child_report["baseline_at_12"]["covered"] == 1
+    assert child_report["threshold"]["target"] == .95
+    assert child_report["inference_reused"] and child_report["new_local_inference_pairs"] == 0

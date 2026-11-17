@@ -15,6 +15,20 @@ from scripts.benchmarks import benchmark_context_recall as base  # noqa: E402
 from scripts.models.local_rerank import request_digest  # noqa: E402
 
 
+def reference_report(path, manifest, ids):
+    """Load an immutable previous selection over exactly these source inputs."""
+    base.private_output(path)
+    report = base.read(path / "report.json")
+    if (report["suite_sha256"] != manifest["suite_sha256"] or
+            report["database_sha256"] != manifest["database_sha256"] or
+            [case["id"] for case in report["cases"]] != ids or
+            base.sha(path / "manifest.json") != report["manifest_sha256"] or
+            base.sha(path / "requests.jsonl") != report["requests_sha256"] or
+            base.sha(path / "scores.jsonl") != report["scores_sha256"]):
+        raise ValueError("Previous selection inputs or membership differ")
+    return report
+
+
 def source_run(path):
     base.private_output(path)
     manifest = base.read(path / "manifest.json")
@@ -52,6 +66,12 @@ def prepare(args):
     model = base.check_model(args.model)
     if model != manifest["model"]:
         raise ValueError("Facet model must match the frozen full-query model")
+    target = getattr(args, "target_recall", .9)
+    if not 0 < target <= 1:
+        raise ValueError("Target recall must be in (0, 1]")
+    reference = getattr(args, "reference_run", None)
+    if reference is not None:
+        reference_report(reference, manifest, [row["id"] for row in originals])
     requests, groups = [], []
     for original in originals:
         facets = []
@@ -69,6 +89,8 @@ def prepare(args):
             output.write(json.dumps(row, ensure_ascii=False) + "\n")
     base.write(args.output / "manifest.json", {
         "schema": 1, "base_run": str(args.base_run.resolve()),
+        "reference_run": str(reference.resolve()) if reference is not None else None,
+        "reference_report_sha256": base.sha(reference / "report.json") if reference is not None else None,
         "base_manifest_sha256": base.sha(args.base_run / "manifest.json"),
         "base_report_sha256": base.sha(args.base_run / "report.json"),
         "requests_sha256": base.sha(args.output / "requests.jsonl"), "model": model,
@@ -76,7 +98,8 @@ def prepare(args):
             "evaluation/context_recall.py", "scripts/benchmarks/benchmark_facet_recall.py",
             "scripts/models/local_rerank.py")},
         "parameters": {"full_query_anchors": 5, "max_facets": 2, "final_limit": 12,
-                       "extra_unseen_per_facet": 2, "max_forward_steps": 5},
+                       "extra_unseen_per_facet": 2, "max_forward_steps": 5,
+                       "new_facet_neighbor": "predecessor", "target_recall": target},
         "questions": groups, "prepare_seconds": round(time.monotonic() - started, 3),
         "new_paid_model_requests": 0})
     print(json.dumps({"questions": len(groups), "facets": len(requests),
@@ -100,6 +123,16 @@ def score_run(args):
         raise ValueError("Facet model differs from the base model")
     suite = base.read(Path(manifest["suite"]))
     engine, chunks, successors, _ = base.corpus(Path(manifest["database"]), suite)
+    reference = None
+    if frozen.get("reference_run") is not None:
+        reference_path = Path(frozen["reference_run"])
+        if base.sha(reference_path / "report.json") != frozen["reference_report_sha256"]:
+            raise ValueError("Previous selection report has drifted")
+        reference = reference_report(reference_path, manifest, [q["id"] for q in suite["questions"]])
+        for question, case in zip(suite["questions"], reference["cases"]):
+            if (len(case["ranking"]) != len(set(case["ranking"])) or not set(case["ranking"]) <= set(chunks) or
+                    base.score(case["ranking"], chunks, question["gold"]) != case["metrics"]):
+                raise ValueError("Previous selection metrics differ from source ranges")
     for original in originals:
         for candidate in original["candidates"]:
             if candidate["id"] not in chunks or candidate["text"] != chunks[candidate["id"]].text:
@@ -115,7 +148,8 @@ def score_run(args):
     requests_by_id = {r["id"]: r for r in requests}
     tokens = {key: token_count(c.text) for key, c in chunks.items()}
     cases = []
-    for question, original, group, old in zip(suite["questions"], originals, frozen["questions"], previous["cases"]):
+    old_cases = reference["cases"] if reference is not None else previous["cases"]
+    for question, original, group, old in zip(suite["questions"], originals, frozen["questions"], old_cases):
         parts = []
         facets = query_facets(question["question"])
         if len(facets) != len(group["facets"]):
@@ -133,23 +167,25 @@ def score_run(args):
             raise ValueError("Final selection changed the fixed result budget")
         scored = base.score(ranking, chunks, question["gold"])
         cases.append({"id": question["id"], "ranking": ranking, "metrics": scored,
-                      "baseline": old["methods"]["wide_bge_forward"]["12"],
+                      "baseline": old["metrics"] if reference is not None else old["methods"]["wide_bge_forward"]["12"],
                       "reference_tokens": sum(tokens[key] for key in ranking)})
     covered = sum(c["metrics"]["covered"] for c in cases)
     total = sum(c["metrics"]["gold"] for c in cases)
+    reused = reference is not None and base.sha(args.scores) == reference["scores_sha256"]
     report = {"status": "completed", "scope": "frozen SQLite development diagnostic",
               "human_reviewed": False, "question_count": len(cases), "gold_count": total,
               "suite_sha256": manifest["suite_sha256"], "database_sha256": manifest["database_sha256"],
               "manifest_sha256": base.sha(args.run / "manifest.json"),
               "requests_sha256": frozen["requests_sha256"], "scores_sha256": base.sha(args.scores),
               "base_report_sha256": frozen["base_report_sha256"], "model": frozen["model"],
+              "reference_report_sha256": frozen.get("reference_report_sha256"),
               "parameters": frozen["parameters"],
               "inference": {key: results[0].get(key) for key in (
                   "device", "precision", "torch", "transformers", "max_length", "load_seconds")},
               "summary_at_12": {"covered": covered, "gold": total, "recall": covered / total,
                                 "complete_questions": sum(c["metrics"]["complete"] for c in cases),
                                 "mean_reference_tokens": round(sum(c["reference_tokens"] for c in cases)/len(cases), 2)},
-              "baseline_at_12": previous["summary"]["wide_bge_forward"]["12"],
+              "baseline_at_12": reference["summary_at_12"] if reference is not None else previous["summary"]["wide_bge_forward"]["12"],
               "comparison_at_12": {
                   "improved_questions": sum(c["metrics"]["covered"] > c["baseline"]["covered"] for c in cases),
                   "regressed_questions": sum(c["metrics"]["covered"] < c["baseline"]["covered"] for c in cases),
@@ -157,10 +193,14 @@ def score_run(args):
                                     for c in cases),
                   "lost_labels": sum(sum(y and not x for x, y in zip(c["metrics"]["found"], c["baseline"]["found"]))
                                      for c in cases)},
-              "threshold": {"target": .9, "covered": covered, "total": total, "met": covered/total >= .9},
+              "threshold": {"target": frozen["parameters"]["target_recall"], "covered": covered,
+                            "total": total, "met": covered/total >= frozen["parameters"]["target_recall"]},
               "local_inference_pairs": sum(len(r["candidates"]) for r in requests),
               "facet_count": len(requests), "prepare_seconds": frozen["prepare_seconds"],
               "inference_seconds": round(sum(r["seconds"] for r in results), 3),
+              "inference_reused": reused,
+              "new_local_inference_pairs": 0 if reused else sum(len(r["candidates"]) for r in requests),
+              "new_inference_seconds": 0 if reused else round(sum(r["seconds"] for r in results), 3),
               "truncated_pairs": sum(r["truncated_pairs"] for r in results),
               "new_paid_model_requests": 0, "new_model_cost_cny": "0", "cases": cases,
               "limitations": ["Syntax and context rules were selected on this same development set.",
@@ -180,6 +220,9 @@ def main():
     prep = commands.add_parser("prepare")
     for name in ("base-run", "model", "output"):
         prep.add_argument("--" + name, type=Path, required=True)
+    prep.add_argument("--reference-run", type=Path,
+                      help="A previous facet report over the same questions and corpus")
+    prep.add_argument("--target-recall", type=float, default=.9)
     scoring = commands.add_parser("score")
     for name in ("run", "scores"):
         scoring.add_argument("--" + name, type=Path, required=True)
