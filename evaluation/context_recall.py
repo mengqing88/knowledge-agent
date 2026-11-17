@@ -4,6 +4,7 @@ This experimental path accepts caller-scoped chunks, blocks and cached vectors.
 It does not read evidence labels, credentials or a model provider.
 """
 import math
+import re
 from collections import defaultdict
 
 from app.knowledge.evidence import validate_range
@@ -76,6 +77,56 @@ def with_forward_context(ranking, successors, allowed_ids, seed_count=6):
         if chunk_id in successors:
             leading.append(successors[chunk_id])
     return list(dict.fromkeys(leading + list(ranking)))
+
+
+def query_facets(question):
+    """Split at sentence boundaries and contrastive commas; infer no entities.
+
+    Keep at most two facets in source order. An isolated clause is not a new
+    facet. This syntax-only split can lose pronoun context; it is experimental.
+    """
+    parts = re.split(r"[？?；;。！!\n]+|[，,](?=另一|而另|一方面|另一方面)", question)
+    parts = list(dict.fromkeys(part.strip(" ，,：: ") for part in parts if len(part.strip()) >= 6))
+    return parts[:2] if len(parts) > 1 else []
+
+
+def with_facet_context(ranking, facet_rankings, successors, allowed_ids):
+    """Protect five full-query anchors, then spend remaining top-12 slots.
+
+    Preserve each anchor and its successor. Add absent facet leaders with one
+    successor before extending already selected leaders by up to two unseen
+    chunks. All additions consume slots; traversal stays within scoped source
+    successors. No question IDs, scores or evidence labels enter selection.
+    """
+    allowed = set(allowed_ids)
+    with_forward_context(ranking, successors, allowed, seed_count=5)
+    if len(facet_rankings) > 2:
+        raise ValueError("At most two facet rankings are supported")
+    for part in facet_rankings:
+        if not part or len(part) != len(set(part)) or not set(part) <= allowed:
+            raise ValueError("Facet ranking is empty, duplicated or outside scope")
+    if not facet_rankings:
+        return with_forward_context(ranking, successors, allowed)[:12]
+    out = []
+    for key in ranking[:5]:
+        out.extend([key] + ([successors[key]] if key in successors else []))
+    out = list(dict.fromkeys(out))
+    leaders = [part[0] for part in facet_rankings]
+    for key in leaders:
+        if key not in out:
+            out.extend([key] + ([successors[key]] if key in successors else []))
+    for key in leaders:
+        added = 0
+        for _ in range(5):
+            if key not in out:
+                out.append(key)
+                added += 1
+            if added >= 2:
+                break
+            key = successors.get(key)
+            if key is None:
+                break
+    return list(dict.fromkeys(out + list(ranking)))[:12]
 
 
 def validated_order(result, request, digest):

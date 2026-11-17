@@ -5,7 +5,14 @@ from types import SimpleNamespace
 import pytest
 from app.core.errors import DomainError
 
-from evaluation.context_recall import WideCandidates, source_successors, validated_order, with_forward_context
+from evaluation.context_recall import (
+    WideCandidates,
+    query_facets,
+    source_successors,
+    validated_order,
+    with_facet_context,
+    with_forward_context,
+)
 from scripts.benchmarks import benchmark_context_recall as benchmark
 from scripts.models.local_rerank import request_digest
 
@@ -73,6 +80,30 @@ def test_inference_is_bound_to_full_question_text_candidate_order_and_text():
             validated_order({**good, "scores": bad_scores}, request, digest)
 
 
+def test_query_facets_keep_source_text_and_bounded_contrastive_clauses():
+    assert query_facets("请说明管理员如何批准外部成员访问资料？") == []
+    assert query_facets("管理员如何批准外部成员？撤权以后如何处理历史任务？") == [
+        "管理员如何批准外部成员", "撤权以后如何处理历史任务"]
+    assert query_facets("一方认为应保留原始记录，另一方认为需要脱敏以后共享。原文分别怎样表达？") == [
+        "一方认为应保留原始记录", "另一方认为需要脱敏以后共享"]
+
+
+def test_facet_context_spends_fixed_slots_on_unseen_continuation_and_stays_scoped():
+    ranking = ["a", "b", "a0", "d", "b0", "f"]
+    successors = {"a": "a0", "a0": "a1", "a1": "a2", "b": "b0", "b0": "b1",
+                  "b1": "b2", "b2": "b3", "d": "d0", "e": "e0", "z": "z0"}
+    allowed = set(ranking) | set(successors) | set(successors.values())
+    result = with_facet_context(ranking, [["b", "a"], ["e", "a"]], successors, allowed)
+    assert result == ["a", "a0", "b", "b0", "a1", "d", "d0", "b1", "e", "e0", "b2", "b3"]
+    assert len(result) == len(set(result)) == 12
+    assert "z" not in result and "z0" not in result
+    assert with_facet_context(ranking, [], successors, allowed) == with_forward_context(
+        ranking, successors, allowed)[:12]
+    for parts in ([[]], [["outside"]], [["a", "a"]], [["a"], ["b"], ["d"]]):
+        with pytest.raises(ValueError):
+            with_facet_context(ranking, parts, successors, allowed)
+
+
 def test_offline_prepare_and_score_keep_input_scope_and_all_questions(sessions, corpus, tmp_path, monkeypatch):
     monkeypatch.setattr(benchmark, "ROOT", tmp_path)
     suite = {"snapshot_id": "snap1", "questions": [{"id": "q1", "question": "M F1 dataset X", "gold": [
@@ -111,3 +142,49 @@ def test_offline_prepare_and_score_keep_input_scope_and_all_questions(sessions, 
     assert report["new_paid_model_requests"] == 0 and not report["human_reviewed"]
     with pytest.raises(ValueError, match="immutable"):
         benchmark.score_run(scoring)
+
+
+def test_facet_benchmark_freezes_all_inputs_and_rejects_incomplete_scores(sessions, corpus, tmp_path, monkeypatch):
+    from scripts.benchmarks import benchmark_facet_recall as facet_benchmark
+
+    monkeypatch.setattr(benchmark, "ROOT", tmp_path)
+    suite_path, vectors = tmp_path / "suite.json", tmp_path / "vectors.json"
+    query = "管理员怎样核对原始资料？审核完成以后怎样共享？"
+    suite_path.write_text(json.dumps({"snapshot_id": "snap1", "questions": [
+        {"id": "q1", "question": query, "gold": [{"block_id": "block1", "char_start": 0, "char_end": 12}]}]}),
+        encoding="utf-8")
+    vectors.write_text(json.dumps({"identity": "frozen", "vectors": {
+        hashlib.sha256(query.encode()).hexdigest(): [1., 0., 0.]}}), encoding="utf-8")
+    model = tmp_path / "model"
+    model.mkdir()
+    (model / "config.json").write_text("{}", encoding="utf-8")
+    (model / "download-manifest.json").write_text(json.dumps({"model": "test", "revision": "frozen", "files": {
+        "config.json": {"bytes": 2, "sha256": benchmark.sha(model / "config.json")}}}), encoding="utf-8")
+    base_run = tmp_path / "tmp/base"
+    benchmark.prepare(SimpleNamespace(database=tmp_path / "test.db", suite=suite_path, query_vectors=vectors,
+                                      model=model, output=base_run))
+    original = json.loads((base_run / "requests.jsonl").read_text(encoding="utf-8"))
+    metadata = {"model_manifest_sha256": benchmark.sha(model / "download-manifest.json"),
+                "seconds": .1, "truncated_pairs": 0}
+    (base_run / "scores.jsonl").write_text(json.dumps({**metadata, "id": "q1",
+        "request_sha256": request_digest(original), "scores": [{"id": "chunk1", "score": 1.}]}), encoding="utf-8")
+    benchmark.score_run(SimpleNamespace(run=base_run, scores=base_run / "scores.jsonl"))
+    facet_run = tmp_path / "tmp/facet"
+    facet_benchmark.prepare(SimpleNamespace(base_run=base_run, model=model, output=facet_run))
+    with pytest.raises(ValueError, match="immutable"):
+        facet_benchmark.prepare(SimpleNamespace(base_run=base_run, model=model, output=facet_run))
+    requests = [json.loads(line) for line in (facet_run / "requests.jsonl").read_text(encoding="utf-8").splitlines()]
+    assert len(requests) == 2 and all(set(r) == {"id", "question", "candidates"} for r in requests)
+    results = [{**metadata, "id": r["id"], "request_sha256": request_digest(r),
+                "scores": [{"id": "chunk1", "score": 1.}]} for r in requests]
+    scores = facet_run / "scores.jsonl"
+    scores.write_text(json.dumps(results[0]), encoding="utf-8")
+    args = SimpleNamespace(run=facet_run, scores=scores)
+    with pytest.raises(ValueError, match="exactly once"):
+        facet_benchmark.score_run(args)
+    assert not (facet_run / "report.json").exists()
+    scores.write_text("\n".join(json.dumps(r) for r in results), encoding="utf-8")
+    facet_benchmark.score_run(args)
+    report = json.loads((facet_run / "report.json").read_text(encoding="utf-8"))
+    assert report["threshold"]["met"] and report["summary_at_12"]["covered"] == 1
+    assert report["new_paid_model_requests"] == 0 and report["human_reviewed"] is False
